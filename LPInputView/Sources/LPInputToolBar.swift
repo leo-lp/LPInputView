@@ -8,17 +8,17 @@
 
 import UIKit
 
-//protocol LPInputToolBarDelegate: class {
+protocol LPInputToolBarDelegate: class {
 //    func toolBar(_ toolBar: LPInputToolBar, barItemClicked item: UIButton, type: LPInputBarItemType)
 //    func toolBar(_ toolBar: LPInputToolBar, heightDidChange newHeight: CGFloat)
 //    func toolBar(_ toolBar: LPInputToolBar, textViewShouldBeginEditing textView: UITextView) -> Bool
 //    func toolBar(_ toolBar: LPInputToolBar, textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool
 //    func toolBar(_ toolBar: LPInputToolBar, textView: LPStretchyTextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int)
 //    func toolBar(_ toolBar: LPInputToolBar, inputAtCharacter character: String)
-//}
+}
 
 class LPInputToolBar: UIView {
-    //    weak var delegate: LPInputToolBarDelegate?
+    weak var delegate: LPInputToolBarDelegate?
     
     private(set) var config: LPInputToolBarConfig
     

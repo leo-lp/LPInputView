@@ -23,18 +23,7 @@ public protocol LPInputToolBarConfig: class {
     var barInteritemSpacing: CGFloat { get }
 }
 
-public extension LPInputToolBarConfig {
-    func configButton(_ button: UIButton, type: LPInputToolBarItemType) { }
-    func configTextView(_ textView: LPStretchyTextView, type: LPInputToolBarItemType) { }
-    func configCustomBarItem(for type: LPInputToolBarItemType) -> UIView? { return nil }
-    
-    var textViewOfCustomToolBarItem: LPStretchyTextView? { return nil }
-    
-    var barContentInset: UIEdgeInsets {
-        return UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
-    }
-    var barInteritemSpacing: CGFloat { return 10 }
-}
+
 
 
 //// MARK: - LPInputViewDelegate
@@ -93,3 +82,16 @@ public extension LPInputToolBarConfig {
 //        return false
 //    }
 //}
+
+public extension LPInputToolBarConfig {
+    func configButton(_ button: UIButton, type: LPInputToolBarItemType) { }
+    func configTextView(_ textView: LPStretchyTextView, type: LPInputToolBarItemType) { }
+    func configCustomBarItem(for type: LPInputToolBarItemType) -> UIView? { return nil }
+    
+    var textViewOfCustomToolBarItem: LPStretchyTextView? { return nil }
+    
+    var barContentInset: UIEdgeInsets {
+        return UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
+    }
+    var barInteritemSpacing: CGFloat { return 10 }
+}

@@ -9,25 +9,24 @@
 import UIKit
 
 public class LPInputView: UIView {
-    private(set) var toolBar: LPInputToolBar
+    // MARK: - Property
     
-    //    // MARK: - Property Funcs
-    //
     //    weak var inputDelegate: LPInputViewDelegate?
-    //
-    //    var hidesWhenResign: Bool = false
-    //    var bottomFill: Bool = true
-    //
+    var hidesWhenResign: Bool = false
+    var bottomFill: Bool = true
+    
     //    var maxInputLength: Int = 20
-    //
-    //    private(set) var status: LPInputBarItemType = .text
-    //
-    //    private lazy var containers: [LPInputBarItemType: UIView] = [:]
+    
+    private(set) var toolBar: LPInputToolBar
+    private(set) var status: LPInputToolBarItemType = .text
+    private lazy var containers: [LPInputToolBarItemType: UIView] = [:]
+    
     //
     //    // MARK: - Override Funcs
     //    required init?(coder aDecoder: NSCoder) {
     //        fatalError("init(coder:) has not been implemented")
     //    }
+    
     deinit {
         print("LPInputView: -> release memory.")
     }
@@ -36,54 +35,50 @@ public class LPInputView: UIView {
         let rect = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
         toolBar = LPInputToolBar(frame: rect, config: config)
         super.init(frame: frame)
-        
         backgroundColor = UIColor.white
         
-        //        toolBar.delegate = self
-        
-        //        toolBar.frame.size = toolBar.sizeThatFits(CGSize(width: frame.width,
-        //                                                         height: CGFloat.greatestFiniteMagnitude))
+        toolBar.delegate = self
+        toolBar.autoresizingMask = .flexibleWidth
         toolBar.sizeToFit()
         addSubview(toolBar)
         
-        //        refreshStatus(.text)
-        
-        sizeToFit()
+        //sizeToFit()
     }
     
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    public override func sizeThatFits(_ size: CGSize) -> CGSize {
+        guard let calculateView = superview else { return size }
+        
+        /// 计算容器高
+        if status != .text, let container = containers[status] {
+            return CGSize(width: calculateView.frame.width,
+                          height: toolBar.frame.height + container.frame.height)
+        }
+        
+        /// 计算键盘高
+        var safeBottom: CGFloat = 0.0
+        if #available(iOS 11.0, *) {
+            safeBottom = calculateView.safeAreaInsets.bottom
+        }
+        
+        print("1.safeBottom=\(safeBottom)")
+        
+        let bottomMargin = (bottomFill && !hidesWhenResign) ? safeBottom : 0
+        
+        // 键盘是从最底下弹起的，需要减去安全区域底部的高度
+        var keyboardDelta = LPKeyboard.shared.keyboardHeight - safeBottom
+        
+        // 如果键盘还没有安全区域高，容器的初始值为0；否则则为键盘和安全区域的高度差值，这样可以保证 toolBar 始终在键盘上面
+        keyboardDelta = keyboardDelta > 0 ? keyboardDelta : bottomMargin
+        return CGSize(width: calculateView.frame.width, height: toolBar.frame.height + keyboardDelta)
+    }
 }
 
 extension LPInputView {
-//    override func sizeThatFits(_ size: CGSize) -> CGSize {
-//        let calculateView = superview ?? self
-//
-//        /// 计算容器高
-//        if status != .text, let container = containers[status] {
-//            return CGSize(width: calculateView.frame.width,
-//                          height: toolBar.frame.height + container.frame.height)
-//        }
-//
-//        /// 计算键盘高
-//        var safeBottom: CGFloat = 0.0
-//        if #available(iOS 11.0, *) {
-//            safeBottom = calculateView.safeAreaInsets.bottom
-//        }
-//
-//        print("1.safeBottom=\(safeBottom)")
-//
-//        let bottomMargin = (bottomFill && !hidesWhenResign) ? safeBottom : 0
-//
-//        // 键盘是从最底下弹起的，需要减去安全区域底部的高度
-//        var keyboardDelta = LPKeyboard.shared.keyboardHeight - safeBottom
-//
-//        // 如果键盘还没有安全区域高，容器的初始值为0；否则则为键盘和安全区域的高度差值，这样可以保证 toolBar 始终在键盘上面
-//        keyboardDelta = keyboardDelta > 0 ? keyboardDelta : bottomMargin
-//        return CGSize(width: calculateView.frame.width, height: toolBar.frame.height + keyboardDelta)
-//    }
-//
+    
 //    override var frame: CGRect {
 //        didSet {
 //            if frame.height != oldValue.height {
@@ -223,10 +218,10 @@ extension LPInputView {
 //    }
 //}
 //
-//// MARK: - LPInputToolBarDelegate
-//
-//extension LPInputView: LPInputToolBarDelegate {
-//
+// MARK: - LPInputToolBarDelegate
+
+extension LPInputView: LPInputToolBarDelegate {
+
 //    func toolBar(_ toolBar: LPInputToolBar, barItemClicked item: UIButton, type: LPInputBarItemType) {
 //        if let delegate = inputDelegate
 //            , !delegate.inputView(self, shouldHandleClickedFor: item, type: type) {
@@ -306,4 +301,4 @@ extension LPInputView {
 //                            length: textView.textStorage.length - maxInputLength)
 //        textView.textStorage.deleteCharacters(in: range)
 //    }
-//}
+}
