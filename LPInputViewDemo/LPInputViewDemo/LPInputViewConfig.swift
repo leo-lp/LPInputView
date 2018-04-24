@@ -45,7 +45,7 @@ class LPInputViewConfig: LPInputToolBarConfig {
         textView.layer.borderWidth = 0.5
         textView.layer.cornerRadius = 4
     }
-
+    
     //    func configCustomBarItem(for type: LPInputBarItemType) -> UIView? {
     //        let button = UIButton(type: .custom)
     //        button.setImage(#imageLiteral(resourceName: "icon_team_creator"), for: .normal)
@@ -56,5 +56,8 @@ class LPInputViewConfig: LPInputToolBarConfig {
     //        //view.addSubview(button)
     //        //return view
     //    }
-
+    
+    var separatorOfToolBar: [(loc: LPInputSeparatorLocation, color: UIColor?)]? {
+        return [(loc: .top, color: nil), (loc: .bottom, color: nil)]
+    }
 }

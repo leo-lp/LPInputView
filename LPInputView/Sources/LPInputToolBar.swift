@@ -102,12 +102,6 @@ public class LPInputToolBar: UIView {
             separator.frame.origin.y = frame.height - 0.5
         }
     }
-    
-    //    func updateStatus(_ newValue: LPInputBarItemType) {
-    //        guard status != newValue else { return }
-    //        status = newValue
-    //        sizeToFit()
-    //    }
 }
 
 // MARK: - Public Funs
@@ -122,28 +116,12 @@ public extension LPInputToolBar {
     var isShowKeyboard: Bool {
         get { return textView?.isFirstResponder ?? false }
         set {
+            guard let textView = textView else { return }
             if newValue {
-                print("becomeFirstResponder")
-                textView?.becomeFirstResponder()
+                textView.becomeFirstResponder()
             } else {
-                print("resignFirstResponder")
-                textView?.resignFirstResponder()
+                textView.resignFirstResponder()
             }
-        }
-    }
-    
-    func addSeparator(at loc: LPInputSeparatorLocation, color: UIColor = #colorLiteral(red: 0.8980392157, green: 0.8980392157, blue: 0.8980392157, alpha: 1)) {
-        switch loc {
-        case .top:
-            let sep = UIView(frame: CGRect(x: 0, y: 0, width: frame.width, height: 0.5))
-            sep.backgroundColor = color
-            addSubview(sep)
-            topSeparator = sep
-        case .bottom:
-            let sep = UIView(frame: CGRect(x: 0, y: frame.height - 0.5, width: frame.width, height: 0.5))
-            sep.backgroundColor = color
-            addSubview(sep)
-            bottomSeparator = sep
         }
     }
     
@@ -188,6 +166,23 @@ extension LPInputToolBar {
         }
         
         textView?.stretchyDelegate = self
+        
+        /// 处理分隔符
+        guard let separators = config.separatorOfToolBar else { return }
+        for separator in separators {
+            switch separator.loc {
+            case .top:
+                let sep = UIView(frame: CGRect(x: 0, y: 0, width: frame.width, height: 0.5))
+                sep.backgroundColor = separator.color ?? #colorLiteral(red: 0.8980392157, green: 0.8980392157, blue: 0.8980392157, alpha: 1)
+                addSubview(sep)
+                topSeparator = sep
+            case .bottom:
+                let sep = UIView(frame: CGRect(x: 0, y: frame.height - 0.5, width: frame.width, height: 0.5))
+                sep.backgroundColor = separator.color ?? #colorLiteral(red: 0.8980392157, green: 0.8980392157, blue: 0.8980392157, alpha: 1)
+                addSubview(sep)
+                bottomSeparator = sep
+            }
+        }
     }
     
     @objc private func barItemClicked(_ sender: UIButton) {

@@ -24,6 +24,8 @@ public protocol LPInputToolBarConfig: class {
     
     var barContentInset: UIEdgeInsets { get }
     var barInteritemSpacing: CGFloat { get }
+    
+    var separatorOfToolBar: [(loc: LPInputSeparatorLocation, color: UIColor?)]? { get }
 }
 
 public protocol LPInputViewDelegate: class {
@@ -43,26 +45,6 @@ public protocol LPInputViewDelegate: class {
 
 // MARK: -
 // MARK: - Protocol Extensions
-
-public extension LPInputToolBarConfig {
-    func configButton(_ button: UIButton, type: LPInputToolBarItemType)
-    { }
-    
-    func configTextView(_ textView: LPStretchyTextView, type: LPInputToolBarItemType)
-    { }
-    
-    func configCustomBarItem(for type: LPInputToolBarItemType) -> UIView?
-    { return nil }
-    
-    var textViewOfCustomToolBarItem: LPStretchyTextView?
-    { return nil }
-    
-    var barContentInset: UIEdgeInsets
-    { return UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15) }
-    
-    var barInteritemSpacing: CGFloat
-    { return 10 }
-}
 
 public extension LPInputViewDelegate {
     func inputViewDidChangeFrame(_ inputView: LPInputView)
@@ -88,4 +70,27 @@ public extension LPInputViewDelegate {
     
     func inputView(_ inputView: LPInputView, sendFor textView: LPStretchyTextView) -> Bool
     { return true }
+}
+
+public extension LPInputToolBarConfig {
+    func configButton(_ button: UIButton, type: LPInputToolBarItemType)
+    { }
+    
+    func configTextView(_ textView: LPStretchyTextView, type: LPInputToolBarItemType)
+    { }
+    
+    func configCustomBarItem(for type: LPInputToolBarItemType) -> UIView?
+    { return nil }
+    
+    var textViewOfCustomToolBarItem: LPStretchyTextView?
+    { return nil }
+    
+    var barContentInset: UIEdgeInsets
+    { return UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15) }
+    
+    var barInteritemSpacing: CGFloat
+    { return 10 }
+    
+    var separatorOfToolBar: [(loc: LPInputSeparatorLocation, color: UIColor?)]?
+    { return nil }
 }

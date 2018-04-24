@@ -21,8 +21,6 @@ class LPInputViewController: UIViewController {
         tableView.layer.borderColor = UIColor.red.cgColor
         tableView.layer.borderWidth = 1
         
-        inputBar.layer.borderColor = UIColor.blue.cgColor
-        inputBar.layer.borderWidth = 3
         inputBar.delegate = self
         view.addSubview(inputBar)
         
