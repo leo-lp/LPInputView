@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension LPStretchyTextView {
+public extension LPStretchyTextView {
     
     func insertEmotion(_ attachment: NSTextAttachment) {
         insertAttrString(NSAttributedString(attachment: attachment))

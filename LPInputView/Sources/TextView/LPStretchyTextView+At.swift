@@ -8,16 +8,16 @@
 
 import UIKit
 
-extension NSAttributedStringKey {
-    static let LPAtUser = NSAttributedStringKey("com.lp.LPInputView.attributedString.atUser")
+public extension NSAttributedStringKey {
+    public static let LPAtUser = NSAttributedStringKey("com.lp.LPInputView.attributedString.atUser")
 }
 
 // MARK: - @用户insert/delete等操作
-
-extension LPStretchyTextView {
-    
+public extension LPStretchyTextView {
     /// 向text里插入一个at用户
     func insertUser(withID id: Int, name: String, checkAt character: String?) {
+        guard isAtEnabled else { return }
+        
         deleteSelectedCharacter()
         
         if let character = character {
@@ -71,6 +71,9 @@ extension LPStretchyTextView {
             }
         }
     }
+}
+
+extension LPStretchyTextView {
     
     func textAttrString(_ string: String, checkAtUser isCheck: Bool) -> NSAttributedString {
         var string = string
@@ -85,7 +88,7 @@ extension LPStretchyTextView {
     }
     
     /// 检查光标是否在user区域
-    func checkUserArea() {
+    func checkUserAreaAndAutoSelected() {
         let key = NSAttributedStringKey.LPAtUser
         let searchRange = NSRange(location: 0, length: textStorage.length)
         let options = NSAttributedString.EnumerationOptions.reverse

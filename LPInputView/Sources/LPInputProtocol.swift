@@ -26,6 +26,8 @@ public protocol LPInputToolBarConfig: class {
     var barInteritemSpacing: CGFloat { get }
     
     var separatorOfToolBar: [(loc: LPInputSeparatorLocation, color: UIColor?)]? { get }
+    
+    var isAtEnabled: Bool { get }
 }
 
 public protocol LPInputViewDelegate: class {
@@ -93,4 +95,7 @@ public extension LPInputToolBarConfig {
     
     var separatorOfToolBar: [(loc: LPInputSeparatorLocation, color: UIColor?)]?
     { return nil }
+    
+    var isAtEnabled: Bool
+    { return false }
 }

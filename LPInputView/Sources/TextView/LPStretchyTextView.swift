@@ -21,6 +21,7 @@ import UIKit
 
 public class LPStretchyTextView: UITextView {
     public weak var stretchyDelegate: LPStretchyTextViewDelegate?
+    public var isAtEnabled: Bool = false
     
     /// 限制输入框可输入的最小行数
     public var minNumberOfLines: Int? {
@@ -211,7 +212,9 @@ extension LPStretchyTextView: UITextViewDelegate {
     public func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         if let flag = stretchyDelegate?.textViewShouldBeginEditing?(textView)
             , !flag { return flag }
-        checkUserArea()
+        if isAtEnabled {
+            checkUserAreaAndAutoSelected()
+        }
         return true
     }
     
@@ -232,6 +235,8 @@ extension LPStretchyTextView: UITextViewDelegate {
                                                   shouldChangeTextIn: range,
                                                   replacementText: text)
             , !flag { return flag }
+        
+        guard isAtEnabled else { return true }
         
         switch text {
         case "": // 删除
@@ -281,7 +286,9 @@ extension LPStretchyTextView: UITextViewDelegate {
     
     public func textViewDidChangeSelection(_ textView: UITextView) {
         stretchyDelegate?.textViewDidChangeSelection?(textView)
-        checkUserArea()
+        if isAtEnabled {
+            checkUserAreaAndAutoSelected()
+        }
     }
     
     @available(iOS 10.0, *)

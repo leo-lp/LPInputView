@@ -37,45 +37,47 @@ public enum LPInputSeparatorLocation {
     case bottom
 }
 
+
 // MARK: -
 // MARK: - LPAtUser
 
-class LPAtUser: NSObject, NSCoding, NSCopying {
-    static var AtCharacter: String = "@"
+public class LPAtUser: NSObject, NSCoding, NSCopying {
+    public static var AtCharacter: String = "@"
 
-    let id: Int
-    let name: String
-    let nameColor: UIColor
-    var atName: String { return "\(LPAtUser.AtCharacter)\(name)" }
+    public let id: Int
+    public let name: String
+    public let nameColor: UIColor
+    public var atName: String { return "\(LPAtUser.AtCharacter)\(name)" }
 
-    init(id: Int, name: String, nameColor: UIColor = #colorLiteral(red: 0, green: 0.8470588235, blue: 0.7882352941, alpha: 1)) {
+    public init(id: Int, name: String, nameColor: UIColor = #colorLiteral(red: 0, green: 0.8470588235, blue: 0.7882352941, alpha: 1)) {
         self.id = id
         self.name = name
         self.nameColor = nameColor
     }
 
-    func encode(with aCoder: NSCoder) {
+    public func encode(with aCoder: NSCoder) {
         aCoder.encode(id, forKey: "id")
         aCoder.encode(name, forKey: "name")
         aCoder.encode(nameColor, forKey: "nameColor")
     }
 
-    required convenience init?(coder aDecoder: NSCoder) {
+    public required convenience init?(coder aDecoder: NSCoder) {
         let id = aDecoder.decodeInteger(forKey: "id")
         let name = aDecoder.decodeObject(forKey: "name") as? String ?? ""
         let nameColor = aDecoder.decodeObject(forKey: "nameColor") as? UIColor ?? #colorLiteral(red: 0, green: 0.8470588235, blue: 0.7882352941, alpha: 1)
         self.init(id: id, name: name, nameColor: nameColor)
     }
 
-    func copy(with zone: NSZone? = nil) -> Any {
+    public func copy(with zone: NSZone? = nil) -> Any {
         return LPAtUser(id: id, name: name, nameColor: nameColor)
     }
 
-    override var description: String {
+    public override var description: String {
         return "{\"id\": \"\(id)\", \"name\": \"\(name)\"}"
     }
 }
-//
+
+
 //struct LPParseResult: CustomStringConvertible {
 //    var attrString: NSMutableAttributedString
 //    var emotionCount: Int

@@ -165,7 +165,10 @@ extension LPInputToolBar {
             }
         }
         
-        textView?.stretchyDelegate = self
+        if let textView = textView {
+            textView.stretchyDelegate = self
+            textView.isAtEnabled = config.isAtEnabled
+        }
         
         /// 处理分隔符
         guard let separators = config.separatorOfToolBar else { return }
