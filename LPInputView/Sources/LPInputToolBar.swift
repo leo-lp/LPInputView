@@ -192,7 +192,6 @@ extension LPInputToolBar {
         let type = LPInputToolBarItemType(rawValue: sender.tag)
         delegate?.toolBar(self, barItemClicked: sender, type: type)
     }
-    
 }
 
 // MARK: - Delegate Funcs
@@ -202,33 +201,22 @@ extension LPInputToolBar: LPStretchyTextViewDelegate {
     public func textView(_ textView: LPStretchyTextView, heightDidChange newHeight: CGFloat) {
         guard let delegate = delegate else { return }
         frame.size.height = newHeight + contentInset.top + contentInset.bottom
-        print("LPInputToolBar:->textView:->newHeight=\(frame.size.height)")
         delegate.toolBarDidChangeHeight(self)
     }
-
-//    func textView(_ textView: LPStretchyTextView, inputAtCharacter character: String) {
-//        delegate?.toolBar(self, inputAtCharacter: character)
-//    }
-//
-//    func textView(_ textView: LPStretchyTextView,
-//                  didProcessEditing editedRange: NSRange,
-//                  changeInLength delta: Int) {
-//        delegate?.toolBar(self,
-//                          textView: textView,
-//                          didProcessEditing: editedRange,
-//                          changeInLength: delta)
-//    }
-//
+    
+    public func textView(_ textView: LPStretchyTextView, inputAtCharacter character: String) {
+        delegate?.toolBar(self, inputAtCharacter: character)
+    }
+    
+    public func textView(_ textView: LPStretchyTextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int) {
+        delegate?.toolBar(self, textView: textView, didProcessEditing: editedRange, changeInLength: delta)
+    }
+    
     public func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         return delegate?.toolBar(self, textViewShouldBeginEditing: textView) ?? true
     }
-//
-//    func textView(_ textView: UITextView,
-//                  shouldChangeTextIn range: NSRange,
-//                  replacementText text: String) -> Bool {
-//        return delegate?.toolBar(self,
-//                                 textView: textView,
-//                                 shouldChangeTextIn: range,
-//                                 replacementText: text) ?? true
-//    }
+    
+    public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        return delegate?.toolBar(self, textView: textView, shouldChangeTextIn: range, replacementText: text) ?? true
+    }
 }
