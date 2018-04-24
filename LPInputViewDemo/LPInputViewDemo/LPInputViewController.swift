@@ -104,7 +104,7 @@ extension LPInputViewController: LPInputViewDelegate, LPEmoticonViewDelegate {
 //        <#code#>
 //    }
 //
-//    func inputView(_ inputView: LPInputView, maximumCharacterLimitExceeded maxLength: Int) -> Bool {
+//    func inputView(_ inputView: LPInputView, shouldHandleForMaximumLengthExceedsLimit maxLength: Int) -> Bool {
 //        <#code#>
 //    }
 //

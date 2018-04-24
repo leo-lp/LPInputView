@@ -140,12 +140,12 @@ public extension LPInputView {
 
 extension LPInputView: LPInputToolBarDelegate {
     
-    public func toolBarDidChangeHeight(_ toolBar: LPInputToolBar) {
+    func toolBarDidChangeHeight(_ toolBar: LPInputToolBar) {
         print("LPInputView:->toolBarDidChangeHeight")
         resetLayout()
     }
     
-    public func toolBar(_ toolBar: LPInputToolBar, barItemClicked item: UIButton, type: LPInputToolBarItemType) {
+    func toolBar(_ toolBar: LPInputToolBar, barItemClicked item: UIButton, type: LPInputToolBarItemType) {
         if let delegate = delegate
             , !delegate.inputView(self, shouldHandleClickedFor: item, type: type) {
             return
@@ -172,11 +172,45 @@ extension LPInputView: LPInputToolBarDelegate {
         }
     }
     
-    public func toolBar(_ toolBar: LPInputToolBar, textViewShouldBeginEditing textView: UITextView) -> Bool {
+    func toolBar(_ toolBar: LPInputToolBar, textViewShouldBeginEditing textView: UITextView) -> Bool {
         if status != .text {
             renewStatus(to: .text)
         }
         return true
+    }
+    
+    func toolBar(_ toolBar: LPInputToolBar, textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if let delegate = delegate
+            , let textView = textView as? LPStretchyTextView
+            , !delegate.inputView(self, textView: textView, shouldChangeTextIn: range, replacementText: text)
+        { return false }
+        
+        if text == "\n" && textView.returnKeyType == .send {
+            if let delegate = delegate
+                , let textView = textView as? LPStretchyTextView
+                , delegate.inputView(self, sendFor: textView) {
+                textView.clearTextStorage()
+            }
+            return false
+        }
+        return true
+    }
+    
+    func toolBar(_ toolBar: LPInputToolBar, textView: LPStretchyTextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int) {
+        guard let delegate = delegate else { return }
+        delegate.inputView(self, textView: textView, didProcessEditing: editedRange, changeInLength: delta)
+        
+        guard textView.textStorage.length > maxInputLength
+            , !delegate.inputView(self, shouldHandleForMaximumLengthExceedsLimit: maxInputLength)
+            else { return }
+        
+        let range = NSRange(location: maxInputLength - 1,
+                            length: textView.textStorage.length - maxInputLength)
+        textView.textStorage.deleteCharacters(in: range)
+    }
+    
+    func toolBar(_ toolBar: LPInputToolBar, inputAtCharacter character: String) {
+        delegate?.inputView(self, inputAtCharacter: character)
     }
     
     // MARK: - Notification Funcs
@@ -261,52 +295,6 @@ extension LPInputView {
                        completion: completion)
     }
 }
-
-//    func toolBar(_ toolBar: LPInputToolBar, inputAtCharacter character: String) {
-//        inputDelegate?.inputView(self, inputAtCharacter: character)
-//    }
-//
-//    func toolBar(_ toolBar: LPInputToolBar, textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-//        if let inputDelegate = inputDelegate
-//            , !inputDelegate.inputView(self,
-//                                       textView: textView,
-//                                       shouldChangeTextIn: range,
-//                                       replacementText: text) {
-//            return false
-//        }
-//
-//        if text == "\n" && textView.returnKeyType == .send {
-//            if let inputDelegate = inputDelegate
-//                , inputDelegate.inputView(self, sendFor: textView) {
-//                if let textView = textView as? LPStretchyTextView {
-//                    textView.clearTextStorage()
-//                } else {
-//                    textView.text = ""
-//                }
-//                toolBar.layoutIfNeeded()
-//            }
-//            return false
-//        }
-//        return true
-//    }
-//
-//    func toolBar(_ toolBar: LPInputToolBar,
-//                 textView: LPStretchyTextView,
-//                 didProcessEditing editedRange: NSRange,
-//                 changeInLength delta: Int) {
-//        guard let inputDelegate = inputDelegate else { return }
-//        inputDelegate.inputView(self,
-//                                textView: textView,
-//                                didProcessEditing: editedRange,
-//                                changeInLength: delta)
-//        guard textView.textStorage.length > maxInputLength
-//            , inputDelegate.inputView(self, maximumCharacterLimitExceeded: maxInputLength)
-//            else { return }
-//
-//        let range = NSRange(location: maxInputLength - 1,
-//                            length: textView.textStorage.length - maxInputLength)
-//        textView.textStorage.deleteCharacters(in: range)
-//    }
 
 extension LPInputView {
     

@@ -39,7 +39,7 @@ public protocol LPInputViewDelegate: class {
     func inputView(_ inputView: LPInputView, textView: LPStretchyTextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool
     func inputView(_ inputView: LPInputView, textView: LPStretchyTextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int)
     func inputView(_ inputView: LPInputView, inputAtCharacter character: String)
-    func inputView(_ inputView: LPInputView, maximumCharacterLimitExceeded maxLength: Int) -> Bool
+    func inputView(_ inputView: LPInputView, shouldHandleForMaximumLengthExceedsLimit maxLength: Int) -> Bool
 
     func inputView(_ inputView: LPInputView, sendFor textView: LPStretchyTextView) -> Bool
 }
@@ -67,8 +67,8 @@ public extension LPInputViewDelegate {
     func inputView(_ inputView: LPInputView, inputAtCharacter character: String)
     { }
     
-    func inputView(_ inputView: LPInputView, maximumCharacterLimitExceeded maxLength: Int) -> Bool
-    { return false }
+    func inputView(_ inputView: LPInputView, shouldHandleForMaximumLengthExceedsLimit maxLength: Int) -> Bool
+    { return true }
     
     func inputView(_ inputView: LPInputView, sendFor textView: LPStretchyTextView) -> Bool
     { return true }

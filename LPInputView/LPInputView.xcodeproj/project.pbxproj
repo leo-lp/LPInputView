@@ -75,8 +75,8 @@
 			isa = PBXGroup;
 			children = (
 				180F0273208DC4C400DF3C12 /* LPStretchyTextView.swift */,
-				180F0275208DC5D700DF3C12 /* LPStretchyTextView+At.swift */,
 				180F0277208DC61500DF3C12 /* LPStretchyTextView+Emotion.swift */,
+				180F0275208DC5D700DF3C12 /* LPStretchyTextView+At.swift */,
 			);
 			path = TextView;
 			sourceTree = "<group>";
