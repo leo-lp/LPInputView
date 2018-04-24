@@ -32,7 +32,7 @@ public struct LPInputToolBarItemType: OptionSet, Hashable {
     //public static let more    = LPInputToolBarItemType(rawValue: 1 << 5)
 }
 
-enum LPInputSeparatorLocation {
+public enum LPInputSeparatorLocation {
     case top
     case bottom
 }

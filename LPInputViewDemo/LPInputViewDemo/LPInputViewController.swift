@@ -22,8 +22,8 @@ class LPInputViewController: UIViewController {
         tableView.layer.borderWidth = 1
         
         inputBar.layer.borderColor = UIColor.blue.cgColor
-        inputBar.layer.borderWidth = 5
-        
+        inputBar.layer.borderWidth = 3
+        inputBar.delegate = self
         view.addSubview(inputBar)
         
         let right = UIBarButtonItem(barButtonSystemItem: .done,
@@ -33,7 +33,7 @@ class LPInputViewController: UIViewController {
     }
     
     @objc func rightButtonClicked(_ sender: UIBarButtonItem) {
-        inputBar.endEditing()
+        
     }
 }
 
@@ -45,11 +45,86 @@ extension LPInputViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LPInputViewCell", for: indexPath)
-        cell.textLabel?.text = "cell row = \(indexPath.row)"
+        switch indexPath.row {
+        case 0:  cell.textLabel?.text = "显示键盘"
+        case 1:  cell.textLabel?.text = "隐藏键盘"
+        case 2:  cell.textLabel?.text = "关闭输入状态"
+        default: cell.textLabel?.text = "\(indexPath.row)"
+        }
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
+        switch indexPath.row {
+        case 0:
+            if !inputBar.isShowKeyboard {
+                inputBar.isShowKeyboard = true
+            }
+        case 1:
+            if inputBar.isShowKeyboard {
+                inputBar.isShowKeyboard = false
+            }
+        case 2:
+            inputBar.endEditing()
+        default:
+            break
+        }
+    }
+}
+
+extension LPInputViewController: LPInputViewDelegate, LPEmoticonViewDelegate {
+    
+    // MARK: -  LPInputViewDelegate
+    
+    func inputViewDidChangeFrame(_ inputView: LPInputView) {
+        
+    }
+    
+    func inputView(_ inputView: LPInputView, shouldHandleClickedFor item: UIButton, type: LPInputToolBarItemType) -> Bool {
+        return true
+    }
+    
+    func inputView(_ inputView: LPInputView, containerViewFor type: LPInputToolBarItemType) -> UIView? {
+        switch type {
+        case .emotion:
+            return LPEmoticonView.instance(delegate: self)
+        default:
+            return nil
+        }
+    }
+    
+//    func inputView(_ inputView: LPInputView, textView: LPStretchyTextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+//
+//    }
+//
+//    func inputView(_ inputView: LPInputView, textView: LPStretchyTextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int) {
+//        <#code#>
+//    }
+//
+//    func inputView(_ inputView: LPInputView, inputAtCharacter character: String) {
+//        <#code#>
+//    }
+//
+//    func inputView(_ inputView: LPInputView, maximumCharacterLimitExceeded maxLength: Int) -> Bool {
+//        <#code#>
+//    }
+//
+//    func inputView(_ inputView: LPInputView, sendFor textView: LPStretchyTextView) -> Bool {
+//        <#code#>
+//    }
+    
+    // MARK: - LPEmoticonViewDelegate
+    
+    func inputEmoticon(id: String, img: UIImage) {
+        
+    }
+    
+    func inputEmoticonDelete() {
+        
+    }
+    
+    func inputEmoticonSend() {
+        
     }
 }

@@ -22,13 +22,11 @@ class LPKeyboard {
     /// 键盘高
     private(set) var height: CGFloat = 0.0
     
-    var safeAreaInsets: UIEdgeInsets {
-        if #available(iOS 11.0, *)
-            , let window = UIApplication.shared.keyWindow {
-            return window.safeAreaInsets
-        }
-        return .zero
-    }
+    lazy var safeAreaInsets: UIEdgeInsets = {
+        guard #available(iOS 11.0, *)
+            , let window = UIApplication.shared.keyWindow else { return .zero }
+        return window.safeAreaInsets
+    }()
     
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -39,10 +37,6 @@ class LPKeyboard {
         center.addObserver(self,
                            selector: #selector(keyboardWillChangeFrame),
                            name: .UIKeyboardWillChangeFrame,
-                           object: nil)
-        center.addObserver(self,
-                           selector: #selector(keyboardWillChangeFrame),
-                           name: .UIKeyboardWillHide,
                            object: nil)
     }
     
@@ -56,14 +50,6 @@ class LPKeyboard {
         height = isVisiable ? endFrame.height : 0.0
         
         NotificationCenter.default.post(name: .LPKeyboardWillChangeFrame,
-                                        object: nil,
-                                        userInfo: notification.userInfo)
-    }
-    
-    @objc private func keyboardWillHide(_ notification: Notification) {
-        isVisiable = false
-        height = 0.0
-        NotificationCenter.default.post(name: .LPKeyboardWillHide,
                                         object: nil,
                                         userInfo: notification.userInfo)
     }

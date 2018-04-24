@@ -10,21 +10,21 @@ import UIKit
 
 public class LPInputView: UIView {
     // MARK: - Property
-    weak var delegate: LPInputViewDelegate?
+    public weak var delegate: LPInputViewDelegate?
     
-    var hidesWhenResign: Bool = false
-    var bottomFill: Bool = true
+    public var hidesWhenResign: Bool = false
+    public var bottomFill: Bool = false
     
-    var maxInputLength: Int = 20
+    public var maxInputLength: Int = 20
     
-    private(set) var toolBar: LPInputToolBar
-    private(set) var status: LPInputToolBarItemType = .text
+    public var toolBar: LPInputToolBar
+    private var status: LPInputToolBarItemType = .text
     
     private lazy var containers: [LPInputToolBarItemType: UIView] = [:]
     private lazy var bottomSafeInset: CGFloat = 0.0
     
     // MARK: - Override Funcs
-  
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
         print("LPInputView: -> release memory.")
@@ -38,16 +38,14 @@ public class LPInputView: UIView {
         if #available(iOS 11.0, *) {
             insetsLayoutMarginsFromSafeArea = false
         }
-        
         toolBar.delegate = self
-        
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillChangeFrame),
                                                name: .LPKeyboardWillChangeFrame,
                                                object: nil)
     }
     
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -59,13 +57,21 @@ public class LPInputView: UIView {
     }
 }
 
+// MARK: - Public Funcs
+
 public extension LPInputView {
     
+    var isShowKeyboard: Bool {
+        get { return toolBar.isShowKeyboard }
+        set { toolBar.isShowKeyboard = newValue }
+    }
+    
     func endEditing() {
-        if toolBar.isShowsKeyboard {
-            toolBar.isShowsKeyboard = false
-        } else {
-            
+        if toolBar.isShowKeyboard {
+            toolBar.isShowKeyboard = false
+        } else if isUp {
+            renewStatus(to: .text)
+            resetLayout()
         }
     }
     
@@ -79,15 +85,98 @@ public extension LPInputView {
             return !container.isHidden
         }
     }
+    
+    func showOrHideContainer(for type: LPInputToolBarItemType) {
+        if status != type {
+            showContainer(for: type)
+        } else {
+            renewStatus(to: .text)
+            toolBar.isShowKeyboard = true
+        }
+    }
+    
+    func showContainer(for type: LPInputToolBarItemType) {
+        guard type != .text else { return }
+        
+        var newContainer: UIView? {
+            if let container = containers[type] { return container }
+            guard let container = delegate?.inputView(self, containerViewFor: type)
+                else { return nil }
+            
+            var size = container.sizeThatFits(CGSize(width: frame.width,
+                                                     height: CGFloat.greatestFiniteMagnitude))
+            if bottomFill {
+                size.height += LPKeyboard.shared.safeAreaInsets.bottom
+            }
+            container.frame.size = size
+            container.autoresizingMask = .flexibleWidth
+            containers[type] = container
+            return container
+        }
+        
+        guard let container = newContainer else { return }
+        
+        if container.superview == nil { addSubview(container) }
+        
+        container.frame.origin.y = frame.height
+        bringSubview(toFront: container)
+        container.isHidden = false
+        
+        renewStatus(to: type)
+        
+        animate({
+            container.frame.origin.y = self.toolBar.frame.maxY
+        }, completion: nil)
+        
+        if toolBar.isShowKeyboard {
+            toolBar.isShowKeyboard = false
+        } else {
+            resetLayout()
+        }
+    }
 }
 
 // MARK: - LPInputToolBarDelegate
 
 extension LPInputView: LPInputToolBarDelegate {
     
-    func toolBarDidChange(in toolBar: LPInputToolBar) {
-        print("LPInputView:->toolBarDidChange")
+    public func toolBarDidChangeHeight(_ toolBar: LPInputToolBar) {
+        print("LPInputView:->toolBarDidChangeHeight")
         resetLayout()
+    }
+    
+    public func toolBar(_ toolBar: LPInputToolBar, barItemClicked item: UIButton, type: LPInputToolBarItemType) {
+        if let delegate = delegate
+            , !delegate.inputView(self, shouldHandleClickedFor: item, type: type) {
+            return
+        }
+
+        switch type {
+//        case .voice:
+//            if status != .voice {
+//                refreshStatus(.voice)
+//                sizeToFit()
+//                if toolBar.isShowKeyboard {
+//                    toolBar.isShowKeyboard = false
+//                }
+//            } else {
+//                refreshStatus(.text)
+//                toolBar.isShowKeyboard = true
+//            }
+            //case .emotion, .more:
+        case .emotion:
+            showOrHideContainer(for: type)
+        default:
+            //showOrHideContainer(for: type)
+            break
+        }
+    }
+    
+    public func toolBar(_ toolBar: LPInputToolBar, textViewShouldBeginEditing textView: UITextView) -> Bool {
+        if status != .text {
+            renewStatus(to: .text)
+        }
+        return true
     }
     
     // MARK: - Notification Funcs
@@ -104,159 +193,77 @@ extension LPInputView: LPInputToolBarDelegate {
 
 extension LPInputView {
     
+    private func renewStatus(to status: LPInputToolBarItemType) {
+        if self.status != .text {
+            let oldStatus = self.status
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
+                guard let `self` = self
+                    , let container = self.containers[oldStatus] else { return }
+                container.isHidden = true
+            }
+        }
+        self.status = status
+    }
+    
     private func resetLayout() {
-        print("LPInputView:->resetLayout")
-        guard let superSize = superview?.frame.size else { return }
-        let toolBarHeight = toolBar.frame.height
-        let keyboard = LPKeyboard.shared
+        guard let superview = superview else { return }
+        let superSize = superview.frame.size
         
         var rect = frame
-        if self.hidesWhenResign {
+        rect.size.height = heightThatFits
+        
+        if hidesWhenResign {
+            rect.origin.y = superSize.height - (isUp ? rect.size.height : 0.0)
         } else {
             if bottomFill {
-                let keyboardDelta = keyboard.height + (isUp ? 0.0 : keyboard.safeAreaInsets.bottom)
-                rect.size.height = toolBarHeight + keyboardDelta
                 rect.origin.y = superSize.height - rect.size.height
             } else {
-                
+                let delta = LPKeyboard.shared.safeAreaInsets.bottom
+                rect.origin.y = superSize.height - rect.size.height - delta
             }
         }
         
         guard frame != rect else { return }
         
-        let options = UIViewAnimationOptions(rawValue: 7)
-        UIView.animate(withDuration: 0.25, delay: 0, options: options, animations: {
+        superview.layoutIfNeeded()
+        animate({
             self.frame = rect
             print("重置布局:->frame=\(rect, rect.maxY)")
         }, completion: nil)
     }
+    
+    private var heightThatFits: CGFloat {
+        if status != .text, let container = containers[status] {
+            return toolBar.frame.height + container.frame.height
+        }
+        
+        let kb = LPKeyboard.shared
+        if hidesWhenResign {
+            return toolBar.frame.height + kb.height
+        } else {
+            
+            if bottomFill {
+                let delta = isUp ? 0.0 : kb.safeAreaInsets.bottom
+                return toolBar.frame.height + kb.height + delta
+            } else {
+                let delta = isUp ? kb.height - kb.safeAreaInsets.bottom : 0.0
+                return toolBar.frame.height + delta
+            }
+        }
+    }
+    
+    private func animate(_ animations: @escaping () -> Void, completion: ((Bool) -> Void)?) {
+        let options = UIViewAnimationOptions(rawValue: 7)
+        UIView.animate(withDuration: 0.25,
+                       delay: 0.0,
+                       options: options,
+                       animations: animations,
+                       completion: completion)
+    }
 }
 
-//// MARK: - Public Funcs
-//
-//extension LPInputView {
-//
-//    func refreshStatus(_ status: LPInputBarItemType) {
-//        self.status = status
-//        toolBar.updateStatus(status)
-//
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
-//            guard let `self` = self, self.containers.count > 0  else { return }
-//            for container in self.containers {
-//                container.value.isHidden = status != container.key
-//            }
-//        }
-//    }
-//
-//    var isShowKeyboard: Bool {
-//        get { return toolBar.isShowsKeyboard }
-//        set { toolBar.isShowsKeyboard = newValue }
-//    }
-//
-//    func showOrHideContainer(for type: LPInputBarItemType) {
-//        if status != type {
-//            showContainer(for: type)
-//        } else {
-//            refreshStatus(.text)
-//            toolBar.isShowsKeyboard = true
-//        }
-//    }
-//
-//    func showContainer(for type: LPInputBarItemType) {
-//        guard type != .text else { return }
-//
-//        var newContainer: UIView? {
-//            if let container = containers[type] { return container }
-//            guard let container = inputDelegate?.inputView(self, containerViewFor: type)
-//                else { return nil }
-//
-//            adjustSize(for: container)
-//            container.autoresizingMask = .flexibleWidth
-//            containers[type] = container
-//            return container
-//        }
-//
-//        guard let container = newContainer else { return }
-//
-//        if container.superview == nil { addSubview(container) }
-//
-//        container.frame.origin.y = frame.height
-//        bringSubview(toFront: container)
-//
-//        for container in containers {
-//            container.value.isHidden = container.key != type
-//        }
-//
-//        refreshStatus(type)
-//        sizeToFit()
-//
-//        if toolBar.isShowsKeyboard {
-//            toolBar.isShowsKeyboard = false
-//        }
-//    }
-//}
-//
-//    override func layoutSubviews() {
-//        super.layoutSubviews()
-//        guard status != .text
-//            , let container = containers[status]
-//            , !container.isHidden
-//            , container.frame.origin.y != toolBar.frame.maxY else { return }
-//
-//        let options = UIViewAnimationOptions(rawValue: 7)
-//        UIView.animate(withDuration: 0.25, delay: 0, options: options, animations: {
-//            container.frame.origin.y = self.toolBar.frame.maxY
-//        }, completion: nil)
-//    }
-//
-//    override func endEditing(_ force: Bool) -> Bool {
-//        let flag = super.endEditing(force)
-//        if !toolBar.isShowsKeyboard {
-//            let curve = UIViewAnimationOptions.curveEaseInOut.rawValue
-//            let begin = UIViewAnimationOptions.beginFromCurrentState.rawValue
-//            let options = UIViewAnimationOptions(rawValue: curve << 16 | begin)
-//            UIView.animate(withDuration: 0.25, delay: 0.0, options: options, animations: {
-//                self.refreshStatus(.text)
-//                self.sizeToFit()
-//                self.inputDelegate?.inputView(self, heightDidChange: self.frame.height)
-//            }, completion: nil)
-//        }
-//        return flag
-//    }
-
-
-//    func toolBar(_ toolBar: LPInputToolBar, barItemClicked item: UIButton, type: LPInputBarItemType) {
-//        if let delegate = inputDelegate
-//            , !delegate.inputView(self, shouldHandleClickedFor: item, type: type) {
-//            return
-//        }
-//
-//        switch type {
-//        case .voice:
-//            if status != .voice {
-//                refreshStatus(.voice)
-//                sizeToFit()
-//                if toolBar.isShowsKeyboard {
-//                    toolBar.isShowsKeyboard = false
-//                }
-//            } else {
-//                refreshStatus(.text)
-//                toolBar.isShowsKeyboard = true
-//            }
-//        //case .emotion, .more:
-//            //showOrHideContainer(for: type)
-//        default:
-//            showOrHideContainer(for: type)
-//        }
-//    }
-//
 //    func toolBar(_ toolBar: LPInputToolBar, inputAtCharacter character: String) {
 //        inputDelegate?.inputView(self, inputAtCharacter: character)
-//    }
-//
-//    func toolBar(_ toolBar: LPInputToolBar, textViewShouldBeginEditing textView: UITextView) -> Bool {
-//        refreshStatus(.text)
-//        return true
 //    }
 //
 //    func toolBar(_ toolBar: LPInputToolBar, textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {

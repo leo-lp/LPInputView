@@ -16,24 +16,24 @@ class LPInputViewConfig: LPInputToolBarConfig {
     }
     
     var toolBarItems: [LPInputToolBarItemType] {
-        return [LPInputToolBarItemType.text]
+        return [LPInputToolBarItemType.text, LPInputToolBarItemType.emotion]
     }
     
-    //    func configButton(_ button: UIButton, type: LPInputBarItemType) {
-    //        switch type {
-    //        case .voice:
-    //            button.setImage(#imageLiteral(resourceName: "icon_toolview_voice_normal"), for: .normal)
-    //        case .emotion:
-    //            button.setImage(#imageLiteral(resourceName: "icon_toolview_emotion_normal"), for: .normal)
-    //        case .more:
-    //            button.setImage(#imageLiteral(resourceName: "icon_toolview_add_normal"), for: .normal)
-    //        case .at:
-    //            button.setTitle("@", for: .normal)
-    //            button.setTitleColor(UIColor.darkGray, for: .normal)
-    //            button.titleLabel?.font = UIFont.systemFont(ofSize: 18.0)
-    //        default: break
-    //        }
-    //    }
+    func configButton(_ button: UIButton, type: LPInputToolBarItemType) {
+        switch type {
+//        case .voice:
+//            button.setImage(#imageLiteral(resourceName: "icon_toolview_voice_normal"), for: .normal)
+        case .emotion:
+            button.setImage(#imageLiteral(resourceName: "icon_toolview_emotion_normal"), for: .normal)
+//        case .more:
+//            button.setImage(#imageLiteral(resourceName: "icon_toolview_add_normal"), for: .normal)
+//        case .at:
+//            button.setTitle("@", for: .normal)
+//            button.setTitleColor(UIColor.darkGray, for: .normal)
+//            button.titleLabel?.font = UIFont.systemFont(ofSize: 18.0)
+        default: break
+        }
+    }
     
     func configTextView(_ textView: LPStretchyTextView, type: LPInputToolBarItemType) {
         let placeholder = "说点什么..."

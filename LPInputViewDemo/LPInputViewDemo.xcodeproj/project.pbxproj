@@ -16,6 +16,14 @@
 		180F026F208DB77100DF3C12 /* LPInputView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 180F0263208DB1F400DF3C12 /* LPInputView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		180F0283208DCBDD00DF3C12 /* LPInputViewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180F0282208DCBDD00DF3C12 /* LPInputViewConfig.swift */; };
 		1862FDD5208EDF8C002009A4 /* LPMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1862FDD4208EDF8C002009A4 /* LPMainViewController.swift */; };
+		1862FDE2208F247D002009A4 /* LPCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1862FDD9208F247C002009A4 /* LPCustomView.swift */; };
+		1862FDE3208F247D002009A4 /* LPEmoticonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1862FDDB208F247C002009A4 /* LPEmoticonView.swift */; };
+		1862FDE4208F247D002009A4 /* LPEmoticonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1862FDDC208F247D002009A4 /* LPEmoticonCell.swift */; };
+		1862FDE5208F247D002009A4 /* LPEmotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1862FDDD208F247D002009A4 /* LPEmotion.swift */; };
+		1862FDE6208F247D002009A4 /* LPEmoticonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1862FDDE208F247D002009A4 /* LPEmoticonCell.xib */; };
+		1862FDE7208F247D002009A4 /* LPEmoticonView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1862FDDF208F247D002009A4 /* LPEmoticonView.xib */; };
+		1862FDE8208F247D002009A4 /* LPMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1862FDE1208F247D002009A4 /* LPMoreView.swift */; };
+		1862FDEA208F36A5002009A4 /* LPEmotion.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1862FDE9208F36A5002009A4 /* LPEmotion.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +68,14 @@
 		180F0268208DB35300DF3C12 /* LPInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPInputViewController.swift; sourceTree = "<group>"; };
 		180F0282208DCBDD00DF3C12 /* LPInputViewConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPInputViewConfig.swift; sourceTree = "<group>"; };
 		1862FDD4208EDF8C002009A4 /* LPMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPMainViewController.swift; sourceTree = "<group>"; };
+		1862FDD9208F247C002009A4 /* LPCustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPCustomView.swift; sourceTree = "<group>"; };
+		1862FDDB208F247C002009A4 /* LPEmoticonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPEmoticonView.swift; sourceTree = "<group>"; };
+		1862FDDC208F247D002009A4 /* LPEmoticonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPEmoticonCell.swift; sourceTree = "<group>"; };
+		1862FDDD208F247D002009A4 /* LPEmotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPEmotion.swift; sourceTree = "<group>"; };
+		1862FDDE208F247D002009A4 /* LPEmoticonCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LPEmoticonCell.xib; sourceTree = "<group>"; };
+		1862FDDF208F247D002009A4 /* LPEmoticonView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LPEmoticonView.xib; sourceTree = "<group>"; };
+		1862FDE1208F247D002009A4 /* LPMoreView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPMoreView.swift; sourceTree = "<group>"; };
+		1862FDE9208F36A5002009A4 /* LPEmotion.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = LPEmotion.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +110,9 @@
 		180F0236208DB1D900DF3C12 /* LPInputViewDemo */ = {
 			isa = PBXGroup;
 			children = (
+				1862FDD8208F247C002009A4 /* Custom */,
+				1862FDDA208F247C002009A4 /* Emotion */,
+				1862FDE0208F247D002009A4 /* More */,
 				180F0266208DB2EB00DF3C12 /* LPAppDelegate.swift */,
 				1862FDD4208EDF8C002009A4 /* LPMainViewController.swift */,
 				180F023B208DB1D900DF3C12 /* Main.storyboard */,
@@ -102,6 +121,7 @@
 				180F023E208DB1DA00DF3C12 /* Assets.xcassets */,
 				180F0240208DB1DA00DF3C12 /* LaunchScreen.storyboard */,
 				180F0243208DB1DA00DF3C12 /* Info.plist */,
+				1862FDE9208F36A5002009A4 /* LPEmotion.bundle */,
 			);
 			path = LPInputViewDemo;
 			sourceTree = "<group>";
@@ -112,6 +132,34 @@
 				180F0263208DB1F400DF3C12 /* LPInputView.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		1862FDD8208F247C002009A4 /* Custom */ = {
+			isa = PBXGroup;
+			children = (
+				1862FDD9208F247C002009A4 /* LPCustomView.swift */,
+			);
+			path = Custom;
+			sourceTree = "<group>";
+		};
+		1862FDDA208F247C002009A4 /* Emotion */ = {
+			isa = PBXGroup;
+			children = (
+				1862FDDB208F247C002009A4 /* LPEmoticonView.swift */,
+				1862FDDF208F247D002009A4 /* LPEmoticonView.xib */,
+				1862FDDC208F247D002009A4 /* LPEmoticonCell.swift */,
+				1862FDDE208F247D002009A4 /* LPEmoticonCell.xib */,
+				1862FDDD208F247D002009A4 /* LPEmotion.swift */,
+			);
+			path = Emotion;
+			sourceTree = "<group>";
+		};
+		1862FDE0208F247D002009A4 /* More */ = {
+			isa = PBXGroup;
+			children = (
+				1862FDE1208F247D002009A4 /* LPMoreView.swift */,
+			);
+			path = More;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -191,8 +239,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				180F0242208DB1DA00DF3C12 /* LaunchScreen.storyboard in Resources */,
+				1862FDEA208F36A5002009A4 /* LPEmotion.bundle in Resources */,
+				1862FDE6208F247D002009A4 /* LPEmoticonCell.xib in Resources */,
 				180F023F208DB1DA00DF3C12 /* Assets.xcassets in Resources */,
 				180F023D208DB1D900DF3C12 /* Main.storyboard in Resources */,
+				1862FDE7208F247D002009A4 /* LPEmoticonView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -203,9 +254,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1862FDE3208F247D002009A4 /* LPEmoticonView.swift in Sources */,
+				1862FDE5208F247D002009A4 /* LPEmotion.swift in Sources */,
+				1862FDE2208F247D002009A4 /* LPCustomView.swift in Sources */,
 				180F0267208DB2EB00DF3C12 /* LPAppDelegate.swift in Sources */,
 				1862FDD5208EDF8C002009A4 /* LPMainViewController.swift in Sources */,
+				1862FDE4208F247D002009A4 /* LPEmoticonCell.swift in Sources */,
 				180F0269208DB35300DF3C12 /* LPInputViewController.swift in Sources */,
+				1862FDE8208F247D002009A4 /* LPMoreView.swift in Sources */,
 				180F0283208DCBDD00DF3C12 /* LPInputViewConfig.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

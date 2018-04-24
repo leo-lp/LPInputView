@@ -8,27 +8,27 @@
 
 import UIKit
 
-protocol LPInputToolBarDelegate: class {
-//    func toolBar(_ toolBar: LPInputToolBar, barItemClicked item: UIButton, type: LPInputBarItemType)
-
-    func toolBarDidChange(in toolBar: LPInputToolBar)
+public protocol LPInputToolBarDelegate: class {
+    func toolBarDidChangeHeight(_ toolBar: LPInputToolBar)
+    func toolBar(_ toolBar: LPInputToolBar, barItemClicked item: UIButton, type: LPInputToolBarItemType)
     
-//    func toolBar(_ toolBar: LPInputToolBar, textViewShouldBeginEditing textView: UITextView) -> Bool
+    func toolBar(_ toolBar: LPInputToolBar, textViewShouldBeginEditing textView: UITextView) -> Bool
+    
 //    func toolBar(_ toolBar: LPInputToolBar, textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool
 //    func toolBar(_ toolBar: LPInputToolBar, textView: LPStretchyTextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int)
 //    func toolBar(_ toolBar: LPInputToolBar, inputAtCharacter character: String)
 }
 
-class LPInputToolBar: UIView {
-    weak var delegate: LPInputToolBarDelegate?
+public class LPInputToolBar: UIView {
+    public weak var delegate: LPInputToolBarDelegate?
     
     private(set) var config: LPInputToolBarConfig
     
-    private(set) var contentInset = UIEdgeInsets(top: 10,
-                                                 left: 15,
-                                                 bottom: 10,
-                                                 right: 15)
-    private(set) var interitemSpacing: CGFloat = 10
+    private var contentInset = UIEdgeInsets(top: 10,
+                                            left: 15,
+                                            bottom: 10,
+                                            right: 15)
+    private var interitemSpacing: CGFloat = 10
     
     private var items: [LPInputToolBarItemType: UIView] = [:]
     private var itemTypes: [LPInputToolBarItemType]
@@ -40,7 +40,7 @@ class LPInputToolBar: UIView {
         print("LPInputToolBar: -> release memory.")
     }
     
-    init(frame: CGRect, config: LPInputToolBarConfig) {
+    public init(frame: CGRect, config: LPInputToolBarConfig) {
         self.config = config
         self.itemTypes = config.toolBarItems
         
@@ -50,11 +50,11 @@ class LPInputToolBar: UIView {
         self.commonInit()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func sizeThatFits(_ size: CGSize) -> CGSize {
+    public override func sizeThatFits(_ size: CGSize) -> CGSize {
         guard size.width != 0.0 else { return size }
         
         var viewHeight: CGFloat = 0.0
@@ -81,9 +81,8 @@ class LPInputToolBar: UIView {
         return CGSize(width: size.width, height: viewHeight)
     }
     
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
-        
         var left: CGFloat = 0.0
         for (idx, type) in itemTypes.enumerated() {
             if let item = items[type] {
@@ -111,18 +110,23 @@ class LPInputToolBar: UIView {
     //    }
 }
 
-extension LPInputToolBar {
+// MARK: - Public Funs
+
+public extension LPInputToolBar {
+    
     var textView: LPStretchyTextView? {
         if let textView = items[.text] as? LPStretchyTextView { return textView }
         return config.textViewOfCustomToolBarItem
     }
     
-    var isShowsKeyboard: Bool {
+    var isShowKeyboard: Bool {
         get { return textView?.isFirstResponder ?? false }
         set {
             if newValue {
+                print("becomeFirstResponder")
                 textView?.becomeFirstResponder()
             } else {
+                print("resignFirstResponder")
                 textView?.resignFirstResponder()
             }
         }
@@ -142,13 +146,17 @@ extension LPInputToolBar {
             bottomSeparator = sep
         }
     }
-
+    
+    func item(with itemType: LPInputToolBarItemType) -> UIView? {
+        return items[itemType]
+    }
 }
 
 // MARK: -
 // MARK: - Private
 
 extension LPInputToolBar {
+    
     private func commonInit() {
         contentInset = config.barContentInset
         interitemSpacing = config.barInteritemSpacing
@@ -181,26 +189,23 @@ extension LPInputToolBar {
         
         textView?.stretchyDelegate = self
     }
-    //    func item(with itemType: LPInputBarItemType) -> UIView? {
-    //        guard case .items(let itemDict, _) = barType else { return nil }
-    //        return itemDict[itemType]
-    //    }
     
     @objc private func barItemClicked(_ sender: UIButton) {
         let type = LPInputToolBarItemType(rawValue: sender.tag)
-        //delegate?.toolBar(self, barItemClicked: sender, type: type)
+        delegate?.toolBar(self, barItemClicked: sender, type: type)
     }
+    
 }
 
 // MARK: - Delegate Funcs
 
 extension LPInputToolBar: LPStretchyTextViewDelegate {
     
-    func textView(_ textView: LPStretchyTextView, heightDidChange newHeight: CGFloat) {
+    public func textView(_ textView: LPStretchyTextView, heightDidChange newHeight: CGFloat) {
         guard let delegate = delegate else { return }
         frame.size.height = newHeight + contentInset.top + contentInset.bottom
         print("LPInputToolBar:->textView:->newHeight=\(frame.size.height)")
-        delegate.toolBarDidChange(in: self)
+        delegate.toolBarDidChangeHeight(self)
     }
 
 //    func textView(_ textView: LPStretchyTextView, inputAtCharacter character: String) {
@@ -216,9 +221,9 @@ extension LPInputToolBar: LPStretchyTextViewDelegate {
 //                          changeInLength: delta)
 //    }
 //
-//    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-//        return delegate?.toolBar(self, textViewShouldBeginEditing: textView) ?? true
-//    }
+    public func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        return delegate?.toolBar(self, textViewShouldBeginEditing: textView) ?? true
+    }
 //
 //    func textView(_ textView: UITextView,
 //                  shouldChangeTextIn range: NSRange,
