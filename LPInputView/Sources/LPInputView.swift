@@ -10,24 +10,23 @@ import UIKit
 
 public class LPInputView: UIView {
     // MARK: - Property
+    weak var delegate: LPInputViewDelegate?
     
-    //    weak var inputDelegate: LPInputViewDelegate?
     var hidesWhenResign: Bool = false
     var bottomFill: Bool = true
     
-    //    var maxInputLength: Int = 20
+    var maxInputLength: Int = 20
     
     private(set) var toolBar: LPInputToolBar
     private(set) var status: LPInputToolBarItemType = .text
+    
     private lazy var containers: [LPInputToolBarItemType: UIView] = [:]
+    private lazy var bottomSafeInset: CGFloat = 0.0
     
-    //
-    //    // MARK: - Override Funcs
-    //    required init?(coder aDecoder: NSCoder) {
-    //        fatalError("init(coder:) has not been implemented")
-    //    }
-    
+    // MARK: - Override Funcs
+  
     deinit {
+        NotificationCenter.default.removeObserver(self)
         print("LPInputView: -> release memory.")
     }
     
@@ -36,86 +35,103 @@ public class LPInputView: UIView {
         toolBar = LPInputToolBar(frame: rect, config: config)
         super.init(frame: frame)
         backgroundColor = UIColor.white
+        if #available(iOS 11.0, *) {
+            insetsLayoutMarginsFromSafeArea = false
+        }
         
         toolBar.delegate = self
-        toolBar.autoresizingMask = .flexibleWidth
-        toolBar.sizeToFit()
-        addSubview(toolBar)
         
-        //sizeToFit()
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillChangeFrame),
+                                               name: .LPKeyboardWillChangeFrame,
+                                               object: nil)
     }
     
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public override func sizeThatFits(_ size: CGSize) -> CGSize {
-        guard let calculateView = superview else { return size }
-        
-        /// 计算容器高
-        if status != .text, let container = containers[status] {
-            return CGSize(width: calculateView.frame.width,
-                          height: toolBar.frame.height + container.frame.height)
-        }
-        
-        /// 计算键盘高
-        var safeBottom: CGFloat = 0.0
-        if #available(iOS 11.0, *) {
-            safeBottom = calculateView.safeAreaInsets.bottom
-        }
-        
-        print("1.safeBottom=\(safeBottom)")
-        
-        let bottomMargin = (bottomFill && !hidesWhenResign) ? safeBottom : 0
-        
-        // 键盘是从最底下弹起的，需要减去安全区域底部的高度
-        var keyboardDelta = LPKeyboard.shared.keyboardHeight - safeBottom
-        
-        // 如果键盘还没有安全区域高，容器的初始值为0；否则则为键盘和安全区域的高度差值，这样可以保证 toolBar 始终在键盘上面
-        keyboardDelta = keyboardDelta > 0 ? keyboardDelta : bottomMargin
-        return CGSize(width: calculateView.frame.width, height: toolBar.frame.height + keyboardDelta)
+    public override func didMoveToWindow() {
+        guard window != nil else { return }
+        toolBar.sizeToFit()
+        guard toolBar.superview == nil else { return }
+        addSubview(toolBar)
     }
 }
 
+public extension LPInputView {
+    
+    func endEditing() {
+        if toolBar.isShowsKeyboard {
+            toolBar.isShowsKeyboard = false
+        } else {
+            
+        }
+    }
+    
+    var isUp: Bool {
+        switch status {
+        //case .voice: return false
+        case .text:  return LPKeyboard.shared.isVisiable
+        //case .more, .emotion: return true
+        default:
+            guard let container = containers[status] else { return false }
+            return !container.isHidden
+        }
+    }
+}
+
+// MARK: - LPInputToolBarDelegate
+
+extension LPInputView: LPInputToolBarDelegate {
+    
+    func toolBarDidChange(in toolBar: LPInputToolBar) {
+        print("LPInputView:->toolBarDidChange")
+        resetLayout()
+    }
+    
+    // MARK: - Notification Funcs
+    
+    @objc private func keyboardWillChangeFrame(_ notification: Notification) {
+        /// 如果当前视图不是顶部视图，则不需要监听
+        guard window != nil else { return }
+        print("LPInputView:->keyboardWillChangeFrame")
+        resetLayout()
+    }
+}
+
+// MARK: - Private Funcs
+
 extension LPInputView {
     
-//    override var frame: CGRect {
-//        didSet {
-//            if frame.height != oldValue.height {
-//                callDidChangeHeight()
-//            }
-//        }
-//    }
-//
-//    override func layoutSubviews() {
-//        super.layoutSubviews()
-//        guard status != .text
-//            , let container = containers[status]
-//            , !container.isHidden
-//            , container.frame.origin.y != toolBar.frame.maxY else { return }
-//
-//        let options = UIViewAnimationOptions(rawValue: 7)
-//        UIView.animate(withDuration: 0.25, delay: 0, options: options, animations: {
-//            container.frame.origin.y = self.toolBar.frame.maxY
-//        }, completion: nil)
-//    }
-//
-//    override func endEditing(_ force: Bool) -> Bool {
-//        let flag = super.endEditing(force)
-//        if !toolBar.isShowsKeyboard {
-//            let curve = UIViewAnimationOptions.curveEaseInOut.rawValue
-//            let begin = UIViewAnimationOptions.beginFromCurrentState.rawValue
-//            let options = UIViewAnimationOptions(rawValue: curve << 16 | begin)
-//            UIView.animate(withDuration: 0.25, delay: 0.0, options: options, animations: {
-//                self.refreshStatus(.text)
-//                self.sizeToFit()
-//                self.inputDelegate?.inputView(self, heightDidChange: self.frame.height)
-//            }, completion: nil)
-//        }
-//        return flag
-//    }
+    private func resetLayout() {
+        print("LPInputView:->resetLayout")
+        guard let superSize = superview?.frame.size else { return }
+        let toolBarHeight = toolBar.frame.height
+        let keyboard = LPKeyboard.shared
+        
+        var rect = frame
+        if self.hidesWhenResign {
+        } else {
+            if bottomFill {
+                let keyboardDelta = keyboard.height + (isUp ? 0.0 : keyboard.safeAreaInsets.bottom)
+                rect.size.height = toolBarHeight + keyboardDelta
+                rect.origin.y = superSize.height - rect.size.height
+            } else {
+                
+            }
+        }
+        
+        guard frame != rect else { return }
+        
+        let options = UIViewAnimationOptions(rawValue: 7)
+        UIView.animate(withDuration: 0.25, delay: 0, options: options, animations: {
+            self.frame = rect
+            print("重置布局:->frame=\(rect, rect.maxY)")
+        }, completion: nil)
+    }
 }
-//
+
 //// MARK: - Public Funcs
 //
 //extension LPInputView {
@@ -135,17 +151,6 @@ extension LPInputView {
 //    var isShowKeyboard: Bool {
 //        get { return toolBar.isShowsKeyboard }
 //        set { toolBar.isShowsKeyboard = newValue }
-//    }
-//
-//    var isUp: Bool {
-//        switch status {
-//        case .voice: return false
-//        case .text:  return LPKeyboard.shared.isVisiable
-//        case .more, .emotion: return true
-//        default:
-//            guard let container = containers[status] else { return false }
-//            return !container.isHidden
-//        }
 //    }
 //
 //    func showOrHideContainer(for type: LPInputBarItemType) {
@@ -191,36 +196,34 @@ extension LPInputView {
 //    }
 //}
 //
-//// MARK: - Private Funcs
+//    override func layoutSubviews() {
+//        super.layoutSubviews()
+//        guard status != .text
+//            , let container = containers[status]
+//            , !container.isHidden
+//            , container.frame.origin.y != toolBar.frame.maxY else { return }
 //
-//extension LPInputView {
+//        let options = UIViewAnimationOptions(rawValue: 7)
+//        UIView.animate(withDuration: 0.25, delay: 0, options: options, animations: {
+//            container.frame.origin.y = self.toolBar.frame.maxY
+//        }, completion: nil)
+//    }
 //
-//    private func callDidChangeHeight() {
-//        guard let inputDelegate = inputDelegate else { return }
-//        if status == .text {
-//            inputDelegate.inputView(self, heightDidChange: frame.height)
-//        } else {
-//            // 这个时候需要一个动画来模拟键盘
-//            let options = UIViewAnimationOptions(rawValue: 7)
-//            UIView.animate(withDuration: 0.25, delay: 0, options: options, animations: {
-//                inputDelegate.inputView(self, heightDidChange: self.frame.height)
+//    override func endEditing(_ force: Bool) -> Bool {
+//        let flag = super.endEditing(force)
+//        if !toolBar.isShowsKeyboard {
+//            let curve = UIViewAnimationOptions.curveEaseInOut.rawValue
+//            let begin = UIViewAnimationOptions.beginFromCurrentState.rawValue
+//            let options = UIViewAnimationOptions(rawValue: curve << 16 | begin)
+//            UIView.animate(withDuration: 0.25, delay: 0.0, options: options, animations: {
+//                self.refreshStatus(.text)
+//                self.sizeToFit()
+//                self.inputDelegate?.inputView(self, heightDidChange: self.frame.height)
 //            }, completion: nil)
 //        }
+//        return flag
 //    }
-//
-//    private func adjustSize(for vc: UIView) {
-//        var fitSize = vc.sizeThatFits(CGSize(width: frame.width,
-//                                             height: CGFloat.greatestFiniteMagnitude))
-//        if #available(iOS 11.0, *), bottomFill {
-//            fitSize.height += (superview ?? self).safeAreaInsets.bottom
-//        }
-//        vc.frame.size = fitSize
-//    }
-//}
-//
-// MARK: - LPInputToolBarDelegate
 
-extension LPInputView: LPInputToolBarDelegate {
 
 //    func toolBar(_ toolBar: LPInputToolBar, barItemClicked item: UIButton, type: LPInputBarItemType) {
 //        if let delegate = inputDelegate
@@ -245,10 +248,6 @@ extension LPInputView: LPInputToolBarDelegate {
 //        default:
 //            showOrHideContainer(for: type)
 //        }
-//    }
-//
-//    func toolBar(_ toolBar: LPInputToolBar, heightDidChange newHeight: CGFloat) {
-//        sizeToFit()
 //    }
 //
 //    func toolBar(_ toolBar: LPInputToolBar, inputAtCharacter character: String) {
@@ -301,4 +300,12 @@ extension LPInputView: LPInputToolBarDelegate {
 //                            length: textView.textStorage.length - maxInputLength)
 //        textView.textStorage.deleteCharacters(in: range)
 //    }
+
+extension LPInputView {
+    
+    @available(iOS 11.0, *)
+    public override func safeAreaInsetsDidChange() {
+        super.safeAreaInsetsDidChange()
+        print("safeAreaInsetsDidChange=\(safeAreaInsets)")
+    }
 }

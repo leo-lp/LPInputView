@@ -10,7 +10,9 @@ import UIKit
 
 protocol LPInputToolBarDelegate: class {
 //    func toolBar(_ toolBar: LPInputToolBar, barItemClicked item: UIButton, type: LPInputBarItemType)
-//    func toolBar(_ toolBar: LPInputToolBar, heightDidChange newHeight: CGFloat)
+
+    func toolBarDidChange(in toolBar: LPInputToolBar)
+    
 //    func toolBar(_ toolBar: LPInputToolBar, textViewShouldBeginEditing textView: UITextView) -> Bool
 //    func toolBar(_ toolBar: LPInputToolBar, textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool
 //    func toolBar(_ toolBar: LPInputToolBar, textView: LPStretchyTextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int)
@@ -41,8 +43,9 @@ class LPInputToolBar: UIView {
     init(frame: CGRect, config: LPInputToolBarConfig) {
         self.config = config
         self.itemTypes = config.toolBarItems
-
+        
         super.init(frame: frame)
+        
         self.backgroundColor = UIColor.white
         self.commonInit()
     }
@@ -74,7 +77,7 @@ class LPInputToolBar: UIView {
         
         viewHeight = viewHeight + contentInset.top + contentInset.bottom
         
-        print("sizethanfits=\(CGSize(width: size.width, height: viewHeight))")
+        print("inputtoolBar sizeThatFits size = \(CGSize(width: size.width, height: viewHeight))")
         return CGSize(width: size.width, height: viewHeight)
     }
     
@@ -194,11 +197,10 @@ extension LPInputToolBar {
 extension LPInputToolBar: LPStretchyTextViewDelegate {
     
     func textView(_ textView: LPStretchyTextView, heightDidChange newHeight: CGFloat) {
-        //        guard let delegate = delegate else { return }
+        guard let delegate = delegate else { return }
         frame.size.height = newHeight + contentInset.top + contentInset.bottom
-        //        delegate.toolBar(self, heightDidChange: frame.size.height)
-        
-        print("textView:->newHeight=\(newHeight)")
+        print("LPInputToolBar:->textView:->newHeight=\(frame.size.height)")
+        delegate.toolBarDidChange(in: self)
     }
 
 //    func textView(_ textView: LPStretchyTextView, inputAtCharacter character: String) {

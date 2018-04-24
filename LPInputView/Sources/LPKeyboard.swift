@@ -19,8 +19,16 @@ class LPKeyboard {
     /// 是否可见
     private(set) var isVisiable: Bool = false
     
-    /// 键盘高度
-    private(set) var keyboardHeight: CGFloat = 0.0
+    /// 键盘高
+    private(set) var height: CGFloat = 0.0
+    
+    var safeAreaInsets: UIEdgeInsets {
+        if #available(iOS 11.0, *)
+            , let window = UIApplication.shared.keyWindow {
+            return window.safeAreaInsets
+        }
+        return .zero
+    }
     
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -40,10 +48,12 @@ class LPKeyboard {
     
     @objc private func keyboardWillChangeFrame(_ notification: Notification) {
         guard let userInfo = notification.userInfo
-            , let endFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
-            , let keyWindow = UIApplication.shared.keyWindow else { return }
-        isVisiable = endFrame.origin.y != keyWindow.frame.height
-        keyboardHeight = isVisiable ? endFrame.height : 0.0
+            , let endFrameValue = userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue
+            , let window = UIApplication.shared.keyWindow else { return }
+        let endFrame = endFrameValue.cgRectValue
+        
+        isVisiable = endFrame.origin.y != window.frame.height
+        height = isVisiable ? endFrame.height : 0.0
         
         NotificationCenter.default.post(name: .LPKeyboardWillChangeFrame,
                                         object: nil,
@@ -52,7 +62,7 @@ class LPKeyboard {
     
     @objc private func keyboardWillHide(_ notification: Notification) {
         isVisiable = false
-        keyboardHeight = 0.0
+        height = 0.0
         NotificationCenter.default.post(name: .LPKeyboardWillHide,
                                         object: nil,
                                         userInfo: notification.userInfo)

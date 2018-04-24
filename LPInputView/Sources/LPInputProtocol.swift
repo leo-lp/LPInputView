@@ -8,6 +8,9 @@
 
 import UIKit
 
+// MARK: -
+// MARK: - Protocol
+
 public protocol LPInputToolBarConfig: class {
     /// required
     var toolBarItems: [LPInputToolBarItemType] { get }
@@ -23,12 +26,7 @@ public protocol LPInputToolBarConfig: class {
     var barInteritemSpacing: CGFloat { get }
 }
 
-
-
-
-//// MARK: - LPInputViewDelegate
-//
-//protocol LPInputViewDelegate: class {
+public protocol LPInputViewDelegate: class {
 //    /// optional
 //    func inputView(_ inputView: LPInputView, heightDidChange height: CGFloat)
 //    func inputView(_ inputView: LPInputView,
@@ -48,8 +46,8 @@ public protocol LPInputToolBarConfig: class {
 //    func inputView(_ inputView: LPInputView, sendFor textView: UITextView) -> Bool
 //
 //    func inputView(_ inputView: LPInputView, maximumCharacterLimitExceeded maxLength: Int) -> Bool
-//}
-//
+}
+
 // MARK: -
 // MARK: - Protocol Extensions
 

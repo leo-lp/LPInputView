@@ -12,10 +12,10 @@
 		180F0242208DB1DA00DF3C12 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 180F0240208DB1DA00DF3C12 /* LaunchScreen.storyboard */; };
 		180F0267208DB2EB00DF3C12 /* LPAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180F0266208DB2EB00DF3C12 /* LPAppDelegate.swift */; };
 		180F0269208DB35300DF3C12 /* LPInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180F0268208DB35300DF3C12 /* LPInputViewController.swift */; };
-		180F026B208DB40F00DF3C12 /* LPMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180F026A208DB40F00DF3C12 /* LPMainViewController.swift */; };
 		180F026E208DB77100DF3C12 /* LPInputView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 180F0263208DB1F400DF3C12 /* LPInputView.framework */; };
 		180F026F208DB77100DF3C12 /* LPInputView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 180F0263208DB1F400DF3C12 /* LPInputView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		180F0283208DCBDD00DF3C12 /* LPInputViewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180F0282208DCBDD00DF3C12 /* LPInputViewConfig.swift */; };
+		1862FDD5208EDF8C002009A4 /* LPMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1862FDD4208EDF8C002009A4 /* LPMainViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,8 +58,8 @@
 		180F025E208DB1F300DF3C12 /* LPInputView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LPInputView.xcodeproj; path = ../LPInputView/LPInputView.xcodeproj; sourceTree = "<group>"; };
 		180F0266208DB2EB00DF3C12 /* LPAppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPAppDelegate.swift; sourceTree = "<group>"; };
 		180F0268208DB35300DF3C12 /* LPInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPInputViewController.swift; sourceTree = "<group>"; };
-		180F026A208DB40F00DF3C12 /* LPMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPMainViewController.swift; sourceTree = "<group>"; };
 		180F0282208DCBDD00DF3C12 /* LPInputViewConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPInputViewConfig.swift; sourceTree = "<group>"; };
+		1862FDD4208EDF8C002009A4 /* LPMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPMainViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,7 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				180F0266208DB2EB00DF3C12 /* LPAppDelegate.swift */,
-				180F026A208DB40F00DF3C12 /* LPMainViewController.swift */,
+				1862FDD4208EDF8C002009A4 /* LPMainViewController.swift */,
 				180F023B208DB1D900DF3C12 /* Main.storyboard */,
 				180F0268208DB35300DF3C12 /* LPInputViewController.swift */,
 				180F0282208DCBDD00DF3C12 /* LPInputViewConfig.swift */,
@@ -203,8 +203,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				180F026B208DB40F00DF3C12 /* LPMainViewController.swift in Sources */,
 				180F0267208DB2EB00DF3C12 /* LPAppDelegate.swift in Sources */,
+				1862FDD5208EDF8C002009A4 /* LPMainViewController.swift in Sources */,
 				180F0269208DB35300DF3C12 /* LPInputViewController.swift in Sources */,
 				180F0283208DCBDD00DF3C12 /* LPInputViewConfig.swift in Sources */,
 			);
