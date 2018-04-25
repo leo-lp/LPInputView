@@ -15,7 +15,7 @@ public class LPInputView: UIView {
     public var hidesWhenResign: Bool = false
     public var bottomFill: Bool = false
     
-    public var maxInputLength: Int = 20
+    public var maxInputLength: Int = 1000
     
     public var toolBar: LPInputToolBar
     private var status: LPInputToolBarItemType = .text
@@ -201,12 +201,17 @@ extension LPInputView: LPInputToolBarDelegate {
         delegate.inputView(self, textView: textView, didProcessEditing: editedRange, changeInLength: delta)
         
         guard textView.textStorage.length > maxInputLength
-            , !delegate.inputView(self, shouldHandleForMaximumLengthExceedsLimit: maxInputLength)
+            , delegate.inputView(self, shouldHandleForMaximumLengthExceedsLimit: maxInputLength)
             else { return }
         
-        let range = NSRange(location: maxInputLength - 1,
-                            length: textView.textStorage.length - maxInputLength)
-        textView.textStorage.deleteCharacters(in: range)
+        DispatchQueue.main.async {
+            let length = textView.textStorage.length - self.maxInputLength
+            guard length > 0 else { return }
+            
+            let range = NSRange(location: self.maxInputLength - 1, length: length)
+            textView.textStorage.deleteCharacters(in: range)
+            textView.selectedRange = NSRange(location: range.location, length: 0)
+        }
     }
     
     func toolBar(_ toolBar: LPInputToolBar, inputAtCharacter character: String) {
