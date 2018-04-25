@@ -200,7 +200,11 @@ extension LPInputToolBar: LPStretchyTextViewDelegate {
     
     public func textView(_ textView: LPStretchyTextView, heightDidChange newHeight: CGFloat) {
         guard let delegate = delegate else { return }
-        frame.size.height = newHeight + contentInset.top + contentInset.bottom
+        let height = newHeight + contentInset.top + contentInset.bottom
+        let options = UIViewAnimationOptions(rawValue: 7)
+        UIView.animate(withDuration: 0.25, delay: 0.0, options: options, animations: {
+            self.frame.size.height = height
+        }, completion: nil)
         delegate.toolBarDidChangeHeight(self)
     }
     

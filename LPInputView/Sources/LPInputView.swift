@@ -247,7 +247,6 @@ extension LPInputView {
     private func resetLayout() {
         guard let superview = superview else { return }
         let superSize = superview.frame.size
-        
         var rect = frame
         rect.size.height = heightThatFits
         
@@ -267,7 +266,9 @@ extension LPInputView {
         superview.layoutIfNeeded()
         animate({
             self.frame = rect
-            self.containers[self.status]?.frame.origin.y = self.toolBar.frame.maxY
+            if self.status != .text, let container = self.containers[self.status] {
+                container.frame.origin.y = self.toolBar.frame.maxY
+            }
             print("重置布局:->frame=\(rect, rect.maxY)")
         }, completion: nil)
     }
