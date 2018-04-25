@@ -25,8 +25,11 @@ public extension LPStretchyTextView {
         }
         
         let user = LPAtUser(id: id, name: name)
-        let attributes: [NSAttributedStringKey: Any] = [.foregroundColor: user.nameColor,
+        var attributes: [NSAttributedStringKey: Any] = [.foregroundColor: user.nameColor,
                                                         .LPAtUser: user]
+        if let font = originalTextFont {
+            attributes[.font] = font
+        }
         let userAttrString = NSAttributedString(string: user.atName, attributes: attributes)
         
         let mutableAttrString = NSMutableAttributedString()
@@ -77,14 +80,17 @@ extension LPStretchyTextView {
     
     func textAttrString(_ string: String, checkAtUser isCheck: Bool) -> NSAttributedString {
         var string = string
+       
         if isCheck && isAtUserOfPreviousCharacter {
             string.insert(" ", at: string.startIndex)
         }
         
-        guard let color = originalTextColor else {
+        guard let color = originalTextColor, let font = originalTextFont else {
             return NSAttributedString(string: string)
         }
-        return NSAttributedString(string: string, attributes: [.foregroundColor: color])
+        
+        let attributes: [NSAttributedStringKey: Any] = [.foregroundColor: color, .font: font]
+        return NSAttributedString(string: string, attributes: attributes)
     }
     
     /// 检查光标是否在user区域

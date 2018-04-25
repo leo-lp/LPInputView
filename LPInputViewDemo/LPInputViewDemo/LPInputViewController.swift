@@ -115,11 +115,12 @@ extension LPInputViewController: LPInputViewDelegate, LPEmoticonViewDelegate {
     // MARK: - LPEmoticonViewDelegate
     
     func inputEmoticon(id: String, img: UIImage) {
-        
+        guard let textView = inputBar.toolBar.textView else { return }
+        textView.insertEmotion(LPTextAttachment(image: img, scale: 1.2, tag: id))
     }
     
     func inputEmoticonDelete() {
-        
+        inputBar.toolBar.textView?.deleteEmotion()
     }
     
     func inputEmoticonSend() {

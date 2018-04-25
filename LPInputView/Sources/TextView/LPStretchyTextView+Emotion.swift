@@ -11,7 +11,13 @@ import UIKit
 public extension LPStretchyTextView {
     
     func insertEmotion(_ attachment: NSTextAttachment) {
-        insertAttrString(NSAttributedString(attachment: attachment))
+        let attrString = NSAttributedString(attachment: attachment)
+        let mutableAttrString = NSMutableAttributedString(attributedString: attrString)
+        if let font = originalTextFont {
+            let range = NSRange(location: 0, length: mutableAttrString.length)
+            mutableAttrString.addAttribute(.font, value: font, range: range)
+        }
+        insertAttrString(mutableAttrString)
     }
     
     func insertAttrString(_ attrString: NSAttributedString) {
@@ -48,10 +54,10 @@ public extension LPStretchyTextView {
     }
     
     func resetTextStyle() {
-        guard let font = originalTextFont else { return }
+        guard let originalFont = originalTextFont, font != originalFont else { return }
         let range = NSRange(location: 0, length: textStorage.length)
         textStorage.removeAttribute(.font, range: range)
-        textStorage.addAttribute(.font, value: font, range: range)
+        textStorage.addAttribute(.font, value: originalFont, range: range)
     }
     
     func scrollToBottom() {

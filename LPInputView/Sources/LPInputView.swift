@@ -13,7 +13,7 @@ public class LPInputView: UIView {
     public weak var delegate: LPInputViewDelegate?
     
     public var hidesWhenResign: Bool = false
-    public var bottomFill: Bool = false
+    public var bottomFill: Bool = true
     
     public var maxInputLength: Int = 1000
     
@@ -267,6 +267,7 @@ extension LPInputView {
         superview.layoutIfNeeded()
         animate({
             self.frame = rect
+            self.containers[self.status]?.frame.origin.y = self.toolBar.frame.maxY
             print("重置布局:->frame=\(rect, rect.maxY)")
         }, completion: nil)
     }
@@ -301,11 +302,11 @@ extension LPInputView {
     }
 }
 
-//extension LPInputView {
-//    
-//    @available(iOS 11.0, *)
-//    public override func safeAreaInsetsDidChange() {
-//        super.safeAreaInsetsDidChange()
-//        print("safeAreaInsetsDidChange=\(safeAreaInsets)")
-//    }
-//}
+extension LPInputView {
+    
+    @available(iOS 11.0, *)
+    public override func safeAreaInsetsDidChange() {
+        super.safeAreaInsetsDidChange()
+        print("safeAreaInsetsDidChange=\(safeAreaInsets)")
+    }
+}
