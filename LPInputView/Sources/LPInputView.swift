@@ -308,7 +308,7 @@ extension LPInputView {
 }
 
 //extension LPInputView {
-//    
+//
 //    @available(iOS 11.0, *)
 //    public override func safeAreaInsetsDidChange() {
 //        super.safeAreaInsetsDidChange()

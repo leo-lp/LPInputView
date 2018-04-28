@@ -76,8 +76,6 @@ public class LPInputToolBar: UIView {
         }
         
         viewHeight = viewHeight + contentInset.top + contentInset.bottom
-        
-        print("inputtoolBar sizeThatFits size = \(CGSize(width: size.width, height: viewHeight))")
         return CGSize(width: size.width, height: viewHeight)
     }
     
