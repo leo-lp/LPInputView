@@ -74,7 +74,7 @@ public extension LPInputView {
         if toolBar.isShowKeyboard {
             toolBar.isShowKeyboard = false
         } else if isUp {
-            renewStatus(to: .text)
+            renewStatus(to: .text, isDelay: true)
             resetLayout()
         }
     }
@@ -94,7 +94,7 @@ public extension LPInputView {
         if status != type {
             showContainer(for: type)
         } else {
-            renewStatus(to: .text)
+            renewStatus(to: .text, isDelay: false)
             toolBar.isShowKeyboard = true
         }
     }
@@ -126,7 +126,7 @@ public extension LPInputView {
         bringSubview(toFront: container)
         container.isHidden = false
         
-        renewStatus(to: type)
+        renewStatus(to: type, isDelay: false)
         
         animate({
             container.frame.origin.y = self.toolBar.frame.maxY
@@ -175,7 +175,7 @@ extension LPInputView: LPInputToolBarDelegate {
     
     func toolBar(_ toolBar: LPInputToolBar, textViewShouldBeginEditing textView: UITextView) -> Bool {
         if status != .text {
-            renewStatus(to: .text)
+            renewStatus(to: .text, isDelay: false)
         }
         return true
     }
@@ -224,7 +224,6 @@ extension LPInputView: LPInputToolBarDelegate {
     @objc private func keyboardWillChangeFrame(_ notification: Notification) {
         /// 如果当前视图不是顶部视图，则不需要监听
         guard window != nil else { return }
-        print("LPInputView:->keyboardWillChangeFrame")
         resetLayout()
     }
 }
@@ -233,13 +232,17 @@ extension LPInputView: LPInputToolBarDelegate {
 
 extension LPInputView {
     
-    private func renewStatus(to status: LPInputToolBarItemType) {
+    private func renewStatus(to status: LPInputToolBarItemType, isDelay: Bool) {
         if self.status != .text {
             let oldStatus = self.status
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
-                guard let `self` = self
-                    , let container = self.containers[oldStatus] else { return }
-                container.isHidden = true
+            if isDelay {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
+                    guard let `self` = self
+                        , let container = self.containers[oldStatus] else { return }
+                    container.isHidden = true
+                }
+            } else {
+                containers[oldStatus]?.isHidden = true
             }
         }
         self.status = status
@@ -304,11 +307,11 @@ extension LPInputView {
     }
 }
 
-extension LPInputView {
-    
-    @available(iOS 11.0, *)
-    public override func safeAreaInsetsDidChange() {
-        super.safeAreaInsetsDidChange()
-        print("safeAreaInsetsDidChange=\(safeAreaInsets)")
-    }
-}
+//extension LPInputView {
+//    
+//    @available(iOS 11.0, *)
+//    public override func safeAreaInsetsDidChange() {
+//        super.safeAreaInsetsDidChange()
+//        print("safeAreaInsetsDidChange=\(safeAreaInsets)")
+//    }
+//}
