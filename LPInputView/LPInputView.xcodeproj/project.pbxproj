@@ -14,6 +14,7 @@
 		180F027C208DC73500DF3C12 /* LPInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180F027B208DC73500DF3C12 /* LPInputView.swift */; };
 		180F027E208DC74100DF3C12 /* LPInputToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180F027D208DC74100DF3C12 /* LPInputToolBar.swift */; };
 		180F0280208DC95C00DF3C12 /* LPInputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180F027F208DC95C00DF3C12 /* LPInputProtocol.swift */; };
+		18B90E5420945F990040C1FA /* NSAttributedString+LPInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B90E5320945F990040C1FA /* NSAttributedString+LPInputView.swift */; };
 		E87EC5C72090E961008155A2 /* LPTextAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87EC5C62090E961008155A2 /* LPTextAttachment.swift */; };
 		E8C73B4A208E347F0022AC60 /* LPKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C73B49208E347F0022AC60 /* LPKeyboard.swift */; };
 /* End PBXBuildFile section */
@@ -28,6 +29,7 @@
 		180F027B208DC73500DF3C12 /* LPInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPInputView.swift; sourceTree = "<group>"; };
 		180F027D208DC74100DF3C12 /* LPInputToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPInputToolBar.swift; sourceTree = "<group>"; };
 		180F027F208DC95C00DF3C12 /* LPInputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPInputProtocol.swift; sourceTree = "<group>"; };
+		18B90E5320945F990040C1FA /* NSAttributedString+LPInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+LPInputView.swift"; sourceTree = "<group>"; };
 		E87EC5C62090E961008155A2 /* LPTextAttachment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPTextAttachment.swift; sourceTree = "<group>"; };
 		E8C73B49208E347F0022AC60 /* LPKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPKeyboard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -69,6 +71,7 @@
 				180F0279208DC65700DF3C12 /* LPInputModel.swift */,
 				180F027F208DC95C00DF3C12 /* LPInputProtocol.swift */,
 				E8C73B49208E347F0022AC60 /* LPKeyboard.swift */,
+				18B90E5320945F990040C1FA /* NSAttributedString+LPInputView.swift */,
 				180F0257208DB1F300DF3C12 /* Info.plist */,
 			);
 			path = Sources;
@@ -167,6 +170,7 @@
 				180F0278208DC61500DF3C12 /* LPStretchyTextView+Emotion.swift in Sources */,
 				180F0280208DC95C00DF3C12 /* LPInputProtocol.swift in Sources */,
 				180F027C208DC73500DF3C12 /* LPInputView.swift in Sources */,
+				18B90E5420945F990040C1FA /* NSAttributedString+LPInputView.swift in Sources */,
 				180F0276208DC5D700DF3C12 /* LPStretchyTextView+At.swift in Sources */,
 				180F027A208DC65700DF3C12 /* LPInputModel.swift in Sources */,
 				180F027E208DC74100DF3C12 /* LPInputToolBar.swift in Sources */,

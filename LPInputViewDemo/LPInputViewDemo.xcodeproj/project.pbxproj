@@ -25,6 +25,8 @@
 		1862FDE8208F247D002009A4 /* LPMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1862FDE1208F247D002009A4 /* LPMoreView.swift */; };
 		1862FDEA208F36A5002009A4 /* LPEmotion.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1862FDE9208F36A5002009A4 /* LPEmotion.bundle */; };
 		18B90E5220945C720040C1FA /* LPFriendListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B90E5120945C720040C1FA /* LPFriendListController.swift */; };
+		18B90E56209460050040C1FA /* LPStretchyTextView+Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B90E55209460050040C1FA /* LPStretchyTextView+Pasteboard.swift */; };
+		18B90E58209460410040C1FA /* UIPasteboard+LPInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B90E57209460410040C1FA /* UIPasteboard+LPInputView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +80,8 @@
 		1862FDE1208F247D002009A4 /* LPMoreView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPMoreView.swift; sourceTree = "<group>"; };
 		1862FDE9208F36A5002009A4 /* LPEmotion.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = LPEmotion.bundle; sourceTree = "<group>"; };
 		18B90E5120945C720040C1FA /* LPFriendListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPFriendListController.swift; sourceTree = "<group>"; };
+		18B90E55209460050040C1FA /* LPStretchyTextView+Pasteboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LPStretchyTextView+Pasteboard.swift"; sourceTree = "<group>"; };
+		18B90E57209460410040C1FA /* UIPasteboard+LPInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIPasteboard+LPInputView.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +124,8 @@
 				180F023B208DB1D900DF3C12 /* Main.storyboard */,
 				180F0268208DB35300DF3C12 /* LPInputViewController.swift */,
 				180F0282208DCBDD00DF3C12 /* LPInputViewConfig.swift */,
+				18B90E55209460050040C1FA /* LPStretchyTextView+Pasteboard.swift */,
+				18B90E57209460410040C1FA /* UIPasteboard+LPInputView.swift */,
 				18B90E5120945C720040C1FA /* LPFriendListController.swift */,
 				180F023E208DB1DA00DF3C12 /* Assets.xcassets */,
 				180F0240208DB1DA00DF3C12 /* LaunchScreen.storyboard */,
@@ -259,6 +265,8 @@
 			files = (
 				1862FDE3208F247D002009A4 /* LPEmoticonView.swift in Sources */,
 				1862FDE5208F247D002009A4 /* LPEmotion.swift in Sources */,
+				18B90E58209460410040C1FA /* UIPasteboard+LPInputView.swift in Sources */,
+				18B90E56209460050040C1FA /* LPStretchyTextView+Pasteboard.swift in Sources */,
 				1862FDE2208F247D002009A4 /* LPCustomView.swift in Sources */,
 				180F0267208DB2EB00DF3C12 /* LPAppDelegate.swift in Sources */,
 				1862FDD5208EDF8C002009A4 /* LPMainViewController.swift in Sources */,

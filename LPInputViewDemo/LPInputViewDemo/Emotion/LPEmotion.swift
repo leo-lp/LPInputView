@@ -11,6 +11,7 @@
  */
 
 import UIKit
+import LPInputView
 
 typealias LPEmotionID = String
 class LPEmotion {
@@ -38,23 +39,23 @@ class LPEmotion {
         return emojiPath + imgName
     }
     
-//    func attrString(with text: String,
-//                    scale: CGFloat = 1.2,
-//                    font: UIFont? = nil) -> NSMutableAttributedString {
-//        return attrString(with: NSAttributedString(string: text),
-//                          scale: scale,
-//                          font: font)
-//    }
-//    
-//    func attrString(with attrString: NSAttributedString,
-//                    scale: CGFloat = 1.2,
-//                    font: UIFont? = nil) -> NSMutableAttributedString {
-//        return attrString.lp_regex(pattern: regulaPattern, replaceBlock: { (checkingResult) -> NSAttributedString in
-//            let emotionID = checkingResult.string
-//            guard let emoji = emoji(by: emotionID) else { return checkingResult }
-//            let attachment = LPTextAttachment(image: emoji, scale: scale, font: font)
-//            attachment.tagName = emotionID
-//            return NSAttributedString(attachment: attachment)
-//        })
-//    }
+    func attrString(with text: String,
+                    scale: CGFloat = 1.2,
+                    font: UIFont? = nil) -> NSMutableAttributedString {
+        return attrString(with: NSAttributedString(string: text),
+                          scale: scale,
+                          font: font)
+    }
+    
+    func attrString(with attrString: NSAttributedString,
+                    scale: CGFloat = 1.2,
+                    font: UIFont? = nil) -> NSMutableAttributedString {
+        return attrString.lp_regex(pattern: regulaPattern, replaceBlock: { (checkingResult) -> NSAttributedString in
+            let emotionID = checkingResult.string
+            guard let emoji = emoji(by: emotionID) else { return checkingResult }
+            let attachment = LPTextAttachment(image: emoji, scale: scale, font: font)
+            attachment.tagName = emotionID
+            return NSAttributedString(attachment: attachment)
+        })
+    }
 }

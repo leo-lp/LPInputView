@@ -28,10 +28,11 @@ class LPInputViewController: UIViewController {
                                     target: self,
                                     action: #selector(rightButtonClicked))
         navigationItem.rightBarButtonItem = right
+        right.isEnabled = false
     }
     
     @objc func rightButtonClicked(_ sender: UIBarButtonItem) {
-        
+        print("rightButtonClicked")
     }
 }
 
@@ -97,24 +98,25 @@ extension LPInputViewController: LPInputViewDelegate, LPEmoticonViewDelegate {
     }
     
 //    func inputView(_ inputView: LPInputView, textView: LPStretchyTextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-//
 //    }
-//
-//    func inputView(_ inputView: LPInputView, textView: LPStretchyTextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int) {
-//        <#code#>
-//    }
+
+    func inputView(_ inputView: LPInputView, textView: LPStretchyTextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int) {
+        navigationItem.rightBarButtonItem?.isEnabled = textView.textStorage.length > 0
+    }
 
     func inputView(_ inputView: LPInputView, inputAtCharacter character: String) {
         pushFriendsVC(character)
     }
 
-//    func inputView(_ inputView: LPInputView, shouldHandleForMaximumLengthExceedsLimit maxLength: Int) -> Bool {
-//        <#code#>
-//    }
-//
-//    func inputView(_ inputView: LPInputView, sendFor textView: LPStretchyTextView) -> Bool {
-//        <#code#>
-//    }
+    func inputView(_ inputView: LPInputView, shouldHandleForMaximumLengthExceedsLimit maxLength: Int) -> Bool {
+        print("字符超出限制：\(maxLength)")
+        return true
+    }
+
+    func inputView(_ inputView: LPInputView, sendFor textView: LPStretchyTextView) -> Bool {
+        sendMSG()
+        return true
+    }
     
     // MARK: - LPEmoticonViewDelegate
     
@@ -128,7 +130,7 @@ extension LPInputViewController: LPInputViewDelegate, LPEmoticonViewDelegate {
     }
     
     func inputEmoticonSend() {
-        
+        sendMSG()
     }
     
     private func pushFriendsVC(_ character: String?) {
@@ -140,5 +142,17 @@ extension LPInputViewController: LPInputViewDelegate, LPEmoticonViewDelegate {
                                                name: friend.name,
                                                checkAt: character)
         }
+    }
+    
+    private func sendMSG() {
+        guard let textView = inputBar.textView else { return }
+        
+        let atUserPlaceholderByBlock: (Int, LPAtUser) -> String = { (index, _) -> String in
+            return "@{\(index)}"
+        }
+        let result = textView.textStorage.lp_parse(atUserPlaceholderByBlock)
+        print(result.description)
+        
+        textView.clearTextStorage()
     }
 }

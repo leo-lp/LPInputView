@@ -78,13 +78,10 @@ public extension LPStretchyTextView {
             deleteEmotion()
         }
     }
-}
-
-extension LPStretchyTextView {
     
     func textAttrString(_ string: String, checkAtUser isCheck: Bool) -> NSAttributedString {
         var string = string
-       
+        
         if isCheck && isAtUserOfPreviousCharacter {
             string.insert(" ", at: string.startIndex)
         }
@@ -96,6 +93,9 @@ extension LPStretchyTextView {
         let attributes: [NSAttributedStringKey: Any] = [.foregroundColor: color, .font: font]
         return NSAttributedString(string: string, attributes: attributes)
     }
+}
+
+extension LPStretchyTextView {
     
     /// 检查光标是否在user区域
     func checkUserAreaAndAutoSelected() {

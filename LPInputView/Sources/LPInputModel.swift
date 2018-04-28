@@ -78,22 +78,22 @@ public class LPAtUser: NSObject, NSCoding, NSCopying {
 }
 
 
-//struct LPParseResult: CustomStringConvertible {
-//    var attrString: NSMutableAttributedString
-//    var emotionCount: Int
-//
-//    var user: [(placeholder: String, user: LPAtUser)]?
-//
-//    var text: String { return attrString.string }
-//
-//    var description: String {
-//        let str: String =
-//        """
-//        文本：\(text)
-//        表情个数：\(emotionCount)
-//        @用户个数：\(user?.count ?? 0)
-//        @用户：\(user?.description ?? "")
-//        """
-//        return str
-//    }
-//}
+public struct LPParseResult: CustomStringConvertible {
+    public var attrString: NSMutableAttributedString
+    public var emotionCount: Int
+
+    public var user: [(placeholder: String, user: LPAtUser)]?
+
+    public var text: String { return attrString.string }
+
+    public var description: String {
+        let str: String =
+        """
+        文本：\(text)
+        表情个数：\(emotionCount)
+        @用户个数：\(user?.count ?? 0)
+        @用户：\(user?.description ?? "")
+        """
+        return str
+    }
+}
