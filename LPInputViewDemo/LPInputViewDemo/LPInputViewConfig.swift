@@ -20,7 +20,7 @@ class LPInputViewConfig: LPInputToolBarConfig {
     }
     
     var toolBarItems: [LPInputToolBarItemType] {
-        return [.text, .emotion, .at]
+        return [.text, .emotion, .at, .more]
     }
     
     func configButton(_ button: UIButton, type: LPInputToolBarItemType) {
@@ -29,8 +29,8 @@ class LPInputViewConfig: LPInputToolBarConfig {
 //            button.setImage(#imageLiteral(resourceName: "icon_toolview_voice_normal"), for: .normal)
         case .emotion:
             button.setImage(#imageLiteral(resourceName: "icon_toolview_emotion_normal"), for: .normal)
-//        case .more:
-//            button.setImage(#imageLiteral(resourceName: "icon_toolview_add_normal"), for: .normal)
+        case .more:
+            button.setImage(#imageLiteral(resourceName: "icon_toolview_add_normal"), for: .normal)
         case .at:
             button.setTitle("@", for: .normal)
             button.setTitleColor(UIColor.darkGray, for: .normal)

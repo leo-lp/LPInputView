@@ -51,8 +51,8 @@ public class LPStretchyTextView: UITextView {
         didSet { setNeedsDisplay() }
     }
     
-    private(set) var originalTextFont: UIFont?
-    private(set) var originalTextColor: UIColor?
+    public private(set) var originalTextFont: UIFont?
+    public private(set) var originalTextColor: UIColor?
     
     private var maxHeight: CGFloat? // 限制输入框的最大高度
     private var minHeight: CGFloat? // 限制输入框的最小高度

@@ -83,7 +83,7 @@ public extension LPInputView {
         switch status {
         //case .voice: return false
         case .text:  return LPKeyboard.shared.isVisiable
-        //case .more, .emotion: return true
+        case .more, .emotion: return true
         default:
             guard let container = containers[status] else { return false }
             return !container.isHidden
@@ -145,7 +145,6 @@ public extension LPInputView {
 extension LPInputView: LPInputToolBarDelegate {
     
     func toolBarDidChangeHeight(_ toolBar: LPInputToolBar) {
-        print("LPInputView:->toolBarDidChangeHeight")
         resetLayout()
     }
     

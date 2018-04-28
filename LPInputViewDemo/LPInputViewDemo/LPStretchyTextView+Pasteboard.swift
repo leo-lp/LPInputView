@@ -16,6 +16,10 @@ public extension LPStretchyTextView {
         let mutableAttrString = NSMutableAttributedString()
         mutableAttrString.append(textAttrString("", checkAtUser: true))
         mutableAttrString.append(attrString)
+        if let font = originalTextFont {
+            let range = NSRange(location: 0, length: mutableAttrString.length)
+            mutableAttrString.addAttributes([.font : font], range: range)
+        }
         insertAttrString(mutableAttrString)
     }
     

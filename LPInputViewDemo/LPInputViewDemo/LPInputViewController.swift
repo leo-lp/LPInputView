@@ -92,6 +92,8 @@ extension LPInputViewController: LPInputViewDelegate, LPEmoticonViewDelegate {
         switch type {
         case .emotion:
             return LPEmoticonView.instance(delegate: self)
+        case .more:
+            return LPMoreView(target: self, action: #selector(moreItemClicked))
         default:
             return nil
         }
@@ -122,7 +124,7 @@ extension LPInputViewController: LPInputViewDelegate, LPEmoticonViewDelegate {
     
     func inputEmoticon(id: String, img: UIImage) {
         guard let textView = inputBar.textView else { return }
-        textView.insertEmotion(LPTextAttachment(image: img, scale: 1.2, tag: id))
+        textView.insertEmotion(LPTextAttachment(image: img, scale: 1.0, tag: id))
     }
     
     func inputEmoticonDelete() {
@@ -132,6 +134,9 @@ extension LPInputViewController: LPInputViewDelegate, LPEmoticonViewDelegate {
     func inputEmoticonSend() {
         sendMSG()
     }
+    
+    // MARK: -
+    // MARK: - Action
     
     private func pushFriendsVC(_ character: String?) {
         let vc = LPFriendListController(style: .plain)
@@ -154,5 +159,13 @@ extension LPInputViewController: LPInputViewDelegate, LPEmoticonViewDelegate {
         print(result.description)
         
         textView.clearTextStorage()
+    }
+    
+    @objc private func moreItemClicked(_ sender: UIButton) {
+        let title = "提示"
+        let msg = "您点击了“\(sender.titleLabel?.text ?? "")”"
+        let alert = UIAlertController(title: title, message: msg, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "👌", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
 }

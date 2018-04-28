@@ -29,7 +29,7 @@ public struct LPInputToolBarItemType: OptionSet, Hashable {
     public static let emotion = LPInputToolBarItemType(rawValue: 1 << 4)
     
     /// 更多菜单
-    //public static let more    = LPInputToolBarItemType(rawValue: 1 << 5)
+    public static let more    = LPInputToolBarItemType(rawValue: 1 << 5)
 }
 
 public enum LPInputSeparatorLocation {
