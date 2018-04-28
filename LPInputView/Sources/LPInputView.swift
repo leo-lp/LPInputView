@@ -51,7 +51,12 @@ public class LPInputView: UIView {
     
     public override func didMoveToWindow() {
         guard window != nil else { return }
-        toolBar.sizeToFit()
+        let size = toolBar.sizeThatFits(CGSize(width: frame.width,
+                                               height: CGFloat.greatestFiniteMagnitude))
+        if toolBar.frame.size != size {
+            toolBar.frame.size = size
+            resetLayout()
+        }
         guard toolBar.superview == nil else { return }
         addSubview(toolBar)
     }
@@ -61,22 +66,22 @@ public class LPInputView: UIView {
 
 public extension LPInputView {
     
-    var textView: LPStretchyTextView? {
-        return toolBar.textView
-    }
+//    var textView: LPStretchyTextView? {
+//        return toolBar.textView
+//    }
     
-    var isShowKeyboard: Bool {
-        get { return toolBar.isShowKeyboard }
-        set { toolBar.isShowKeyboard = newValue }
-    }
+//    var isShowKeyboard: Bool {
+//        get { return toolBar.isShowKeyboard }
+//        set { toolBar.isShowKeyboard = newValue }
+//    }
     
     func endEditing() {
-        if toolBar.isShowKeyboard {
-            toolBar.isShowKeyboard = false
-        } else if isUp {
-            renewStatus(to: .text, isDelay: true)
-            resetLayout()
-        }
+//        if toolBar.isShowKeyboard {
+//            toolBar.isShowKeyboard = false
+//        } else if isUp {
+//            renewStatus(to: .text, isDelay: true)
+//            resetLayout()
+//        }
     }
     
     var isUp: Bool {
@@ -91,12 +96,12 @@ public extension LPInputView {
     }
     
     func showOrHideContainer(for type: LPInputToolBarItemType) {
-        if status != type {
-            showContainer(for: type)
-        } else {
-            renewStatus(to: .text, isDelay: false)
-            toolBar.isShowKeyboard = true
-        }
+//        if status != type {
+//            showContainer(for: type)
+//        } else {
+//            renewStatus(to: .text, isDelay: false)
+//            toolBar.isShowKeyboard = true
+//        }
     }
     
     func showContainer(for type: LPInputToolBarItemType) {
@@ -132,11 +137,11 @@ public extension LPInputView {
             container.frame.origin.y = self.toolBar.frame.maxY
         }, completion: nil)
         
-        if toolBar.isShowKeyboard {
-            toolBar.isShowKeyboard = false
-        } else {
-            resetLayout()
-        }
+//        if toolBar.isShowKeyboard {
+//            toolBar.isShowKeyboard = false
+//        } else {
+//            resetLayout()
+//        }
     }
 }
 
@@ -181,39 +186,39 @@ extension LPInputView: LPInputToolBarDelegate {
     }
     
     func toolBar(_ toolBar: LPInputToolBar, textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if let delegate = delegate
-            , let textView = textView as? LPStretchyTextView
-            , !delegate.inputView(self, textView: textView, shouldChangeTextIn: range, replacementText: text)
-        { return false }
-        
-        if text == "\n" && textView.returnKeyType == .send {
-            if let delegate = delegate
-                , let textView = textView as? LPStretchyTextView
-                , delegate.inputView(self, sendFor: textView) {
-                textView.clearTextStorage()
-            }
-            return false
-        }
+//        if let delegate = delegate
+//            , let textView = textView as? LPStretchyTextView
+//            , !delegate.inputView(self, textView: textView, shouldChangeTextIn: range, replacementText: text)
+//        { return false }
+//        
+//        if text == "\n" && textView.returnKeyType == .send {
+//            if let delegate = delegate
+//                , let textView = textView as? LPStretchyTextView
+//                , delegate.inputView(self, sendFor: textView) {
+//                textView.clearTextStorage()
+//            }
+//            return false
+//        }
         return true
     }
     
-    func toolBar(_ toolBar: LPInputToolBar, textView: LPStretchyTextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int) {
-        guard let delegate = delegate else { return }
-        delegate.inputView(self, textView: textView, didProcessEditing: editedRange, changeInLength: delta)
-        
-        guard textView.textStorage.length > maxInputLength
-            , delegate.inputView(self, shouldHandleForMaximumLengthExceedsLimit: maxInputLength)
-            else { return }
-        
-        DispatchQueue.main.async {
-            let length = textView.textStorage.length - self.maxInputLength
-            guard length > 0 else { return }
-            
-            let range = NSRange(location: self.maxInputLength - 1, length: length)
-            textView.textStorage.deleteCharacters(in: range)
-            textView.selectedRange = NSRange(location: range.location, length: 0)
-        }
-    }
+//    func toolBar(_ toolBar: LPInputToolBar, textView: LPStretchyTextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int) {
+//        guard let delegate = delegate else { return }
+//        delegate.inputView(self, textView: textView, didProcessEditing: editedRange, changeInLength: delta)
+//
+//        guard textView.textStorage.length > maxInputLength
+//            , delegate.inputView(self, shouldHandleForMaximumLengthExceedsLimit: maxInputLength)
+//            else { return }
+//
+//        DispatchQueue.main.async {
+//            let length = textView.textStorage.length - self.maxInputLength
+//            guard length > 0 else { return }
+//
+//            let range = NSRange(location: self.maxInputLength - 1, length: length)
+//            textView.textStorage.deleteCharacters(in: range)
+//            textView.selectedRange = NSRange(location: range.location, length: 0)
+//        }
+//    }
     
     func toolBar(_ toolBar: LPInputToolBar, inputAtCharacter character: String) {
         delegate?.inputView(self, inputAtCharacter: character)

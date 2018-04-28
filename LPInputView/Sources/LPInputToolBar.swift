@@ -15,7 +15,7 @@ protocol LPInputToolBarDelegate: class {
     func toolBar(_ toolBar: LPInputToolBar, textViewShouldBeginEditing textView: UITextView) -> Bool
     
     func toolBar(_ toolBar: LPInputToolBar, textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool
-    func toolBar(_ toolBar: LPInputToolBar, textView: LPStretchyTextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int)
+//    func toolBar(_ toolBar: LPInputToolBar, textView: LPStretchyTextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int)
     func toolBar(_ toolBar: LPInputToolBar, inputAtCharacter character: String)
 }
 
@@ -54,30 +54,30 @@ public class LPInputToolBar: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public override func sizeThatFits(_ size: CGSize) -> CGSize {
-        guard size.width != 0.0 else { return size }
-        
-        var viewHeight: CGFloat = 0.0
-        var textViewWidth: CGFloat = size.width
-        
-        for type in itemTypes where type != .text {
-            if let item = items[type] {
-                textViewWidth -= item.frame.width
-                viewHeight = max(viewHeight, item.frame.height)
-            }
-        }
-        
-        if let textView = textView {
-            textViewWidth -= (CGFloat(itemTypes.count - 1) * interitemSpacing)
-            textView.frame.size.width = textViewWidth - contentInset.left - contentInset.right
-            
-            textView.layoutIfNeeded() // TextView 自适应高度
-            viewHeight = textView.frame.height
-        }
-        
-        viewHeight = viewHeight + contentInset.top + contentInset.bottom
-        return CGSize(width: size.width, height: viewHeight)
-    }
+//    public override func sizeThatFits(_ size: CGSize) -> CGSize {
+//        guard size.width != 0.0 else { return size }
+//        
+//        var viewHeight: CGFloat = 0.0
+//        var textViewWidth: CGFloat = size.width
+//        
+//        for type in itemTypes where type != .text {
+//            if let item = items[type] {
+//                textViewWidth -= item.frame.width
+//                viewHeight = max(viewHeight, item.frame.height)
+//            }
+//        }
+//        
+//        if let textView = textView {
+//            textViewWidth -= (CGFloat(itemTypes.count - 1) * interitemSpacing)
+//            textView.frame.size.width = textViewWidth - contentInset.left - contentInset.right
+//            
+//            textView.layoutIfNeeded() // TextView 自适应高度
+//            viewHeight = textView.frame.height
+//        }
+//        
+//        viewHeight = viewHeight + contentInset.top + contentInset.bottom
+//        return CGSize(width: size.width, height: viewHeight)
+//    }
     
     public override func layoutSubviews() {
         super.layoutSubviews()
@@ -106,22 +106,22 @@ public class LPInputToolBar: UIView {
 
 public extension LPInputToolBar {
     
-    var textView: LPStretchyTextView? {
-        if let textView = items[.text] as? LPStretchyTextView { return textView }
-        return config.textViewOfCustomToolBarItem
-    }
+//    var textView: LPStretchyTextView? {
+//        if let textView = items[.text] as? LPStretchyTextView { return textView }
+//        return config.textViewOfCustomToolBarItem
+//    }
     
-    var isShowKeyboard: Bool {
-        get { return textView?.isFirstResponder ?? false }
-        set {
-            guard let textView = textView else { return }
-            if newValue {
-                textView.becomeFirstResponder()
-            } else {
-                textView.resignFirstResponder()
-            }
-        }
-    }
+//    var isShowKeyboard: Bool {
+//        get { return textView?.isFirstResponder ?? false }
+//        set {
+//            guard let textView = textView else { return }
+//            if newValue {
+//                textView.becomeFirstResponder()
+//            } else {
+//                textView.resignFirstResponder()
+//            }
+//        }
+//    }
     
     func item(with itemType: LPInputToolBarItemType) -> UIView? {
         return items[itemType]
@@ -146,15 +146,15 @@ extension LPInputToolBar {
                 button.sizeToFit()
                 button.addTarget(self, action: #selector(barItemClicked), for: .touchUpInside)
                 items[type] = button
-            case .text:
-                let textView = LPStretchyTextView(frame: .zero)
-                textView.font = UIFont.systemFont(ofSize: 14.0)
-                textView.textColor = UIColor.black
-                textView.backgroundColor = UIColor.clear
-                textView.returnKeyType = .send
-                config.configTextView(textView, type: type)
-                textView.tag = type.rawValue
-                items[type] = textView
+//            case .text:
+//                let textView = LPStretchyTextView(frame: .zero)
+//                textView.font = UIFont.systemFont(ofSize: 14.0)
+//                textView.textColor = UIColor.black
+//                textView.backgroundColor = UIColor.clear
+//                textView.returnKeyType = .send
+//                config.configTextView(textView, type: type)
+//                textView.tag = type.rawValue
+//                items[type] = textView
             default:
                 if let custom = config.configCustomBarItem(for: type) {
                     custom.tag = type.rawValue
@@ -163,10 +163,10 @@ extension LPInputToolBar {
             }
         }
         
-        if let textView = textView {
-            textView.stretchyDelegate = self
-            textView.isAtEnabled = config.isAtEnabled
-        }
+//        if let textView = textView {
+//            textView.stretchyDelegate = self
+//            textView.isAtEnabled = config.isAtEnabled
+//        }
         
         /// 处理分隔符
         guard let separators = config.separatorOfToolBar else { return }
@@ -196,23 +196,23 @@ extension LPInputToolBar {
 
 extension LPInputToolBar: LPStretchyTextViewDelegate {
     
-    public func textView(_ textView: LPStretchyTextView, heightDidChange newHeight: CGFloat) {
-        guard let delegate = delegate else { return }
-        let height = newHeight + contentInset.top + contentInset.bottom
-        let options = UIViewAnimationOptions(rawValue: 7)
-        UIView.animate(withDuration: 0.25, delay: 0.0, options: options, animations: {
-            self.frame.size.height = height
-        }, completion: nil)
-        delegate.toolBarDidChangeHeight(self)
-    }
+//    public func textView(_ textView: LPStretchyTextView, heightDidChange newHeight: CGFloat) {
+//        guard let delegate = delegate else { return }
+//        let height = newHeight + contentInset.top + contentInset.bottom
+//        let options = UIViewAnimationOptions(rawValue: 7)
+//        UIView.animate(withDuration: 0.25, delay: 0.0, options: options, animations: {
+//            self.frame.size.height = height
+//        }, completion: nil)
+//        delegate.toolBarDidChangeHeight(self)
+//    }
     
-    public func textView(_ textView: LPStretchyTextView, inputAtCharacter character: String) {
-        delegate?.toolBar(self, inputAtCharacter: character)
-    }
-    
-    public func textView(_ textView: LPStretchyTextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int) {
-        delegate?.toolBar(self, textView: textView, didProcessEditing: editedRange, changeInLength: delta)
-    }
+//    public func textView(_ textView: LPStretchyTextView, inputAtCharacter character: String) {
+//        delegate?.toolBar(self, inputAtCharacter: character)
+//    }
+//
+//    public func textView(_ textView: LPStretchyTextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int) {
+//        delegate?.toolBar(self, textView: textView, didProcessEditing: editedRange, changeInLength: delta)
+//    }
     
     public func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         return delegate?.toolBar(self, textViewShouldBeginEditing: textView) ?? true

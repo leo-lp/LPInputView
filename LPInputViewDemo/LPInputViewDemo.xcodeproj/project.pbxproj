@@ -194,8 +194,8 @@
 			isa = PBXGroup;
 			children = (
 				18B90E5920946A310040C1FA /* LPCustomInputViewController.swift */,
-				18B90E5F20946CCF0040C1FA /* LPCustomInputViewCell.swift */,
 				18B90E5D20946B600040C1FA /* LPCustomInputViewConfig.swift */,
+				18B90E5F20946CCF0040C1FA /* LPCustomInputViewCell.swift */,
 				18B90E6120946DDA0040C1FA /* LPCustomInputToolBar.swift */,
 				18B90E6220946DDA0040C1FA /* LPCustomInputToolBar.xib */,
 			);

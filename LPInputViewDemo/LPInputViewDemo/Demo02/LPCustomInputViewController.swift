@@ -14,11 +14,13 @@ class LPCustomInputViewController: UIViewController {
     
     lazy var inputBar: LPInputView = {
         let rect = CGRect(x: 0, y: 0, width: view.frame.width, height: 60)
-        return LPInputView(frame: rect, config: LPInputViewConfig())
+        return LPInputView(frame: rect, config: self)
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.reloadData()
+        
         tableView.layer.borderColor = UIColor.red.cgColor
         tableView.layer.borderWidth = 1
         
@@ -39,7 +41,7 @@ class LPCustomInputViewController: UIViewController {
 
 extension LPCustomInputViewController: UITableViewDelegate, UITableViewDataSource {
     
-    private var textCell: LPCustomInputViewCell? {
+    var textCell: LPCustomInputViewCell? {
         let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 0))
         return cell as? LPCustomInputViewCell
     }
@@ -105,10 +107,10 @@ extension LPCustomInputViewController: LPInputViewDelegate, LPEmoticonViewDelega
     //    func inputView(_ inputView: LPInputView, textView: LPStretchyTextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
     //    }
     
-    func inputView(_ inputView: LPInputView, textView: LPStretchyTextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int) {
-        navigationItem.rightBarButtonItem?.isEnabled = textView.textStorage.length > 0
-    }
-    
+//    func inputView(_ inputView: LPInputView, textView: LPStretchyTextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int) {
+//        navigationItem.rightBarButtonItem?.isEnabled = textView.textStorage.length > 0
+//    }
+//
     func inputView(_ inputView: LPInputView, inputAtCharacter character: String) {
         pushFriendsVC(character)
     }
@@ -118,20 +120,20 @@ extension LPCustomInputViewController: LPInputViewDelegate, LPEmoticonViewDelega
         return true
     }
     
-    func inputView(_ inputView: LPInputView, sendFor textView: LPStretchyTextView) -> Bool {
-        sendMSG()
-        return true
-    }
+//    func inputView(_ inputView: LPInputView, sendFor textView: LPStretchyTextView) -> Bool {
+//        sendMSG()
+//        return true
+//    }
     
     // MARK: - LPEmoticonViewDelegate
     
     func inputEmoticon(id: String, img: UIImage) {
-        guard let textView = inputBar.textView else { return }
-        textView.insertEmotion(LPTextAttachment(image: img, scale: 1.0, tag: id))
+//        guard let textView = inputBar.textView else { return }
+//        textView.insertEmotion(LPTextAttachment(image: img, scale: 1.0, tag: id))
     }
     
     func inputEmoticonDelete() {
-        inputBar.textView?.deleteCharacters()
+//        inputBar.textView?.deleteCharacters()
     }
     
     func inputEmoticonSend() {
@@ -141,27 +143,27 @@ extension LPCustomInputViewController: LPInputViewDelegate, LPEmoticonViewDelega
     // MARK: -
     // MARK: - Action
     
-    private func pushFriendsVC(_ character: String?) {
-        let vc = LPFriendListController(style: .plain)
-        let nav = UINavigationController(rootViewController: vc)
-        present(nav, animated: true, completion: nil)
-        vc.selectedBlock = { friend in
-            self.inputBar.textView?.insertUser(withID: friend.id,
-                                               name: friend.name,
-                                               checkAt: character)
-        }
+    func pushFriendsVC(_ character: String?) {
+//        let vc = LPFriendListController(style: .plain)
+//        let nav = UINavigationController(rootViewController: vc)
+//        present(nav, animated: true, completion: nil)
+//        vc.selectedBlock = { friend in
+//            self.inputBar.textView?.insertUser(withID: friend.id,
+//                                               name: friend.name,
+//                                               checkAt: character)
+//        }
     }
     
     private func sendMSG() {
-        guard let textView = inputBar.textView else { return }
-        
-        let atUserPlaceholderByBlock: (Int, LPAtUser) -> String = { (index, _) -> String in
-            return "@{\(index)}"
-        }
-        let result = textView.textStorage.lp_parse(atUserPlaceholderByBlock)
-        print(result.description)
-        
-        textView.clearTextStorage()
+//        guard let textView = inputBar.textView else { return }
+//        
+//        let atUserPlaceholderByBlock: (Int, LPAtUser) -> String = { (index, _) -> String in
+//            return "@{\(index)}"
+//        }
+//        let result = textView.textStorage.lp_parse(atUserPlaceholderByBlock)
+//        print(result.description)
+//        
+//        textView.clearTextStorage()
     }
     
     @objc private func moreItemClicked(_ sender: UIButton) {
