@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="LPCustomInputToolBar" customModule="LPInputViewDemo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EMw-hL-AD8">
+                    <rect key="frame" x="15" y="70" width="60" height="40"/>
+                    <color key="backgroundColor" red="0.58072251080000004" green="0.066734083" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="DUS-28-nQ9"/>
+                        <constraint firstAttribute="width" constant="60" id="rtQ-8c-0Xu"/>
+                    </constraints>
+                    <state key="normal" title="Emotion"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7kb-VD-mCw">
+                    <rect key="frame" x="300" y="10" width="60" height="40"/>
+                    <color key="backgroundColor" red="0.58072251080000004" green="0.066734083" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="9Ix-yg-niq"/>
+                        <constraint firstAttribute="width" constant="60" id="M05-0T-Lj9"/>
+                    </constraints>
+                    <state key="normal" title="权限"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S7q-uu-y4n">
+                    <rect key="frame" x="300" y="70" width="60" height="40"/>
+                    <color key="backgroundColor" red="0.58072251080000004" green="0.066734083" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="G68-9i-rCR"/>
+                        <constraint firstAttribute="width" constant="60" id="e95-8v-OVg"/>
+                    </constraints>
+                    <state key="normal" title="@"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3mQ-bz-9mD">
+                    <rect key="frame" x="15" y="10" width="60" height="40"/>
+                    <color key="backgroundColor" red="0.58072251080000004" green="0.066734083" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="60" id="63s-PZ-l6r"/>
+                        <constraint firstAttribute="height" constant="40" id="fSm-Cp-IHI"/>
+                    </constraints>
+                    <state key="normal" title="定位"/>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="7kb-VD-mCw" secondAttribute="trailing" constant="15" id="DBa-5u-eUv"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="S7q-uu-y4n" secondAttribute="trailing" constant="15" id="F8r-xF-voO"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="S7q-uu-y4n" secondAttribute="bottom" constant="10" id="FQg-bz-dKc"/>
+                <constraint firstItem="3mQ-bz-9mD" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="15" id="Hji-7c-lF2"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="EMw-hL-AD8" secondAttribute="bottom" constant="10" id="gOc-KP-y4n"/>
+                <constraint firstItem="7kb-VD-mCw" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="10" id="hAN-S1-DlM"/>
+                <constraint firstItem="3mQ-bz-9mD" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="10" id="ng9-1c-fGd"/>
+                <constraint firstItem="EMw-hL-AD8" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="15" id="xgA-KQ-TqF"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="atButton" destination="S7q-uu-y4n" id="IVt-jD-oB4"/>
+                <outlet property="emotionButton" destination="EMw-hL-AD8" id="Vrk-0r-1XH"/>
+                <outlet property="loationButton" destination="3mQ-bz-9mD" id="orA-C3-7v9"/>
+            </connections>
+            <point key="canvasLocation" x="-945" y="99"/>
+        </view>
+    </objects>
+</document>

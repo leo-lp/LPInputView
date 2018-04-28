@@ -9,9 +9,9 @@
 import UIKit
 import LPInputView
 
-public extension LPStretchyTextView {
+extension LPStretchyTextView {
     
-    override func paste(_ sender: Any?) {
+    override open func paste(_ sender: Any?) {
         guard let attrString = UIPasteboard.general.lp_attributedString else { return }
         let mutableAttrString = NSMutableAttributedString()
         mutableAttrString.append(textAttrString("", checkAtUser: true))
@@ -23,14 +23,14 @@ public extension LPStretchyTextView {
         insertAttrString(mutableAttrString)
     }
     
-    override func cut(_ sender: Any?) {
+    override open func cut(_ sender: Any?) {
         guard selectedRange.length > 0 else { return }
         let attrString = textStorage.attributedSubstring(from: selectedRange)
         deleteSelectedCharacter()
         UIPasteboard.general.lp_attributedString = attrString
     }
     
-    override func copy(_ sender: Any?) {
+    override open func copy(_ sender: Any?) {
         guard selectedRange.length > 0 else { return }
         let attrString = textStorage.attributedSubstring(from: selectedRange)
         UIPasteboard.general.lp_attributedString = attrString

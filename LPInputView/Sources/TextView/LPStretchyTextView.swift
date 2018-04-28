@@ -19,12 +19,12 @@ import UIKit
     @objc optional func textView(_ textView: LPStretchyTextView, inputAtCharacter character: String)
 }
 
-public class LPStretchyTextView: UITextView {
-    public weak var stretchyDelegate: LPStretchyTextViewDelegate?
-    public var isAtEnabled: Bool = false
+open class LPStretchyTextView: UITextView {
+    open weak var stretchyDelegate: LPStretchyTextViewDelegate?
+    open var isAtEnabled: Bool = false
     
     /// 限制输入框可输入的最小行数
-    public var minNumberOfLines: Int? {
+    open var minNumberOfLines: Int? {
         didSet {
             if let newValue = minNumberOfLines {
                 if newValue <= 0 { return minHeight = 0 }
@@ -36,7 +36,7 @@ public class LPStretchyTextView: UITextView {
     }
     
     /// 限制输入框可输入的最大行数
-    public var maxNumberOfLines: Int? {
+    open var maxNumberOfLines: Int? {
         didSet {
             if let newValue = maxNumberOfLines {
                 if newValue <= 0 { return maxHeight = 0 }
@@ -67,7 +67,7 @@ public class LPStretchyTextView: UITextView {
         print("LPStretchyTextView: -> release memory.")
     }
     
-    override init(frame: CGRect, textContainer: NSTextContainer?) {
+    public override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
         commonInit()
     }
@@ -77,26 +77,26 @@ public class LPStretchyTextView: UITextView {
         commonInit()
     }
     
-    public override var delegate: UITextViewDelegate? {
+    open override var delegate: UITextViewDelegate? {
         didSet {
             guard let delegate = delegate, !(delegate is LPStretchyTextView) else { return }
             fatalError("禁止使用delegate，请使用LPStretchyTextView.stretchyDelegate.")
         }
     }
     
-    public override var contentSize: CGSize {
+    open override var contentSize: CGSize {
         didSet { resize() }
     }
     
-    public override var font: UIFont? {
+    open override var font: UIFont? {
         didSet { if originalTextFont != font { originalTextFont = font } }
     }
     
-    public override var textColor: UIColor? {
+    open override var textColor: UIColor? {
         didSet { if originalTextColor != textColor { originalTextColor = textColor } }
     }
     
-    public override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+    open override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
         switch action {
         case #selector(copy(_:)),
              #selector(selectAll(_:)),
@@ -109,12 +109,12 @@ public class LPStretchyTextView: UITextView {
         }
     }
     
-    public override func layoutSubviews() {
+    open override func layoutSubviews() {
         super.layoutSubviews()
         setNeedsDisplay()
     }
     
-    public override func draw(_ rect: CGRect) {
+    open override func draw(_ rect: CGRect) {
         super.draw(rect)
         guard isDisplayPlaceholder
             , let placeholder = placeholder else { return }
@@ -191,7 +191,7 @@ extension LPStretchyTextView {
 
 extension LPStretchyTextView: NSTextStorageDelegate {
     
-    public func textStorage(_ textStorage: NSTextStorage, didProcessEditing editedMask: NSTextStorageEditActions, range editedRange: NSRange, changeInLength delta: Int) {
+    open func textStorage(_ textStorage: NSTextStorage, didProcessEditing editedMask: NSTextStorageEditActions, range editedRange: NSRange, changeInLength delta: Int) {
         
         isDisplayPlaceholder = textStorage.length == 0
         if isDisplayPlaceholder {
