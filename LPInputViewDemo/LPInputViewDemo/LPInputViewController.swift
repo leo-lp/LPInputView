@@ -80,6 +80,10 @@ extension LPInputViewController: LPInputViewDelegate, LPEmoticonViewDelegate {
     }
     
     func inputView(_ inputView: LPInputView, shouldHandleClickedFor item: UIButton, type: LPInputToolBarItemType) -> Bool {
+        if type == .at {
+            pushFriendsVC(nil)
+            return false
+        }
         return true
     }
     
@@ -99,11 +103,11 @@ extension LPInputViewController: LPInputViewDelegate, LPEmoticonViewDelegate {
 //    func inputView(_ inputView: LPInputView, textView: LPStretchyTextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int) {
 //        <#code#>
 //    }
-//
-//    func inputView(_ inputView: LPInputView, inputAtCharacter character: String) {
-//        <#code#>
-//    }
-//
+
+    func inputView(_ inputView: LPInputView, inputAtCharacter character: String) {
+        pushFriendsVC(character)
+    }
+
 //    func inputView(_ inputView: LPInputView, shouldHandleForMaximumLengthExceedsLimit maxLength: Int) -> Bool {
 //        <#code#>
 //    }
@@ -115,15 +119,26 @@ extension LPInputViewController: LPInputViewDelegate, LPEmoticonViewDelegate {
     // MARK: - LPEmoticonViewDelegate
     
     func inputEmoticon(id: String, img: UIImage) {
-        guard let textView = inputBar.toolBar.textView else { return }
+        guard let textView = inputBar.textView else { return }
         textView.insertEmotion(LPTextAttachment(image: img, scale: 1.2, tag: id))
     }
     
     func inputEmoticonDelete() {
-        inputBar.toolBar.textView?.deleteEmotion()
+        inputBar.textView?.deleteCharacters()
     }
     
     func inputEmoticonSend() {
         
+    }
+    
+    private func pushFriendsVC(_ character: String?) {
+        let vc = LPFriendListController(style: .plain)
+        let nav = UINavigationController(rootViewController: vc)
+        present(nav, animated: true, completion: nil)
+        vc.selectedBlock = { friend in
+            self.inputBar.textView?.insertUser(withID: friend.id,
+                                               name: friend.name,
+                                               checkAt: character)
+        }
     }
 }

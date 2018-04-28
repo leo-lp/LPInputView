@@ -141,7 +141,7 @@ extension LPInputToolBar {
         
         for type in itemTypes {
             switch type {
-            case .emotion:
+            case .emotion, .at:
                 let button = UIButton(type: .custom)
                 config.configButton(button, type: type)
                 button.tag = type.rawValue

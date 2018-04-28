@@ -61,6 +61,10 @@ public class LPInputView: UIView {
 
 public extension LPInputView {
     
+    var textView: LPStretchyTextView? {
+        return toolBar.textView
+    }
+    
     var isShowKeyboard: Bool {
         get { return toolBar.isShowKeyboard }
         set { toolBar.isShowKeyboard = newValue }
@@ -152,6 +156,8 @@ extension LPInputView: LPInputToolBarDelegate {
         }
 
         switch type {
+        case .text:
+            break
 //        case .voice:
 //            if status != .voice {
 //                refreshStatus(.voice)
@@ -163,12 +169,8 @@ extension LPInputView: LPInputToolBarDelegate {
 //                refreshStatus(.text)
 //                toolBar.isShowKeyboard = true
 //            }
-            //case .emotion, .more:
-        case .emotion:
-            showOrHideContainer(for: type)
         default:
-            //showOrHideContainer(for: type)
-            break
+            showOrHideContainer(for: type)
         }
     }
     

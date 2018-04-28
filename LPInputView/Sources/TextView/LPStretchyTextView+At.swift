@@ -63,15 +63,19 @@ public extension LPStretchyTextView {
     
     /// 删除字符（注：包括At用户 和 emotion表情）
     func deleteCharacters() {
-        if selectedRange.length > 0 {
-            if !deleteUser(in: selectedRange) {
-                deleteEmotion()
+        if isAtEnabled {
+            if selectedRange.length > 0 {
+                if !deleteUser(in: selectedRange) {
+                    deleteEmotion()
+                }
+            } else if selectedRange.location > 0 {
+                let range = NSRange(location: selectedRange.location - 1, length: 1)
+                if !deleteUser(in: range) {
+                    deleteEmotion()
+                }
             }
-        } else if selectedRange.location > 0 {
-            let range = NSRange(location: selectedRange.location - 1, length: 1)
-            if !deleteUser(in: range) {
-                deleteEmotion()
-            }
+        } else {
+            deleteEmotion()
         }
     }
 }

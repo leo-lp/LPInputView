@@ -9,32 +9,29 @@
 import UIKit
 
 public extension LPTextAttachment {
-    typealias LPOffset = CGFloat
-    
     /// image垂直对齐方式
-    /// 注：LPOffset为上下偏移量
     ///
     /// - top: 顶部对齐
     /// - center: 居中对齐
     /// - bottom: 底部对齐
-    enum LPAlignment {
-        case top(LPOffset)
-        case center(LPOffset)
-        case bottom(LPOffset)
+    public enum LPAlignment {
+        case top
+        case center
+        case bottom
     }
 }
 
 public class LPTextAttachment: NSTextAttachment {
     public var tagName: String? // 标记
     public var imageScale: CGFloat = 1.0
-    public var alignment: LPAlignment = .center(0.0)
+    public var alignment: LPAlignment = .center
     public var font: UIFont?
     
     private var baseLineHeight: CGFloat = 0.0
     
     public convenience init(image: UIImage,
                      scale: CGFloat = 1.0,
-                     alignment: LPAlignment = .center(0.0),
+                     alignment: LPAlignment = .center,
                      tag: String? = nil,
                      font: UIFont? = nil) {
         self.init()
@@ -47,9 +44,9 @@ public class LPTextAttachment: NSTextAttachment {
     
     // 重写以返回附件的大小
     public override func attachmentBounds(for textContainer: NSTextContainer?,
-                                   proposedLineFragment lineFrag: CGRect,
-                                   glyphPosition position: CGPoint,
-                                   characterIndex charIndex: Int) -> CGRect {
+                                          proposedLineFragment lineFrag: CGRect,
+                                          glyphPosition position: CGPoint,
+                                          characterIndex charIndex: Int) -> CGRect {
         guard let img = image else {
             return super.attachmentBounds(for: textContainer,
                                           proposedLineFragment: lineFrag,
@@ -75,9 +72,9 @@ public class LPTextAttachment: NSTextAttachment {
         let width = height * img.size.width / img.size.height
         
         switch alignment {
-        case .top(let offset): y -= (height - baseLineHeight) + offset
-        case .center(let offset): y -= (height - baseLineHeight) / 2  + offset
-        case .bottom(let offset): y = offset
+        case .top: y -= (height - baseLineHeight)
+        case .center: y -= (height - baseLineHeight) / 2
+        case .bottom: y = 0.0
         }
         return CGRect(x: 0, y: y, width: width, height: height)
     }

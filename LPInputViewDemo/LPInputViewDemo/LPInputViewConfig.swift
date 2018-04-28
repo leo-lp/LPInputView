@@ -15,8 +15,12 @@ class LPInputViewConfig: LPInputToolBarConfig {
         print("LPInputViewConfig: -> release memory.")
     }
     
+    var isAtEnabled: Bool {
+        return true
+    }
+    
     var toolBarItems: [LPInputToolBarItemType] {
-        return [LPInputToolBarItemType.text, LPInputToolBarItemType.emotion]
+        return [.text, .emotion, .at]
     }
     
     func configButton(_ button: UIButton, type: LPInputToolBarItemType) {
@@ -27,10 +31,10 @@ class LPInputViewConfig: LPInputToolBarConfig {
             button.setImage(#imageLiteral(resourceName: "icon_toolview_emotion_normal"), for: .normal)
 //        case .more:
 //            button.setImage(#imageLiteral(resourceName: "icon_toolview_add_normal"), for: .normal)
-//        case .at:
-//            button.setTitle("@", for: .normal)
-//            button.setTitleColor(UIColor.darkGray, for: .normal)
-//            button.titleLabel?.font = UIFont.systemFont(ofSize: 18.0)
+        case .at:
+            button.setTitle("@", for: .normal)
+            button.setTitleColor(UIColor.darkGray, for: .normal)
+            button.titleLabel?.font = UIFont.systemFont(ofSize: 32.0)
         default: break
         }
     }

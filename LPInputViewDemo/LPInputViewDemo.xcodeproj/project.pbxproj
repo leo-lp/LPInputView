@@ -24,6 +24,7 @@
 		1862FDE7208F247D002009A4 /* LPEmoticonView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1862FDDF208F247D002009A4 /* LPEmoticonView.xib */; };
 		1862FDE8208F247D002009A4 /* LPMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1862FDE1208F247D002009A4 /* LPMoreView.swift */; };
 		1862FDEA208F36A5002009A4 /* LPEmotion.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1862FDE9208F36A5002009A4 /* LPEmotion.bundle */; };
+		18B90E5220945C720040C1FA /* LPFriendListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B90E5120945C720040C1FA /* LPFriendListController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,7 @@
 		1862FDDF208F247D002009A4 /* LPEmoticonView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LPEmoticonView.xib; sourceTree = "<group>"; };
 		1862FDE1208F247D002009A4 /* LPMoreView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPMoreView.swift; sourceTree = "<group>"; };
 		1862FDE9208F36A5002009A4 /* LPEmotion.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = LPEmotion.bundle; sourceTree = "<group>"; };
+		18B90E5120945C720040C1FA /* LPFriendListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPFriendListController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 				180F023B208DB1D900DF3C12 /* Main.storyboard */,
 				180F0268208DB35300DF3C12 /* LPInputViewController.swift */,
 				180F0282208DCBDD00DF3C12 /* LPInputViewConfig.swift */,
+				18B90E5120945C720040C1FA /* LPFriendListController.swift */,
 				180F023E208DB1DA00DF3C12 /* Assets.xcassets */,
 				180F0240208DB1DA00DF3C12 /* LaunchScreen.storyboard */,
 				180F0243208DB1DA00DF3C12 /* Info.plist */,
@@ -263,6 +266,7 @@
 				180F0269208DB35300DF3C12 /* LPInputViewController.swift in Sources */,
 				1862FDE8208F247D002009A4 /* LPMoreView.swift in Sources */,
 				180F0283208DCBDD00DF3C12 /* LPInputViewConfig.swift in Sources */,
+				18B90E5220945C720040C1FA /* LPFriendListController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

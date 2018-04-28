@@ -20,7 +20,7 @@ public struct LPInputToolBarItemType: OptionSet, Hashable {
     //public static let voice   = LPInputToolBarItemType(rawValue: 1 << 1)
     
     /// @好友
-    //public static let at      = LPInputToolBarItemType(rawValue: 1 << 2)
+    public static let at      = LPInputToolBarItemType(rawValue: 1 << 2)
     
     /// 文本输入框
     public static let text    = LPInputToolBarItemType(rawValue: 1 << 3)
