@@ -59,6 +59,7 @@ public class LPInputView: UIView {
         }
         guard toolBar.superview == nil else { return }
         addSubview(toolBar)
+        setRecordButton()
     }
 }
 
@@ -86,7 +87,7 @@ public extension LPInputView {
     
     var isUp: Bool {
         switch status {
-        //case .voice: return false
+        case .voice: return false
         case .text:  return LPKeyboard.shared.isVisiable
         case .more, .emotion: return true
         default:
@@ -105,25 +106,8 @@ public extension LPInputView {
     }
     
     func showContainer(for type: LPInputToolBarItemType) {
-        guard type != .text else { return }
-        
-        var newContainer: UIView? {
-            if let container = containers[type] { return container }
-            guard let container = delegate?.inputView(self, containerViewFor: type)
-                else { return nil }
-            
-            var size = container.sizeThatFits(CGSize(width: frame.width,
-                                                     height: CGFloat.greatestFiniteMagnitude))
-            if bottomFill {
-                size.height += LPKeyboard.shared.safeAreaInsets.bottom
-            }
-            container.frame.size = size
-            container.autoresizingMask = .flexibleWidth
-            containers[type] = container
-            return container
-        }
-        
-        guard let container = newContainer else { return }
+        guard type != .text
+            , let container = container(for: type) else { return }
         
         if container.superview == nil { addSubview(container) }
         
@@ -162,17 +146,18 @@ extension LPInputView: LPInputToolBarDelegate {
         switch type {
         case .text:
             break
-//        case .voice:
-//            if status != .voice {
-//                refreshStatus(.voice)
-//                sizeToFit()
-//                if toolBar.isShowKeyboard {
-//                    toolBar.isShowKeyboard = false
-//                }
-//            } else {
-//                refreshStatus(.text)
-//                toolBar.isShowKeyboard = true
-//            }
+        case .voice:
+            if status != .voice {
+                renewStatus(to: .voice, isDelay: true)
+                if toolBar.isShowKeyboard {
+                    toolBar.isShowKeyboard = false
+                } else {
+                    resetLayout()
+                }
+            } else {
+                renewStatus(to: .text, isDelay: false)
+                toolBar.isShowKeyboard = true
+            }
         default:
             showOrHideContainer(for: type)
         }
@@ -237,6 +222,22 @@ extension LPInputView: LPInputToolBarDelegate {
 
 extension LPInputView {
     
+    private func container(for type: LPInputToolBarItemType) -> UIView? {
+        if let container = containers[type] { return container }
+        guard let container = delegate?.inputView(self, containerViewFor: type)
+            else { return nil }
+        
+        var size = container.sizeThatFits(CGSize(width: frame.width,
+                                                 height: CGFloat.greatestFiniteMagnitude))
+        if bottomFill {
+            size.height += LPKeyboard.shared.safeAreaInsets.bottom
+        }
+        container.frame.size = size
+        container.autoresizingMask = .flexibleWidth
+        containers[type] = container
+        return container
+    }
+    
     private func renewStatus(to status: LPInputToolBarItemType, isDelay: Bool) {
         if self.status != .text {
             let oldStatus = self.status
@@ -250,6 +251,28 @@ extension LPInputView {
                 containers[oldStatus]?.isHidden = true
             }
         }
+        
+//        if status == .voice {
+//            if let voiceContainer = container(for: .voice) {
+//                voiceContainer.alpha = 0.0
+//                if voiceContainer.superview == nil {
+//                    superview?.addSubview(voiceContainer)
+//                }
+//                animate({
+//                    voiceContainer.alpha = 1.0
+//                }, completion: nil)
+//            }
+//        } else if self.status == .voice {
+//            if let voiceContainer = containers[.voice] {
+//                animate({
+//                    voiceContainer.alpha = 0.0
+//                }) { [weak self](finished) in
+//                    guard let _ = self else { return }
+//                    voiceContainer.removeFromSuperview()
+//                }
+//            }
+//        }
+        toolBar.status = status
         self.status = status
     }
     
@@ -310,6 +333,19 @@ extension LPInputView {
                        animations: animations,
                        completion: completion)
     }
+}
+
+// MARK: -
+// MARK: - Audio Record Button
+
+extension LPInputView {
+    
+    private func setRecordButton() {
+        guard let btn = toolBar.recordButton else { return }
+        btn.setup(with: nil)
+    }
+    
+
 }
 
 //extension LPInputView {

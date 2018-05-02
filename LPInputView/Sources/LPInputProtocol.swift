@@ -16,8 +16,9 @@ public protocol LPInputToolBarConfig: class {
     var toolBarItems: [LPInputToolBarItemType] { get }
     
     /// optional
-    func configButton(_ button: UIButton, type: LPInputToolBarItemType)
+    func configItem(_ button: UIButton, type: LPInputToolBarItemType)
     func configTextView(_ textView: LPStretchyTextView, type: LPInputToolBarItemType)
+    func configRecordButton(_ button: LPRecordButton)
     func configCustomBarItem(for type: LPInputToolBarItemType) -> UIView?
     
     var textViewOfCustomToolBarItem: LPStretchyTextView? { get }
@@ -75,10 +76,13 @@ public extension LPInputViewDelegate {
 }
 
 public extension LPInputToolBarConfig {
-    func configButton(_ button: UIButton, type: LPInputToolBarItemType)
+    func configItem(_ button: UIButton, type: LPInputToolBarItemType)
     { }
     
     func configTextView(_ textView: LPStretchyTextView, type: LPInputToolBarItemType)
+    { }
+    
+    func configRecordButton(_ button: LPRecordButton)
     { }
     
     func configCustomBarItem(for type: LPInputToolBarItemType) -> UIView?

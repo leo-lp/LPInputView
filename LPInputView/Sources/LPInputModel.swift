@@ -17,7 +17,7 @@ public struct LPInputToolBarItemType: OptionSet, Hashable {
     public static let none    = LPInputToolBarItemType.text
     
     /// 录音切换按钮
-    //public static let voice   = LPInputToolBarItemType(rawValue: 1 << 1)
+    public static let voice   = LPInputToolBarItemType(rawValue: 1 << 1)
     
     /// @好友
     public static let at      = LPInputToolBarItemType(rawValue: 1 << 2)

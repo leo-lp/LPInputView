@@ -20,21 +20,15 @@ class LPInputViewConfig: LPInputToolBarConfig {
     }
     
     var toolBarItems: [LPInputToolBarItemType] {
-        return [.text, .emotion, .at, .more]
+        return [.voice, .text, .emotion, .at, .more]
     }
     
-    func configButton(_ button: UIButton, type: LPInputToolBarItemType) {
+    func configItem(_ button: UIButton, type: LPInputToolBarItemType) {
         switch type {
-//        case .voice:
-//            button.setImage(#imageLiteral(resourceName: "icon_toolview_voice_normal"), for: .normal)
-        case .emotion:
-            button.setImage(#imageLiteral(resourceName: "icon_toolview_emotion_normal"), for: .normal)
-        case .more:
-            button.setImage(#imageLiteral(resourceName: "icon_toolview_add_normal"), for: .normal)
-        case .at:
-            button.setTitle("@", for: .normal)
-            button.setTitleColor(UIColor.darkGray, for: .normal)
-            button.titleLabel?.font = UIFont.systemFont(ofSize: 32.0)
+        case .voice:   button.setImage(#imageLiteral(resourceName: "icon_toolview_voice_normal"), for: .normal)
+        case .emotion: button.setImage(#imageLiteral(resourceName: "icon_toolview_emotion_normal"), for: .normal)
+        case .more:    button.setImage(#imageLiteral(resourceName: "icon_toolview_add_normal"), for: .normal)
+        case .at:      button.setImage(#imageLiteral(resourceName: "btn_at"), for: .normal)
         default: break
         }
     }
@@ -49,6 +43,10 @@ class LPInputViewConfig: LPInputToolBarConfig {
         textView.layer.borderColor = #colorLiteral(red: 0.8862745098, green: 0.8862745098, blue: 0.8862745098, alpha: 1).cgColor
         textView.layer.borderWidth = 0.5
         textView.layer.cornerRadius = 4
+    }
+    
+    func configRecordButton(_ button: LPRecordButton) {
+        button.setImage(#imageLiteral(resourceName: "btn_voice_record"), for: .normal)
     }
     
 //    func configCustomBarItem(for type: LPInputToolBarItemType) -> UIView? {

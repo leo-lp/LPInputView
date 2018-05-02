@@ -32,6 +32,7 @@
 		18B90E6020946CCF0040C1FA /* LPCustomInputViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B90E5F20946CCF0040C1FA /* LPCustomInputViewCell.swift */; };
 		18B90E6320946DDA0040C1FA /* LPCustomInputToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B90E6120946DDA0040C1FA /* LPCustomInputToolBar.swift */; };
 		18B90E6420946DDA0040C1FA /* LPCustomInputToolBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18B90E6220946DDA0040C1FA /* LPCustomInputToolBar.xib */; };
+		18BBBC2A20996ADB008D4464 /* LPInputAudioRecordIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BBBC2920996ADB008D4464 /* LPInputAudioRecordIndicatorView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +93,7 @@
 		18B90E5F20946CCF0040C1FA /* LPCustomInputViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPCustomInputViewCell.swift; sourceTree = "<group>"; };
 		18B90E6120946DDA0040C1FA /* LPCustomInputToolBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPCustomInputToolBar.swift; sourceTree = "<group>"; };
 		18B90E6220946DDA0040C1FA /* LPCustomInputToolBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LPCustomInputToolBar.xib; sourceTree = "<group>"; };
+		18BBBC2920996ADB008D4464 /* LPInputAudioRecordIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPInputAudioRecordIndicatorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				1862FDD9208F247C002009A4 /* LPCustomView.swift */,
+				18BBBC2920996ADB008D4464 /* LPInputAudioRecordIndicatorView.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -303,6 +306,7 @@
 				1862FDE2208F247D002009A4 /* LPCustomView.swift in Sources */,
 				18B90E5E20946B600040C1FA /* LPCustomInputViewConfig.swift in Sources */,
 				180F0267208DB2EB00DF3C12 /* LPAppDelegate.swift in Sources */,
+				18BBBC2A20996ADB008D4464 /* LPInputAudioRecordIndicatorView.swift in Sources */,
 				1862FDD5208EDF8C002009A4 /* LPMainViewController.swift in Sources */,
 				1862FDE4208F247D002009A4 /* LPEmoticonCell.swift in Sources */,
 				18B90E6020946CCF0040C1FA /* LPCustomInputViewCell.swift in Sources */,

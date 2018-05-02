@@ -21,14 +21,20 @@ protocol LPInputToolBarDelegate: class {
 
 public class LPInputToolBar: UIView {
     weak var delegate: LPInputToolBarDelegate?
+    var status: LPInputToolBarItemType = .text {
+        didSet {
+            renewStatus(status, oldValue: oldValue)
+        }
+    }
     
+    public var contentInset = UIEdgeInsets(top: 10,
+                                           left: 15,
+                                           bottom: 10,
+                                           right: 15)
+    public var interitemSpacing: CGFloat = 10
+    
+    private(set) var recordButton: LPRecordButton?
     private(set) var config: LPInputToolBarConfig
-    
-    private var contentInset = UIEdgeInsets(top: 10,
-                                            left: 15,
-                                            bottom: 10,
-                                            right: 15)
-    private var interitemSpacing: CGFloat = 10
     
     private var items: [LPInputToolBarItemType: UIView] = [:]
     private var itemTypes: [LPInputToolBarItemType]
@@ -57,6 +63,10 @@ public class LPInputToolBar: UIView {
     public override func sizeThatFits(_ size: CGSize) -> CGSize {
         guard size.width != 0.0 else { return size }
         
+        if status == .voice {
+            return CGSize(width: size.width, height: 54.0)
+        }
+        
         var viewHeight: CGFloat = 0.0
         var textViewWidth: CGFloat = size.width
         
@@ -67,10 +77,11 @@ public class LPInputToolBar: UIView {
             }
         }
         
-        if let textView = textView, textView.superview is LPInputToolBar {
+        if let textView = textView
+            , (textView.superview == nil || textView.superview is LPInputToolBar) {
             textViewWidth -= (CGFloat(itemTypes.count - 1) * interitemSpacing)
             textView.frame.size.width = textViewWidth - contentInset.left - contentInset.right
-
+            
             textView.layoutIfNeeded() // TextView 自适应高度
             viewHeight = textView.frame.height
         }
@@ -94,6 +105,13 @@ public class LPInputToolBar: UIView {
                 
                 if item.superview == nil { addSubview(item) }
             }
+        }
+        
+        if let recordBtn = recordButton, let sv = superview
+            , let ssv = sv.superview {
+            recordBtn.center.x = ssv.frame.width / 2
+            recordBtn.frame.origin.y = ssv.frame.height - LPKeyboard.shared.safeAreaInsets.bottom - frame.height - recordBtn.frame.height - contentInset.bottom
+            if recordBtn.superview == nil { ssv.addSubview(recordBtn) }
         }
         
         if let separator = bottomSeparator {
@@ -139,13 +157,20 @@ extension LPInputToolBar {
         
         for type in itemTypes {
             switch type {
-            case .emotion, .at, .more:
-                let button = UIButton(type: .custom)
-                config.configButton(button, type: type)
-                button.tag = type.rawValue
-                button.sizeToFit()
-                button.addTarget(self, action: #selector(barItemClicked), for: .touchUpInside)
-                items[type] = button
+            case .voice, .emotion, .at, .more:
+                let btn = UIButton(type: .custom)
+                config.configItem(btn, type: type)
+                btn.tag = type.rawValue
+                btn.sizeToFit()
+                btn.addTarget(self, action: #selector(barItemClicked), for: .touchUpInside)
+                items[type] = btn
+                if type == .voice {
+                    let recordBtn = LPRecordButton(type: .custom)
+                    config.configRecordButton(recordBtn)
+                    recordBtn.isHidden = true
+                    recordBtn.sizeToFit()
+                    recordButton = recordBtn
+                }
             case .text:
                 let textView = LPStretchyTextView(frame: .zero)
                 textView.font = UIFont.systemFont(ofSize: 14.0)
@@ -190,6 +215,54 @@ extension LPInputToolBar {
         let type = LPInputToolBarItemType(rawValue: sender.tag)
         delegate?.toolBar(self, barItemClicked: sender, type: type)
     }
+    
+    private func renewStatus(_ status: LPInputToolBarItemType,
+                             oldValue: LPInputToolBarItemType) {
+        guard let textView = textView
+            , let recordButton = recordButton else { return }
+        if oldValue == .voice {
+            textView.alpha = 0.0
+            textView.isHidden = false
+            recordButton.alpha = 1.0
+            animate({
+                textView.alpha = 1.0
+                recordButton.alpha = 0.0
+            }, completion: { (finished) in
+                recordButton.isHidden = true
+            })
+            sizeToFit()
+        } else if self.status == .voice {
+            textView.alpha = 1.0
+            recordButton.alpha = 0.0
+            recordButton.isHidden = false
+            animate({
+                textView.alpha = 0.0
+                recordButton.alpha = 1.0
+            }, completion: { (finished) in
+                textView.isHidden = true
+            })
+            sizeToFit()
+        } else {
+            textView.alpha = 0.0
+            textView.isHidden = false
+            animate({
+                textView.alpha = 1.0
+                recordButton.alpha = 0.0
+            }, completion: { (finished) in
+                recordButton.isHidden = true
+            })
+            sizeToFit()
+        }
+    }
+    
+    private func animate(_ animations: @escaping () -> Void, completion: ((Bool) -> Void)?) {
+        let options = UIViewAnimationOptions(rawValue: 7)
+        UIView.animate(withDuration: 0.25,
+                       delay: 0.0,
+                       options: options,
+                       animations: animations,
+                       completion: completion)
+    }
 }
 
 // MARK: - Delegate Funcs
@@ -199,8 +272,7 @@ extension LPInputToolBar: LPStretchyTextViewDelegate {
     public func textView(_ textView: LPStretchyTextView, heightDidChange newHeight: CGFloat) {
         guard let delegate = delegate else { return }
         let height = newHeight + contentInset.top + contentInset.bottom
-        let options = UIViewAnimationOptions(rawValue: 7)
-        UIView.animate(withDuration: 0.25, delay: 0.0, options: options, animations: {
+        animate({
             self.frame.size.height = height
         }, completion: nil)
         delegate.toolBarDidChangeHeight(self)

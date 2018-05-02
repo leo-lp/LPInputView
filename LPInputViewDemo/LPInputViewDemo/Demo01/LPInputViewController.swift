@@ -94,6 +94,8 @@ extension LPInputViewController: LPInputViewDelegate, LPEmoticonViewDelegate {
             return LPEmoticonView.instance(delegate: self)
         case .more:
             return LPMoreView(target: self, action: #selector(moreItemClicked))
+        case .voice:
+            return LPInputAudioRecordIndicatorView()
         default:
             return nil
         }
