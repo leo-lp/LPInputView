@@ -67,14 +67,12 @@ public class LPInputView: UIView {
 public extension LPInputView {
     
     var textView: LPStretchyTextView? {
-        return nil // toolBar.textView
+        return toolBar.textView
     }
     
     var isShowKeyboard: Bool {
         get { return toolBar.isShowKeyboard }
-        set {
-//            toolBar.isShowKeyboard = newValue
-        }
+        set { toolBar.isShowKeyboard = newValue }
     }
     
     func endEditing() {
