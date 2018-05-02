@@ -55,20 +55,20 @@ extension LPInputViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
-//        switch indexPath.row {
-//        case 0:
-//            if !inputBar.isShowKeyboard {
-//                inputBar.isShowKeyboard = true
-//            }
-//        case 1:
-//            if inputBar.isShowKeyboard {
-//                inputBar.isShowKeyboard = false
-//            }
-//        case 2:
-//            inputBar.endEditing()
-//        default:
-//            break
-//        }
+        switch indexPath.row {
+        case 0:
+            if !inputBar.isShowKeyboard {
+                inputBar.isShowKeyboard = true
+            }
+        case 1:
+            if inputBar.isShowKeyboard {
+                inputBar.isShowKeyboard = false
+            }
+        case 2:
+            inputBar.endEditing()
+        default:
+            break
+        }
     }
 }
 
@@ -99,12 +99,13 @@ extension LPInputViewController: LPInputViewDelegate, LPEmoticonViewDelegate {
         }
     }
     
-//    func inputView(_ inputView: LPInputView, textView: LPStretchyTextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-//    }
+    func inputView(_ inputView: LPInputView, textView: LPStretchyTextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        return true
+    }
 
-//    func inputView(_ inputView: LPInputView, textView: LPStretchyTextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int) {
-//        navigationItem.rightBarButtonItem?.isEnabled = textView.textStorage.length > 0
-//    }
+    func inputView(_ inputView: LPInputView, textView: LPStretchyTextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int) {
+        navigationItem.rightBarButtonItem?.isEnabled = textView.textStorage.length > 0
+    }
 
     func inputView(_ inputView: LPInputView, inputAtCharacter character: String) {
         pushFriendsVC(character)
@@ -115,20 +116,20 @@ extension LPInputViewController: LPInputViewDelegate, LPEmoticonViewDelegate {
         return true
     }
 
-//    func inputView(_ inputView: LPInputView, sendFor textView: LPStretchyTextView) -> Bool {
-//        sendMSG()
-//        return true
-//    }
+    func inputView(_ inputView: LPInputView, sendFor textView: LPStretchyTextView) -> Bool {
+        sendMSG()
+        return true
+    }
     
     // MARK: - LPEmoticonViewDelegate
     
     func inputEmoticon(id: String, img: UIImage) {
-//        guard let textView = inputBar.textView else { return }
-//        textView.insertEmotion(LPTextAttachment(image: img, scale: 1.0, tag: id))
+        guard let textView = inputBar.textView else { return }
+        textView.insertEmotion(LPTextAttachment(image: img, scale: 1.0, tag: id))
     }
     
     func inputEmoticonDelete() {
-//        inputBar.textView?.deleteCharacters()
+        inputBar.textView?.deleteCharacters()
     }
     
     func inputEmoticonSend() {
@@ -139,26 +140,26 @@ extension LPInputViewController: LPInputViewDelegate, LPEmoticonViewDelegate {
     // MARK: - Action
     
     private func pushFriendsVC(_ character: String?) {
-//        let vc = LPFriendListController(style: .plain)
-//        let nav = UINavigationController(rootViewController: vc)
-//        present(nav, animated: true, completion: nil)
-//        vc.selectedBlock = { friend in
-//            self.inputBar.textView?.insertUser(withID: friend.id,
-//                                               name: friend.name,
-//                                               checkAt: character)
-//        }
+        let vc = LPFriendListController(style: .plain)
+        let nav = UINavigationController(rootViewController: vc)
+        present(nav, animated: true, completion: nil)
+        vc.selectedBlock = { friend in
+            self.inputBar.textView?.insertUser(withID: friend.id,
+                                               name: friend.name,
+                                               checkAt: character)
+        }
     }
     
     private func sendMSG() {
-//        guard let textView = inputBar.textView else { return }
-//
-//        let atUserPlaceholderByBlock: (Int, LPAtUser) -> String = { (index, _) -> String in
-//            return "@{\(index)}"
-//        }
-//        let result = textView.textStorage.lp_parse(atUserPlaceholderByBlock)
-//        print(result.description)
-//
-//        textView.clearTextStorage()
+        guard let textView = inputBar.textView else { return }
+
+        let atUserPlaceholderByBlock: (Int, LPAtUser) -> String = { (index, _) -> String in
+            return "@{\(index)}"
+        }
+        let result = textView.textStorage.lp_parse(atUserPlaceholderByBlock)
+        print(result.description)
+
+        textView.clearTextStorage()
     }
     
     @objc private func moreItemClicked(_ sender: UIButton) {

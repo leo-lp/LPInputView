@@ -67,10 +67,10 @@ public class LPInputToolBar: UIView {
             }
         }
         
-        if let textView = textView {
+        if let textView = textView, textView.superview is LPInputToolBar {
             textViewWidth -= (CGFloat(itemTypes.count - 1) * interitemSpacing)
             textView.frame.size.width = textViewWidth - contentInset.left - contentInset.right
-            
+
             textView.layoutIfNeeded() // TextView 自适应高度
             viewHeight = textView.frame.height
         }
