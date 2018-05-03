@@ -79,7 +79,7 @@ public extension LPInputView {
     func endEditing() {
         if toolBar.isShowKeyboard {
             toolBar.isShowKeyboard = false
-        } else if isUp {
+        } else if isUp || status == .voice {
             renewStatus(to: .text, isDelay: true)
             resetLayout()
         }

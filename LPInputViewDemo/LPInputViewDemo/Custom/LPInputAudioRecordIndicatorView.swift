@@ -16,7 +16,7 @@ class LPInputAudioRecordIndicatorView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = UIColor.red
+        backgroundColor = UIColor(white: 1, alpha: 0.8)
     }
     
     required init?(coder aDecoder: NSCoder) {

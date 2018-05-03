@@ -15,13 +15,31 @@ public protocol LPRecordButtonDelegate: class {
 public enum LPAudioRecordPhase {
     case start
     case recording
-    case cancelling
     case finished
+    case cancelling
+    case cancelled
 }
 public class LPRecordButton: UIButton {
-    weak var delegate: LPRecordButtonDelegate?
-    lazy var recordPhase: LPAudioRecordPhase = .start
-    lazy var maxRecordTime: Float = 20.0 // 最大录制时间（秒）
+    private var trackingY: CGFloat = 0.0
+    
+    public weak var delegate: LPRecordButtonDelegate?
+    
+    public var recordPhase: LPAudioRecordPhase? {
+        didSet {
+            guard let phase = recordPhase else { return }
+            switch phase {
+            case .start:      print("开始录制...")
+            case .recording:
+                isHighlighted = true
+                print("录制中... “手指上滑，取消发送”")
+                return
+            case .finished:   print("录制完成准备发送...")
+            case .cancelling: print("正在取消录制中... “松开手指，取消发送”")
+            case .cancelled:  print("已经取消录制...")
+            }
+            isHighlighted = false
+        }
+    }
     
     func setup(with del: LPRecordButtonDelegate?) {
         delegate = del
@@ -35,56 +53,35 @@ public class LPRecordButton: UIButton {
     /// 当按下按钮
     @objc private func onTouchDown() {
         recordPhase = .start
-        print("开始录音")
+        recordPhase = .recording
     }
     
-    /// 按钮内部松开（注：实际Touch区域比按钮的bounds大70px）
+    /// 按钮内部松开（注：实际Touch区域比按钮的bounds大35pt）
     @objc private func onTouchUpInside() {
-//        if touchType == .dragExit {
-//            touchType = .upOutsideOrCancel
-//            cancelRecord()
-//        } else {
-//            touchType = .upInside
-//            stopRecordAndSend()
-//        }
-        
-        print("结束")
-    }
-    
-    /// 按钮外部松开或取消（注：实际Touch区域比按钮的bounds大70px）
-    @objc private func onTouchUpOutsideOrCancel() {
-        recordPhase = .cancelling
-        print("取消")
-    }
-    
-    /// 按钮内部拖动（注：实际Touch区域比按钮的bounds大70px）
-    @objc private func onTouchDragInside(_ sender: UIButton, event: UIEvent) {
-        guard let touch = event.allTouches?.first else { return }
-        if bounds.contains(touch.location(in: self)) {
-//            if touchType == .dragExit && touchType != .dragEnter {
-//                touchType = .dragEnter
-//                hud?.state = .dragEnter /// 进入按钮范围
-//            }
-            
-            print("手指上滑，取消发送")
+        if recordPhase == .cancelling {
+            recordPhase = .cancelled
         } else {
-            recordPhase = .cancelling
-            print("松开手指，取消发送")
+            recordPhase = .finished
         }
     }
-    //
-    //    /// 正常停止录音，开始转换数据
-    //    private func stopRecordAndSend() {
-    //        mp3.stopRecord(type)
-    //        hud?.dismiss()
-    //    }
-    //
-    //    /// 取消录音
-    //    private func cancelRecord() {
-    //        mp3.cancelRecord()
-    //        guard let hud = hud else { return }
-    //        hud.dismiss()
-    //        hud.state = .recordCancel
-    //    }
     
+    /// 按钮外部松开或取消（注：实际Touch区域比按钮的bounds大35pt）
+    @objc private func onTouchUpOutsideOrCancel() {
+        recordPhase = .cancelled
+    }
+    
+    /// 按钮内部拖动（注：实际Touch区域比按钮的bounds大35pt）
+    @objc private func onTouchDragInside(_ sender: UIButton, event: UIEvent) {
+        guard let touch = event.allTouches?.first else { return }
+        let loc = touch.location(in: self)
+        if bounds.contains(loc) {
+            recordPhase = .recording
+        } else {
+            if loc.y <= bounds.height / 2 {
+                recordPhase = .cancelling
+            } else {
+                recordPhase = .recording
+            }
+        }
+    }
 }
