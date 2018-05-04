@@ -107,12 +107,7 @@ public class LPInputToolBar: UIView {
             }
         }
         
-        if let recordBtn = recordButton, let sv = superview
-            , let ssv = sv.superview {
-            recordBtn.center.x = ssv.frame.width / 2
-            recordBtn.frame.origin.y = ssv.frame.height - LPKeyboard.shared.safeAreaInsets.bottom - frame.height - recordBtn.frame.height - contentInset.bottom
-            if recordBtn.superview == nil { ssv.addSubview(recordBtn) }
-        }
+        layoutRecordButton()
         
         if let separator = bottomSeparator {
             separator.frame.origin.y = frame.height - 0.5
@@ -232,26 +227,40 @@ extension LPInputToolBar {
             })
             sizeToFit()
         } else if self.status == .voice {
+            layoutRecordButton()
+            
             textView.alpha = 1.0
             recordButton.alpha = 0.0
             recordButton.isHidden = false
             animate({
                 textView.alpha = 0.0
                 recordButton.alpha = 1.0
-            }, completion: { (finished) in
+            }) { (finished) in
                 textView.isHidden = true
-            })
+            }
             sizeToFit()
-        } else {
-            textView.alpha = 0.0
-            textView.isHidden = false
-            animate({
-                textView.alpha = 1.0
-                recordButton.alpha = 0.0
-            }, completion: { (finished) in
-                recordButton.isHidden = true
-            })
-            sizeToFit()
+        }
+//        else {
+//            textView.alpha = 0.0
+//            textView.isHidden = false
+//            animate({
+//                textView.alpha = 1.0
+//                recordButton.alpha = 0.0
+//            }, completion: { (finished) in
+//                recordButton.isHidden = true
+//            })
+//            sizeToFit()
+//        }
+    }
+    
+    private func layoutRecordButton() {
+        guard let recordBtn = recordButton
+            , let sv = superview
+            , let ssv = sv.superview else { return }
+        recordBtn.center.x = ssv.frame.width / 2
+        recordBtn.frame.origin.y = ssv.frame.height - LPKeyboard.shared.safeAreaInsets.bottom - frame.height - recordBtn.frame.height - contentInset.bottom
+        if recordBtn.superview == nil {
+            ssv.addSubview(recordBtn)
         }
     }
     

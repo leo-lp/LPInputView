@@ -11,6 +11,8 @@ import LPInputView
 
 class LPInputViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableViewTopConstraint: NSLayoutConstraint!
+    
     lazy var inputBar: LPInputView = {
         let rect = CGRect(x: 0, y: 0, width: view.frame.width, height: 60)
         return LPInputView(frame: rect, config: LPInputViewConfig())
@@ -32,7 +34,12 @@ class LPInputViewController: UIViewController {
     }
     
     @objc func rightButtonClicked(_ sender: UIBarButtonItem) {
-        print("rightButtonClicked")
+        inputBar.endEditing()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        inputBar.endEditing()
     }
 }
 
@@ -77,7 +84,13 @@ extension LPInputViewController: LPInputViewDelegate, LPEmoticonViewDelegate {
     // MARK: -  LPInputViewDelegate
     
     func inputViewDidChangeFrame(_ inputView: LPInputView) {
+        let isEditing = inputView.isEditing
+        tableView.isUserInteractionEnabled = !isEditing
+        tableViewTopConstraint.constant = isEditing ? -inputView.frame.height : 0.0
         
+        inputView.animate({
+            self.view.layoutIfNeeded()
+        }, completion: nil)
     }
     
     func inputView(_ inputView: LPInputView, shouldHandleClickedFor item: UIButton, type: LPInputToolBarItemType) -> Bool {

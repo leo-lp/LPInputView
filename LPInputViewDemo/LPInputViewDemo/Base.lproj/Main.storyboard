@@ -119,6 +119,7 @@
                     </view>
                     <connections>
                         <outlet property="tableView" destination="znq-OO-mT1" id="63L-r1-OWj"/>
+                        <outlet property="tableViewTopConstraint" destination="ANi-Ja-byw" id="GT6-xK-XUF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wvb-8Z-mgm" userLabel="First Responder" sceneMemberID="firstResponder"/>

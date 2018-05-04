@@ -39,6 +39,7 @@ public class LPInputView: UIView {
             insetsLayoutMarginsFromSafeArea = false
         }
         toolBar.delegate = self
+        toolBar.recordButton?.setup(with: self)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillChangeFrame),
                                                name: .LPKeyboardWillChangeFrame,
@@ -51,15 +52,18 @@ public class LPInputView: UIView {
     
     public override func didMoveToWindow() {
         guard window != nil else { return }
-        let size = toolBar.sizeThatFits(CGSize(width: frame.width,
-                                               height: CGFloat.greatestFiniteMagnitude))
+        
+        let fitSize = CGSize(width: frame.width,
+                             height: CGFloat.greatestFiniteMagnitude)
+        let size = toolBar.sizeThatFits(fitSize)
         if toolBar.frame.size != size {
             toolBar.frame.size = size
             resetLayout()
         }
-        guard toolBar.superview == nil else { return }
-        addSubview(toolBar)
-        toolBar.recordButton?.setup(with: self)
+        
+        if toolBar.superview == nil {
+            addSubview(toolBar)
+        }
     }
 }
 
@@ -79,13 +83,13 @@ public extension LPInputView {
     func endEditing() {
         if toolBar.isShowKeyboard {
             toolBar.isShowKeyboard = false
-        } else if isUp || status == .voice {
+        } else if isEditing || status == .voice {
             renewStatus(to: .text, isDelay: true)
             resetLayout()
         }
     }
     
-    var isUp: Bool {
+    var isEditing: Bool {
         switch status {
         case .voice: return false
         case .text:  return LPKeyboard.shared.isVisiable
@@ -126,6 +130,15 @@ public extension LPInputView {
         } else {
             resetLayout()
         }
+    }
+    
+    public func animate(_ animations: @escaping () -> Void, completion: ((Bool) -> Void)?) {
+        let options = UIViewAnimationOptions(rawValue: 7)
+        UIView.animate(withDuration: 0.25,
+                       delay: 0.0,
+                       options: options,
+                       animations: animations,
+                       completion: completion)
     }
 }
 
@@ -296,7 +309,7 @@ extension LPInputView {
         rect.size.height = heightThatFits
         
         if hidesWhenResign {
-            rect.origin.y = superSize.height - (isUp ? rect.size.height : 0.0)
+            rect.origin.y = superSize.height - (isEditing ? rect.size.height : 0.0)
         } else {
             if bottomFill {
                 rect.origin.y = superSize.height - rect.size.height
@@ -307,15 +320,13 @@ extension LPInputView {
         }
         
         guard frame != rect else { return }
-        
-        superview.layoutIfNeeded()
         animate({
             self.frame = rect
             if (self.status != .text && self.status != .voice)
                 , let container = self.containers[self.status] {
                 container.frame.origin.y = self.toolBar.frame.maxY
             }
-            print("重置布局:->frame=\(rect, rect.maxY)")
+            self.delegate?.inputViewDidChangeFrame(self)
         }, completion: nil)
     }
     
@@ -329,24 +340,14 @@ extension LPInputView {
         if hidesWhenResign {
             return toolBar.frame.height + kb.height
         } else {
-            
             if bottomFill {
-                let delta = isUp ? 0.0 : kb.safeAreaInsets.bottom
+                let delta = isEditing ? 0.0 : kb.safeAreaInsets.bottom
                 return toolBar.frame.height + kb.height + delta
             } else {
-                let delta = isUp ? kb.height - kb.safeAreaInsets.bottom : 0.0
+                let delta = isEditing ? kb.height - kb.safeAreaInsets.bottom : 0.0
                 return toolBar.frame.height + delta
             }
         }
-    }
-    
-    private func animate(_ animations: @escaping () -> Void, completion: ((Bool) -> Void)?) {
-        let options = UIViewAnimationOptions(rawValue: 7)
-        UIView.animate(withDuration: 0.25,
-                       delay: 0.0,
-                       options: options,
-                       animations: animations,
-                       completion: completion)
     }
 }
 
