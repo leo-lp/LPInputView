@@ -64,7 +64,8 @@ public class LPInputToolBar: UIView {
         guard size.width != 0.0 else { return size }
         
         if status == .voice {
-            return CGSize(width: size.width, height: 54.0)
+            return CGSize(width: size.width,
+                          height: config.toolBarHeightWhenAudioRecording)
         }
         
         var viewHeight: CGFloat = 0.0
@@ -240,17 +241,6 @@ extension LPInputToolBar {
             }
             sizeToFit()
         }
-//        else {
-//            textView.alpha = 0.0
-//            textView.isHidden = false
-//            animate({
-//                textView.alpha = 1.0
-//                recordButton.alpha = 0.0
-//            }, completion: { (finished) in
-//                recordButton.isHidden = true
-//            })
-//            sizeToFit()
-//        }
     }
     
     private func layoutRecordButton() {

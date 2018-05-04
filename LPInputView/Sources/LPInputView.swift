@@ -12,8 +12,8 @@ public class LPInputView: UIView {
     // MARK: - Property
     public weak var delegate: LPInputViewDelegate?
     
-    public var hidesWhenResign: Bool = false
-    public var bottomFill: Bool = true
+    public var hidesWhenResign: Bool = true
+    public var bottomFill: Bool = false
     
     public var maxInputLength: Int = 1000
     

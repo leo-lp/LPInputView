@@ -29,6 +29,8 @@ public protocol LPInputToolBarConfig: class {
     var separatorOfToolBar: [(loc: LPInputSeparatorLocation, color: UIColor?)]? { get }
     
     var isAtEnabled: Bool { get }
+    
+    var toolBarHeightWhenAudioRecording: CGFloat { get }
 }
 
 public protocol LPInputViewDelegate: class {
@@ -106,4 +108,7 @@ public extension LPInputToolBarConfig {
     
     var isAtEnabled: Bool
     { return false }
+    
+    var toolBarHeightWhenAudioRecording: CGFloat
+    { return 54.0 }
 }

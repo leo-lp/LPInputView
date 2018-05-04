@@ -15,6 +15,7 @@
 		180F026E208DB77100DF3C12 /* LPInputView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 180F0263208DB1F400DF3C12 /* LPInputView.framework */; };
 		180F026F208DB77100DF3C12 /* LPInputView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 180F0263208DB1F400DF3C12 /* LPInputView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		180F0283208DCBDD00DF3C12 /* LPInputViewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180F0282208DCBDD00DF3C12 /* LPInputViewConfig.swift */; };
+		18560506209C40A5000E6ECB /* UITableView+LPInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18560505209C40A5000E6ECB /* UITableView+LPInputView.swift */; };
 		1862FDD5208EDF8C002009A4 /* LPMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1862FDD4208EDF8C002009A4 /* LPMainViewController.swift */; };
 		1862FDE2208F247D002009A4 /* LPCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1862FDD9208F247C002009A4 /* LPCustomView.swift */; };
 		1862FDE3208F247D002009A4 /* LPEmoticonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1862FDDB208F247C002009A4 /* LPEmoticonView.swift */; };
@@ -76,6 +77,7 @@
 		180F0266208DB2EB00DF3C12 /* LPAppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPAppDelegate.swift; sourceTree = "<group>"; };
 		180F0268208DB35300DF3C12 /* LPInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPInputViewController.swift; sourceTree = "<group>"; };
 		180F0282208DCBDD00DF3C12 /* LPInputViewConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPInputViewConfig.swift; sourceTree = "<group>"; };
+		18560505209C40A5000E6ECB /* UITableView+LPInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+LPInputView.swift"; sourceTree = "<group>"; };
 		1862FDD4208EDF8C002009A4 /* LPMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPMainViewController.swift; sourceTree = "<group>"; };
 		1862FDD9208F247C002009A4 /* LPCustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPCustomView.swift; sourceTree = "<group>"; };
 		1862FDDB208F247C002009A4 /* LPEmoticonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPEmoticonView.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 			children = (
 				18B90E55209460050040C1FA /* LPStretchyTextView+Pasteboard.swift */,
 				18B90E57209460410040C1FA /* UIPasteboard+LPInputView.swift */,
+				18560505209C40A5000E6ECB /* UITableView+LPInputView.swift */,
 				1862FDD8208F247C002009A4 /* Custom */,
 				1862FDDA208F247C002009A4 /* Emotion */,
 				1862FDE0208F247D002009A4 /* More */,
@@ -313,6 +316,7 @@
 				180F0269208DB35300DF3C12 /* LPInputViewController.swift in Sources */,
 				1862FDE8208F247D002009A4 /* LPMoreView.swift in Sources */,
 				180F0283208DCBDD00DF3C12 /* LPInputViewConfig.swift in Sources */,
+				18560506209C40A5000E6ECB /* UITableView+LPInputView.swift in Sources */,
 				18B90E5220945C720040C1FA /* LPFriendListController.swift in Sources */,
 				18B90E6320946DDA0040C1FA /* LPCustomInputToolBar.swift in Sources */,
 			);

@@ -11,7 +11,7 @@ import LPInputView
 
 class LPInputViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var tableViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var tableViewBottomConstraint: NSLayoutConstraint!
     
     lazy var inputBar: LPInputView = {
         let rect = CGRect(x: 0, y: 0, width: view.frame.width, height: 60)
@@ -46,7 +46,7 @@ class LPInputViewController: UIViewController {
 extension LPInputViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 30
+        return 11
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -86,8 +86,8 @@ extension LPInputViewController: LPInputViewDelegate, LPEmoticonViewDelegate {
     func inputViewDidChangeFrame(_ inputView: LPInputView) {
         let isEditing = inputView.isEditing
         tableView.isUserInteractionEnabled = !isEditing
-        tableViewTopConstraint.constant = isEditing ? -inputView.frame.height : 0.0
-        
+        tableViewBottomConstraint.constant = view.frame.height - inputView.frame.origin.y
+        tableView.lp_scrollToBottom(true)
         inputView.animate({
             self.view.layoutIfNeeded()
         }, completion: nil)
