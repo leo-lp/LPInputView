@@ -108,7 +108,10 @@ public class LPInputToolBar: UIView {
             }
         }
         
-        layoutRecordButton()
+        if let recordButton = recordButton {
+            recordButton.center.x = frame.width / 2
+            recordButton.frame.origin.y = frame.height - recordButton.frame.height - contentInset.bottom
+        }
         
         if let separator = bottomSeparator {
             separator.frame.origin.y = frame.height - 0.5
@@ -228,8 +231,9 @@ extension LPInputToolBar {
             })
             sizeToFit()
         } else if self.status == .voice {
-            layoutRecordButton()
-            
+            if recordButton.superview == nil {
+                addSubview(recordButton)
+            }
             textView.alpha = 1.0
             recordButton.alpha = 0.0
             recordButton.isHidden = false
@@ -240,17 +244,6 @@ extension LPInputToolBar {
                 textView.isHidden = true
             }
             sizeToFit()
-        }
-    }
-    
-    private func layoutRecordButton() {
-        guard let recordBtn = recordButton
-            , let sv = superview
-            , let ssv = sv.superview else { return }
-        recordBtn.center.x = ssv.frame.width / 2
-        recordBtn.frame.origin.y = ssv.frame.height - LPKeyboard.shared.safeAreaInsets.bottom - frame.height - recordBtn.frame.height - contentInset.bottom
-        if recordBtn.superview == nil {
-            ssv.addSubview(recordBtn)
         }
     }
     

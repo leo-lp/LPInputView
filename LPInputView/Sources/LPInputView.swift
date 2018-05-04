@@ -12,8 +12,8 @@ public class LPInputView: UIView {
     // MARK: - Property
     public weak var delegate: LPInputViewDelegate?
     
-    public var hidesWhenResign: Bool = true
-    public var bottomFill: Bool = false
+    public var hidesWhenResign: Bool = false
+    public var bottomFill: Bool = true
     
     public var maxInputLength: Int = 1000
     
@@ -58,12 +58,25 @@ public class LPInputView: UIView {
         let size = toolBar.sizeThatFits(fitSize)
         if toolBar.frame.size != size {
             toolBar.frame.size = size
-            resetLayout()
+            resetLayout(false)
         }
         
         if toolBar.superview == nil {
             addSubview(toolBar)
         }
+    }
+    
+    public override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        let hitTestView = super.hitTest(point, with: event)
+        if hitTestView == nil
+            , let recordButton = toolBar.recordButton
+            , !recordButton.isHidden {
+            let convertPoint = recordButton.convert(point, from: toolBar)
+            if recordButton.bounds.contains(convertPoint) {
+                return recordButton
+            }
+        }
+        return hitTestView
     }
 }
 
@@ -85,7 +98,7 @@ public extension LPInputView {
             toolBar.isShowKeyboard = false
         } else if isEditing || status == .voice {
             renewStatus(to: .text, isDelay: true)
-            resetLayout()
+            resetLayout(true)
         }
     }
     
@@ -128,7 +141,7 @@ public extension LPInputView {
         if toolBar.isShowKeyboard {
             toolBar.isShowKeyboard = false
         } else {
-            resetLayout()
+            resetLayout(true)
         }
     }
     
@@ -147,7 +160,7 @@ public extension LPInputView {
 extension LPInputView: LPInputToolBarDelegate, LPRecordButtonDelegate {
     
     func toolBarDidChangeHeight(_ toolBar: LPInputToolBar) {
-        resetLayout()
+        resetLayout(true)
     }
     
     func toolBar(_ toolBar: LPInputToolBar, barItemClicked item: UIButton, type: LPInputToolBarItemType) {
@@ -165,7 +178,7 @@ extension LPInputView: LPInputToolBarDelegate, LPRecordButtonDelegate {
                 if toolBar.isShowKeyboard {
                     toolBar.isShowKeyboard = false
                 } else {
-                    resetLayout()
+                    resetLayout(true)
                 }
             } else {
                 renewStatus(to: .text, isDelay: false)
@@ -253,7 +266,7 @@ extension LPInputView: LPInputToolBarDelegate, LPRecordButtonDelegate {
     @objc private func keyboardWillChangeFrame(_ notification: Notification) {
         /// 如果当前视图不是顶部视图，则不需要监听
         guard window != nil else { return }
-        resetLayout()
+        resetLayout(false)
     }
 }
 
@@ -302,8 +315,9 @@ extension LPInputView {
         self.status = status
     }
     
-    private func resetLayout() {
+    private func resetLayout(_ animated: Bool) {
         guard let superview = superview else { return }
+        
         let superSize = superview.frame.size
         var rect = frame
         rect.size.height = heightThatFits
@@ -320,14 +334,21 @@ extension LPInputView {
         }
         
         guard frame != rect else { return }
-        animate({
+        
+        let animateBlock: () -> Void = {
             self.frame = rect
             if (self.status != .text && self.status != .voice)
                 , let container = self.containers[self.status] {
                 container.frame.origin.y = self.toolBar.frame.maxY
             }
             self.delegate?.inputViewDidChangeFrame(self)
-        }, completion: nil)
+        }
+        
+        if animated {
+            animate(animateBlock, completion: nil)
+        } else {
+            animateBlock()
+        }
     }
     
     private var heightThatFits: CGFloat {

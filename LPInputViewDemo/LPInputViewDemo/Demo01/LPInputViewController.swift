@@ -41,6 +41,7 @@ class LPInputViewController: UIViewController {
         super.touchesBegan(touches, with: event)
         inputBar.endEditing()
     }
+    
 }
 
 extension LPInputViewController: UITableViewDelegate, UITableViewDataSource {
