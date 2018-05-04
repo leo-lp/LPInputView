@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import LPInputView
 
 class LPInputAudioRecordIndicatorView: UIView {
 
@@ -16,7 +17,7 @@ class LPInputAudioRecordIndicatorView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = UIColor(white: 1, alpha: 0.8)
+        setup()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -27,4 +28,26 @@ class LPInputAudioRecordIndicatorView: UIView {
         return UIScreen.main.bounds.size
     }
     
+    func setup() {
+        backgroundColor = UIColor(white: 0, alpha: 0.65)
+        
+    }
+}
+
+extension LPInputAudioRecordIndicatorView: LPRecordButtonDelegate {
+    
+    func recordButton(_ recordButton: LPRecordButton, recordPhase: LPAudioRecordPhase) {
+        switch recordPhase {
+        case .start:
+            print("开始录制...")
+        case .recording:
+            print("录制中... “手指上滑，取消发送”")
+        case .finished:
+            print("录制完成...")
+        case .cancelling:
+            print("正在取消录制中... “松开手指，取消发送”")
+        case .cancelled:
+            print("已经取消录制...")
+        }
+    }
 }

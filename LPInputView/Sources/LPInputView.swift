@@ -59,7 +59,7 @@ public class LPInputView: UIView {
         }
         guard toolBar.superview == nil else { return }
         addSubview(toolBar)
-        setRecordButton()
+        toolBar.recordButton?.setup(with: self)
     }
 }
 
@@ -129,9 +129,9 @@ public extension LPInputView {
     }
 }
 
-// MARK: - LPInputToolBarDelegate
+// MARK: - LPInputToolBarDelegate & LPRecordButtonDelegate
 
-extension LPInputView: LPInputToolBarDelegate {
+extension LPInputView: LPInputToolBarDelegate, LPRecordButtonDelegate {
     
     func toolBarDidChangeHeight(_ toolBar: LPInputToolBar) {
         resetLayout()
@@ -209,6 +209,32 @@ extension LPInputView: LPInputToolBarDelegate {
         delegate?.inputView(self, inputAtCharacter: character)
     }
     
+    // MARK: - LPRecordButtonDelegate
+    
+    public func recordButton(_ recordButton: LPRecordButton, recordPhase: LPAudioRecordPhase) {
+        guard let container = container(for: .voice) as? (UIView & LPRecordButtonDelegate)
+            else { return }
+        switch recordPhase {
+        case .start:
+            container.alpha = 0.0
+            if container.superview == nil {
+                UIApplication.shared.keyWindow?.addSubview(container)
+            }
+            animate({
+                container.alpha = 1.0
+            }, completion: nil)
+        case .finished, .cancelled:
+            animate({
+                container.alpha = 0.0
+            }) { (_) in
+                container.removeFromSuperview()
+            }
+        default:
+            break
+        }
+        container.recordButton(recordButton, recordPhase: recordPhase)
+    }
+    
     // MARK: - Notification Funcs
     
     @objc private func keyboardWillChangeFrame(_ notification: Notification) {
@@ -224,12 +250,19 @@ extension LPInputView {
     
     private func container(for type: LPInputToolBarItemType) -> UIView? {
         if let container = containers[type] { return container }
-        guard let container = delegate?.inputView(self, containerViewFor: type)
-            else { return nil }
+        
+        let containerOptional: UIView?
+        if type == .voice {
+            containerOptional = delegate?.inputViewAudioRecordIndicator(in: self)
+        } else {
+            containerOptional = delegate?.inputView(self, containerViewFor: type)
+        }
+        
+        guard let container = containerOptional else { return nil }
         
         var size = container.sizeThatFits(CGSize(width: frame.width,
                                                  height: CGFloat.greatestFiniteMagnitude))
-        if bottomFill {
+        if type != .voice && bottomFill {
             size.height += LPKeyboard.shared.safeAreaInsets.bottom
         }
         container.frame.size = size
@@ -239,7 +272,7 @@ extension LPInputView {
     }
     
     private func renewStatus(to status: LPInputToolBarItemType, isDelay: Bool) {
-        if self.status != .text {
+        if self.status != .text && self.status != .voice {
             let oldStatus = self.status
             if isDelay {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
@@ -252,26 +285,6 @@ extension LPInputView {
             }
         }
         
-//        if status == .voice {
-//            if let voiceContainer = container(for: .voice) {
-//                voiceContainer.alpha = 0.0
-//                if voiceContainer.superview == nil {
-//                    superview?.addSubview(voiceContainer)
-//                }
-//                animate({
-//                    voiceContainer.alpha = 1.0
-//                }, completion: nil)
-//            }
-//        } else if self.status == .voice {
-//            if let voiceContainer = containers[.voice] {
-//                animate({
-//                    voiceContainer.alpha = 0.0
-//                }) { [weak self](finished) in
-//                    guard let _ = self else { return }
-//                    voiceContainer.removeFromSuperview()
-//                }
-//            }
-//        }
         toolBar.status = status
         self.status = status
     }
@@ -298,7 +311,8 @@ extension LPInputView {
         superview.layoutIfNeeded()
         animate({
             self.frame = rect
-            if self.status != .text, let container = self.containers[self.status] {
+            if (self.status != .text && self.status != .voice)
+                , let container = self.containers[self.status] {
                 container.frame.origin.y = self.toolBar.frame.maxY
             }
             print("重置布局:->frame=\(rect, rect.maxY)")
@@ -306,7 +320,8 @@ extension LPInputView {
     }
     
     private var heightThatFits: CGFloat {
-        if status != .text, let container = containers[status] {
+        if (status != .text && status != .voice)
+            , let container = containers[status] {
             return toolBar.frame.height + container.frame.height
         }
         
@@ -333,19 +348,6 @@ extension LPInputView {
                        animations: animations,
                        completion: completion)
     }
-}
-
-// MARK: -
-// MARK: - Audio Record Button
-
-extension LPInputView {
-    
-    private func setRecordButton() {
-        guard let btn = toolBar.recordButton else { return }
-        btn.setup(with: nil)
-    }
-    
-
 }
 
 //extension LPInputView {

@@ -36,6 +36,7 @@ public protocol LPInputViewDelegate: class {
     func inputViewDidChangeFrame(_ inputView: LPInputView)
     func inputView(_ inputView: LPInputView, shouldHandleClickedFor item: UIButton, type: LPInputToolBarItemType) -> Bool
     func inputView(_ inputView: LPInputView, containerViewFor type: LPInputToolBarItemType) -> UIView?
+    func inputViewAudioRecordIndicator(in inputView: LPInputView) -> (UIView & LPRecordButtonDelegate)?
     
     func inputView(_ inputView: LPInputView, textView: LPStretchyTextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool
     func inputView(_ inputView: LPInputView, textView: LPStretchyTextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int)
@@ -57,6 +58,9 @@ public extension LPInputViewDelegate {
     { return true }
     
     func inputView(_ inputView: LPInputView, containerViewFor type: LPInputToolBarItemType) -> UIView?
+    {  return nil }
+    
+    func inputViewAudioRecordIndicator(in inputView: LPInputView) -> (UIView & LPRecordButtonDelegate)?
     {  return nil }
     
     func inputView(_ inputView: LPInputView, textView: LPStretchyTextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool

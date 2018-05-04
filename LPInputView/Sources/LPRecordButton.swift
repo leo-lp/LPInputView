@@ -9,7 +9,7 @@
 import UIKit
 
 public protocol LPRecordButtonDelegate: class {
-    
+    func recordButton(_ recordButton: LPRecordButton, recordPhase: LPAudioRecordPhase)
 }
 
 public enum LPAudioRecordPhase {
@@ -24,20 +24,10 @@ public class LPRecordButton: UIButton {
     
     public weak var delegate: LPRecordButtonDelegate?
     
-    public var recordPhase: LPAudioRecordPhase? {
+    public var recordPhase: LPAudioRecordPhase = .start {
         didSet {
-            guard let phase = recordPhase else { return }
-            switch phase {
-            case .start:      print("开始录制...")
-            case .recording:
-                isHighlighted = true
-                print("录制中... “手指上滑，取消发送”")
-                return
-            case .finished:   print("录制完成准备发送...")
-            case .cancelling: print("正在取消录制中... “松开手指，取消发送”")
-            case .cancelled:  print("已经取消录制...")
-            }
-            isHighlighted = false
+            isHighlighted = recordPhase == .recording
+            delegate?.recordButton(self, recordPhase: recordPhase)
         }
     }
     

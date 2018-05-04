@@ -101,6 +101,10 @@ extension LPInputViewController: LPInputViewDelegate, LPEmoticonViewDelegate {
         }
     }
     
+    func inputViewAudioRecordIndicator(in inputView: LPInputView) -> (UIView & LPRecordButtonDelegate)? {
+        return LPInputAudioRecordIndicatorView()
+    }
+    
     func inputView(_ inputView: LPInputView, textView: LPStretchyTextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         return true
     }
