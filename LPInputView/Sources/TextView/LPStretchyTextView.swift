@@ -179,10 +179,11 @@ extension LPStretchyTextView {
             newText += "\n|W|"
         }
         text = newText
-
-        let height = sizeThatFits(CGSize(width: bounds.width,
-                                         height: CGFloat.greatestFiniteMagnitude)).height
-
+        
+        let gfm = CGFloat.greatestFiniteMagnitude
+        let height = sizeThatFits(CGSize(width: gfm, height: gfm)).height
+        
+        print("bounds.widthbounds.widthbounds.width=\(bounds.width, height)")
         text = saveText
         isHidden = false
         return height
@@ -197,7 +198,7 @@ extension LPStretchyTextView: NSTextStorageDelegate {
         if isDisplayPlaceholder {
             textColor = originalTextColor
         }
-
+        
         stretchyDelegate?.textView?(self,
                                     didProcessEditing: editedRange,
                                     changeInLength: delta)

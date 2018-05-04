@@ -69,43 +69,32 @@ public class LPInputToolBar: UIView {
         }
         
         var viewHeight: CGFloat = 0.0
-        var textViewWidth: CGFloat = size.width
-        
-        for type in itemTypes where type != .text {
-            if let item = items[type] {
-                textViewWidth -= item.frame.width
-                viewHeight = max(viewHeight, item.frame.height)
-            }
-        }
-        
         if let textView = textView
-            , (textView.superview == nil || textView.superview is LPInputToolBar) {
-            textViewWidth -= (CGFloat(itemTypes.count - 1) * interitemSpacing)
-            textView.frame.size.width = textViewWidth - contentInset.left - contentInset.right
-            
-            textView.layoutIfNeeded() // TextView 自适应高度
+            , (textView.superview == nil
+                || textView.superview is LPInputToolBar) {
+            if textView.frame.width == 0.0 {
+                textView.frame.size.width = size.width
+            }
             viewHeight = textView.frame.height
+        } else if let item = items.first {
+            viewHeight = item.value.frame.height
         }
-        
         viewHeight = viewHeight + contentInset.top + contentInset.bottom
         return CGSize(width: size.width, height: viewHeight)
     }
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-        var left: CGFloat = 0.0
-        for (idx, type) in itemTypes.enumerated() {
-            if let item = items[type] {
-                if idx == 0 {
-                    item.frame.origin.x = contentInset.left
-                } else {
-                    item.frame.origin.x = left + interitemSpacing
-                }
-                item.center.y = frame.height / 2.0
-                left = item.frame.maxX
-                
-                if item.superview == nil { addSubview(item) }
-            }
+        var left = layoutLeftItems()
+        var right = layoutRightItems()
+        
+        if let textView = textView {
+            left = left > 0.0 ? left + interitemSpacing : left + contentInset.left
+            right = right > 0.0 ? right - interitemSpacing : right - contentInset.right
+            textView.frame.origin.x = left
+            textView.frame.size.width = right - left
+            textView.center.y = frame.height / 2.0
+            if textView.superview == nil { addSubview(textView) }
         }
         
         if let recordButton = recordButton {
@@ -247,6 +236,55 @@ extension LPInputToolBar {
         }
     }
     
+    private func layoutLeftItems() -> CGFloat {
+        var left: CGFloat = 0.0
+        for (idx, type) in itemTypes.enumerated() {
+            if let item = items[type] {
+                if item is LPStretchyTextView {
+                    return left
+                } else if !item.isHidden {
+                    if idx == 0 {
+                        item.frame.origin.x = contentInset.left
+                    } else {
+                        item.frame.origin.x = left + interitemSpacing
+                    }
+                    item.center.y = frame.height / 2.0
+                    left = item.frame.maxX
+                    
+                    if item.superview == nil { addSubview(item) }
+                    
+                    print("layoutLeft:->item.frame.origin.x=\(item.frame.origin.x, item.center.y, frame.height)")
+                }
+            }
+        }
+        return left
+    }
+    
+    private func layoutRightItems() -> CGFloat {
+        var right: CGFloat = 0.0
+        let totalCount: Int = itemTypes.count - 1
+        for (idx, type) in itemTypes.enumerated().reversed() {
+            if let item = items[type] {
+                if item is LPStretchyTextView {
+                    return right
+                } else if !item.isHidden {
+                    if idx == totalCount {
+                        item.frame.origin.x = frame.width - contentInset.right - item.frame.width
+                    } else {
+                        item.frame.origin.x = right - interitemSpacing - item.frame.width
+                    }
+                    item.center.y = frame.height / 2.0
+                    right = item.frame.origin.x
+                    
+                    if item.superview == nil { addSubview(item) }
+                    
+                    print("layoutRight:->item.frame.origin.x=\(item.frame.origin.x, item.center.y, frame.height)")
+                }
+            }
+        }
+        return right
+    }
+    
     private func animate(_ animations: @escaping () -> Void, completion: ((Bool) -> Void)?) {
         let options = UIViewAnimationOptions(rawValue: 7)
         UIView.animate(withDuration: 0.25,
@@ -266,6 +304,7 @@ extension LPInputToolBar: LPStretchyTextViewDelegate {
         let height = newHeight + contentInset.top + contentInset.bottom
         animate({
             self.frame.size.height = height
+            print("self.frame.size.height=\(self.frame.size.height)")
         }, completion: nil)
         delegate.toolBarDidChangeHeight(self)
     }

@@ -94,6 +94,24 @@ extension LPInputViewController: LPInputViewDelegate, LPEmoticonViewDelegate {
         }, completion: nil)
     }
     
+    func inputView(_ inputView: LPInputView, statusChanged newStatus: LPInputToolBarItemType, oldStatus: LPInputToolBarItemType) {
+        if newStatus == .voice {
+            if let atBtn = inputView.toolBar.item(with: .at) {
+                if atBtn.isHidden != true {
+                    atBtn.isHidden = true
+                    inputView.toolBar.sizeToFit()
+                }
+            }
+        } else if oldStatus == .voice {
+            if let atBtn = inputView.toolBar.item(with: .at) {
+                if atBtn.isHidden == true {
+                    atBtn.isHidden = false
+                    inputView.toolBar.sizeToFit()
+                }
+            }
+        }
+    }
+    
     func inputView(_ inputView: LPInputView, shouldHandleClickedFor item: UIButton, type: LPInputToolBarItemType) -> Bool {
         if type == .at {
             pushFriendsVC(nil)

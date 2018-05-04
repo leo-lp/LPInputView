@@ -298,8 +298,8 @@ extension LPInputView {
     }
     
     private func renewStatus(to status: LPInputToolBarItemType, isDelay: Bool) {
+        let oldStatus = self.status
         if self.status != .text && self.status != .voice {
-            let oldStatus = self.status
             if isDelay {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
                     guard let `self` = self
@@ -313,6 +313,7 @@ extension LPInputView {
         
         toolBar.status = status
         self.status = status
+        delegate?.inputView(self, statusChanged: status, oldStatus: oldStatus)
     }
     
     private func resetLayout(_ animated: Bool) {
