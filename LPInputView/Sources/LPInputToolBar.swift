@@ -110,7 +110,7 @@ public class LPInputToolBar: UIView {
         
         if let recordButton = recordButton {
             recordButton.center.x = frame.width / 2
-            recordButton.frame.origin.y = frame.height - recordButton.frame.height - contentInset.bottom
+            recordButton.frame.origin.y = -recordButton.frame.height - contentInset.bottom
         }
         
         if let separator = bottomSeparator {
