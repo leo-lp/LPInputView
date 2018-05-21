@@ -1,15 +1,18 @@
 //
 //  LPStretchyTextView+At.swift
-//  LPInputView
+//  LPInputView <https://github.com/leo-lp/LPInputView>
 //
 //  Created by pengli on 2018/4/23.
 //  Copyright © 2018年 pengli. All rights reserved.
+//
+//  This source code is licensed under the MIT-style license found in the
+//  LICENSE file in the root directory of this source tree.
 //
 
 import UIKit
 
 public extension NSAttributedStringKey {
-    public static let LPAtUser = NSAttributedStringKey("com.lp.LPInputView.attributedString.atUser")
+    public static let LPAtUser = NSAttributedStringKey("com.lp.LPInputView.attrString.atUser")
 }
 
 // MARK: - @用户insert/delete等操作
@@ -122,7 +125,7 @@ extension LPStretchyTextView {
         let loc = selectedRange.location - 1
         return textStorage.attribute(key, at: loc, effectiveRange: nil) is LPAtUser
     }
-
+    
     var isAtUserOfLatterCharacter: Bool {
         guard selectedRange.length == 0
             , textStorage.length > selectedRange.location else { return false }

@@ -12,8 +12,6 @@
 		180F0242208DB1DA00DF3C12 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 180F0240208DB1DA00DF3C12 /* LaunchScreen.storyboard */; };
 		180F0267208DB2EB00DF3C12 /* LPAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180F0266208DB2EB00DF3C12 /* LPAppDelegate.swift */; };
 		180F0269208DB35300DF3C12 /* LPInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180F0268208DB35300DF3C12 /* LPInputViewController.swift */; };
-		180F026E208DB77100DF3C12 /* LPInputView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 180F0263208DB1F400DF3C12 /* LPInputView.framework */; };
-		180F026F208DB77100DF3C12 /* LPInputView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 180F0263208DB1F400DF3C12 /* LPInputView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		180F0283208DCBDD00DF3C12 /* LPInputViewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180F0282208DCBDD00DF3C12 /* LPInputViewConfig.swift */; };
 		18560506209C40A5000E6ECB /* UITableView+LPInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18560505209C40A5000E6ECB /* UITableView+LPInputView.swift */; };
 		1862FDD5208EDF8C002009A4 /* LPMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1862FDD4208EDF8C002009A4 /* LPMainViewController.swift */; };
@@ -25,6 +23,8 @@
 		1862FDE7208F247D002009A4 /* LPEmoticonView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1862FDDF208F247D002009A4 /* LPEmoticonView.xib */; };
 		1862FDE8208F247D002009A4 /* LPMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1862FDE1208F247D002009A4 /* LPMoreView.swift */; };
 		1862FDEA208F36A5002009A4 /* LPEmotion.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1862FDE9208F36A5002009A4 /* LPEmotion.bundle */; };
+		189D666420B26706004A4592 /* LPInputView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 189D666320B26706004A4592 /* LPInputView.framework */; };
+		189D666520B26706004A4592 /* LPInputView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 189D666320B26706004A4592 /* LPInputView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		18B90E5220945C720040C1FA /* LPFriendListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B90E5120945C720040C1FA /* LPFriendListController.swift */; };
 		18B90E56209460050040C1FA /* LPStretchyTextView+Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B90E55209460050040C1FA /* LPStretchyTextView+Pasteboard.swift */; };
 		18B90E58209460410040C1FA /* UIPasteboard+LPInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B90E57209460410040C1FA /* UIPasteboard+LPInputView.swift */; };
@@ -36,23 +36,6 @@
 		18BBBC2A20996ADB008D4464 /* LPInputAudioRecordIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BBBC2920996ADB008D4464 /* LPInputAudioRecordIndicatorView.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		180F0262208DB1F400DF3C12 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 180F025E208DB1F300DF3C12 /* LPInputView.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 180F0253208DB1F300DF3C12;
-			remoteInfo = LPInputView;
-		};
-		180F0270208DB77100DF3C12 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 180F025E208DB1F300DF3C12 /* LPInputView.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 180F0252208DB1F300DF3C12;
-			remoteInfo = LPInputView;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		180F0272208DB77100DF3C12 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -60,7 +43,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				180F026F208DB77100DF3C12 /* LPInputView.framework in Embed Frameworks */,
+				189D666520B26706004A4592 /* LPInputView.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -73,7 +56,6 @@
 		180F023E208DB1DA00DF3C12 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		180F0241208DB1DA00DF3C12 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		180F0243208DB1DA00DF3C12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		180F025E208DB1F300DF3C12 /* LPInputView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LPInputView.xcodeproj; path = ../LPInputView/LPInputView.xcodeproj; sourceTree = "<group>"; };
 		180F0266208DB2EB00DF3C12 /* LPAppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPAppDelegate.swift; sourceTree = "<group>"; };
 		180F0268208DB35300DF3C12 /* LPInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPInputViewController.swift; sourceTree = "<group>"; };
 		180F0282208DCBDD00DF3C12 /* LPInputViewConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPInputViewConfig.swift; sourceTree = "<group>"; };
@@ -87,6 +69,7 @@
 		1862FDDF208F247D002009A4 /* LPEmoticonView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LPEmoticonView.xib; sourceTree = "<group>"; };
 		1862FDE1208F247D002009A4 /* LPMoreView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPMoreView.swift; sourceTree = "<group>"; };
 		1862FDE9208F36A5002009A4 /* LPEmotion.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = LPEmotion.bundle; sourceTree = "<group>"; };
+		189D666320B26706004A4592 /* LPInputView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LPInputView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		18B90E5120945C720040C1FA /* LPFriendListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPFriendListController.swift; sourceTree = "<group>"; };
 		18B90E55209460050040C1FA /* LPStretchyTextView+Pasteboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LPStretchyTextView+Pasteboard.swift"; sourceTree = "<group>"; };
 		18B90E57209460410040C1FA /* UIPasteboard+LPInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIPasteboard+LPInputView.swift"; sourceTree = "<group>"; };
@@ -103,7 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				180F026E208DB77100DF3C12 /* LPInputView.framework in Frameworks */,
+				189D666420B26706004A4592 /* LPInputView.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,7 +96,7 @@
 		180F022B208DB1D900DF3C12 = {
 			isa = PBXGroup;
 			children = (
-				180F025E208DB1F300DF3C12 /* LPInputView.xcodeproj */,
+				189D666320B26706004A4592 /* LPInputView.framework */,
 				180F0236208DB1D900DF3C12 /* LPInputViewDemo */,
 				180F0235208DB1D900DF3C12 /* Products */,
 			);
@@ -148,14 +131,6 @@
 				1862FDE9208F36A5002009A4 /* LPEmotion.bundle */,
 			);
 			path = LPInputViewDemo;
-			sourceTree = "<group>";
-		};
-		180F025F208DB1F300DF3C12 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				180F0263208DB1F400DF3C12 /* LPInputView.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		1862FDD8208F247C002009A4 /* Custom */ = {
@@ -223,7 +198,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				180F0271208DB77100DF3C12 /* PBXTargetDependency */,
 			);
 			name = LPInputViewDemo;
 			productName = LPInputViewDemo;
@@ -256,28 +230,12 @@
 			mainGroup = 180F022B208DB1D900DF3C12;
 			productRefGroup = 180F0235208DB1D900DF3C12 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 180F025F208DB1F300DF3C12 /* Products */;
-					ProjectRef = 180F025E208DB1F300DF3C12 /* LPInputView.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				180F0233208DB1D900DF3C12 /* LPInputViewDemo */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		180F0263208DB1F400DF3C12 /* LPInputView.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = LPInputView.framework;
-			remoteRef = 180F0262208DB1F400DF3C12 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		180F0232208DB1D900DF3C12 /* Resources */ = {
@@ -323,14 +281,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		180F0271208DB77100DF3C12 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = LPInputView;
-			targetProxy = 180F0270208DB77100DF3C12 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		180F023B208DB1D900DF3C12 /* Main.storyboard */ = {
