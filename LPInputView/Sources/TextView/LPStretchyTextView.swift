@@ -114,11 +114,6 @@ open class LPStretchyTextView: UITextView {
         }
     }
     
-    open override func layoutSubviews() {
-        super.layoutSubviews()
-        setNeedsDisplay()
-    }
-    
     open override func draw(_ rect: CGRect) {
         super.draw(rect)
         guard isDisplayPlaceholder
