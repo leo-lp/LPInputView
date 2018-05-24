@@ -34,6 +34,12 @@ public class LPRecordButton: UIButton {
         }
     }
     
+    deinit {
+        #if DEBUG
+        print("LPRecordButton:-> release memory.")
+        #endif
+    }
+    
     func setup(with del: LPRecordButtonDelegate?) {
         delegate = del
         

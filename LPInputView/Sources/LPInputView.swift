@@ -29,8 +29,10 @@ public class LPInputView: UIView {
     // MARK: - Override Funcs
     
     deinit {
-        NotificationCenter.default.removeObserver(self)
+        LPKeyboardManager.shared.removeObserver(self)
+        #if DEBUG
         print("LPInputView: -> release memory.")
+        #endif
     }
     
     public init(frame: CGRect, config: LPInputToolBarConfig) {
@@ -43,10 +45,7 @@ public class LPInputView: UIView {
         }
         toolBar.delegate = self
         toolBar.recordButton?.setup(with: self)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillChangeFrame),
-                                               name: .LPKeyboardWillChangeFrame,
-                                               object: nil)
+        LPKeyboardManager.shared.addObserver(self)
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -108,7 +107,7 @@ public extension LPInputView {
     var isEditing: Bool {
         switch status {
         case .voice: return false
-        case .text:  return LPKeyboard.shared.isVisiable
+        case .text:  return LPKeyboardManager.shared.keyboardVisible
         case .more, .emotion: return true
         default:
             guard let container = containers[status] else { return false }
@@ -158,9 +157,9 @@ public extension LPInputView {
     }
 }
 
-// MARK: - LPInputToolBarDelegate & LPRecordButtonDelegate
+// MARK: - LPInputToolBarDelegate & LPRecordButtonDelegate & LPKeyboardObserver
 
-extension LPInputView: LPInputToolBarDelegate, LPRecordButtonDelegate {
+extension LPInputView: LPInputToolBarDelegate, LPRecordButtonDelegate, LPKeyboardObserver {
     
     func toolBarDidChangeHeight(_ toolBar: LPInputToolBar) {
         resetLayout(true)
@@ -264,9 +263,14 @@ extension LPInputView: LPInputToolBarDelegate, LPRecordButtonDelegate {
         container.recordButton(recordButton, recordPhase: recordPhase)
     }
     
-    // MARK: - Notification Funcs
+    // MARK: - LPKeyboardObserver
     
-    @objc private func keyboardWillChangeFrame(_ notification: Notification) {
+    public func keyboard(_ keyboard: LPKeyboardManager, willTransition trans: LPKeyboardTransition) {
+//        print("----------------------------------------")
+//        print(transition.description)
+//        print("----------------------------------------")
+//        print(LPKeyboardManager.shared.description)
+//        print("----------------------------------------")
         /// 如果当前视图不是顶部视图，则不需要监听
         guard window != nil else { return }
         resetLayout(false)
@@ -292,7 +296,7 @@ extension LPInputView {
         var size = container.sizeThatFits(CGSize(width: frame.width,
                                                  height: CGFloat.greatestFiniteMagnitude))
         if type != .voice && bottomFill {
-            size.height += LPKeyboard.shared.safeAreaInsets.bottom
+            size.height += UIApplication.shared.lp_safeAreaInsets.bottom
         }
         container.frame.size = size
         container.autoresizingMask = .flexibleWidth
@@ -332,7 +336,7 @@ extension LPInputView {
             if bottomFill {
                 rect.origin.y = superSize.height - rect.size.height
             } else {
-                let delta = LPKeyboard.shared.safeAreaInsets.bottom
+                let delta = UIApplication.shared.lp_safeAreaInsets.bottom
                 rect.origin.y = superSize.height - rect.size.height - delta
             }
         }
@@ -345,6 +349,7 @@ extension LPInputView {
                 , let container = self.containers[self.status] {
                 container.frame.origin.y = self.toolBar.frame.maxY
             }
+            print("self.frame=\(self.frame)")
             self.delegate?.inputViewDidChangeFrame(self)
         }
         
@@ -361,15 +366,17 @@ extension LPInputView {
             return toolBar.frame.height + container.frame.height
         }
         
-        let kb = LPKeyboard.shared
+        let kb = LPKeyboardManager.shared
+        let kbHeight = kb.keyboardVisible ? kb.keyboardFrame.height : 0.0
+        let bottomSafeArea = UIApplication.shared.lp_safeAreaInsets.bottom
         if hidesWhenResign {
-            return toolBar.frame.height + kb.height
+            return toolBar.frame.height + kbHeight
         } else {
             if bottomFill {
-                let delta = isEditing ? 0.0 : kb.safeAreaInsets.bottom
-                return toolBar.frame.height + kb.height + delta
+                let delta = isEditing ? 0.0 : bottomSafeArea
+                return toolBar.frame.height + kbHeight + delta
             } else {
-                let delta = isEditing ? kb.height - kb.safeAreaInsets.bottom : 0.0
+                let delta = isEditing ? kbHeight - bottomSafeArea : 0.0
                 return toolBar.frame.height + delta
             }
         }

@@ -78,6 +78,12 @@ public class LPAtUser: NSObject, NSCoding, NSCopying {
     public override var description: String {
         return "{\"id\": \"\(id)\", \"name\": \"\(name)\"}"
     }
+    
+    deinit {
+        #if DEBUG
+        print("LPAtUser:-> release memory.")
+        #endif
+    }
 }
 
 

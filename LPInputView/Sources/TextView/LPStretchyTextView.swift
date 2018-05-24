@@ -67,7 +67,9 @@ open class LPStretchyTextView: UITextView {
     // MARK: - Override
     
     deinit {
+        #if DEBUG
         print("LPStretchyTextView: -> release memory.")
+        #endif
     }
     
     public override init(frame: CGRect, textContainer: NSTextContainer?) {

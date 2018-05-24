@@ -46,7 +46,9 @@ public class LPInputToolBar: UIView {
     private var bottomSeparator: UIView?
     
     deinit {
+        #if DEBUG
         print("LPInputToolBar: -> release memory.")
+        #endif
     }
     
     public init(frame: CGRect, config: LPInputToolBarConfig) {
