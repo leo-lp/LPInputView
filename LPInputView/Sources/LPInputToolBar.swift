@@ -18,7 +18,7 @@ protocol LPInputToolBarDelegate: class {
     func toolBar(_ toolBar: LPInputToolBar, textViewShouldBeginEditing textView: UITextView) -> Bool
     
     func toolBar(_ toolBar: LPInputToolBar, textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool
-    func toolBar(_ toolBar: LPInputToolBar, textView: LPStretchyTextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int)
+    func toolBar(_ toolBar: LPInputToolBar, textView: UITextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int)
     func toolBar(_ toolBar: LPInputToolBar, inputAtCharacter character: String)
 }
 
@@ -117,8 +117,8 @@ public class LPInputToolBar: UIView {
 
 public extension LPInputToolBar {
     
-    var textView: LPStretchyTextView? {
-        if let textView = items[.text] as? LPStretchyTextView { return textView }
+    var textView: LPAtTextView? {
+        if let textView = items[.text] as? LPAtTextView { return textView }
         return config.textViewOfCustomToolBarItem
     }
     
@@ -165,7 +165,7 @@ extension LPInputToolBar {
                     recordButton = recordBtn
                 }
             case .text:
-                let textView = LPStretchyTextView(frame: .zero)
+                let textView = LPAtTextView(frame: .zero)
                 textView.font = UIFont.systemFont(ofSize: 14.0)
                 textView.textColor = UIColor.black
                 textView.backgroundColor = UIColor.clear
@@ -182,7 +182,7 @@ extension LPInputToolBar {
         }
         
         if let textView = textView {
-            textView.stretchyDelegate = self
+            textView.tvDelegate = self
             textView.isAtEnabled = config.isAtEnabled
         }
         
@@ -245,7 +245,7 @@ extension LPInputToolBar {
         var left: CGFloat = 0.0
         for (idx, type) in itemTypes.enumerated() {
             if let item = items[type] {
-                if item is LPStretchyTextView {
+                if item is LPAtTextView {
                     return left
                 } else if !item.isHidden {
                     if idx == 0 {
@@ -270,7 +270,7 @@ extension LPInputToolBar {
         let totalCount: Int = itemTypes.count - 1
         for (idx, type) in itemTypes.enumerated().reversed() {
             if let item = items[type] {
-                if item is LPStretchyTextView {
+                if item is LPAtTextView {
                     return right
                 } else if !item.isHidden {
                     if idx == totalCount {
@@ -302,9 +302,8 @@ extension LPInputToolBar {
 
 // MARK: - Delegate Funcs
 
-extension LPInputToolBar: LPStretchyTextViewDelegate {
-    
-    public func textView(_ textView: LPStretchyTextView, heightDidChange newHeight: CGFloat) {
+extension LPInputToolBar: LPTextViewDelegate {
+    public func textView(_ textView: UITextView, heightDidChange newHeight: CGFloat) {
         guard let delegate = delegate else { return }
         let height = newHeight + contentInset.top + contentInset.bottom
         animate({
@@ -314,11 +313,11 @@ extension LPInputToolBar: LPStretchyTextViewDelegate {
         delegate.toolBarDidChangeHeight(self)
     }
     
-    public func textView(_ textView: LPStretchyTextView, inputAtCharacter character: String) {
+    public func textView(_ textView: UITextView, inputAtCharacter character: String) {
         delegate?.toolBar(self, inputAtCharacter: character)
     }
     
-    public func textView(_ textView: LPStretchyTextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int) {
+    public func textView(_ textView: UITextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int) {
         delegate?.toolBar(self, textView: textView, didProcessEditing: editedRange, changeInLength: delta)
     }
     

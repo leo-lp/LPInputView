@@ -15,7 +15,7 @@ extension LPInputToolBarItemType {
 
 extension LPCustomInputViewController: LPInputToolBarConfig {
     
-    var textViewOfCustomToolBarItem: LPStretchyTextView? {
+    var textViewOfCustomToolBarItem: LPAtTextView? {
         return textCell?.textView
     }
     

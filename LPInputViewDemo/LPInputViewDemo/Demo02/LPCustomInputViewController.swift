@@ -104,10 +104,10 @@ extension LPCustomInputViewController: LPInputViewDelegate, LPEmoticonViewDelega
         }
     }
     
-//    func inputView(_ inputView: LPInputView, textView: LPStretchyTextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+//    func inputView(_ inputView: LPInputView, textView: LPAtTextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
 //    }
     
-    func inputView(_ inputView: LPInputView, textView: LPStretchyTextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int) {
+    func inputView(_ inputView: LPInputView, textView: UITextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int) {
         navigationItem.rightBarButtonItem?.isEnabled = textView.textStorage.length > 0
     }
 
@@ -120,7 +120,7 @@ extension LPCustomInputViewController: LPInputViewDelegate, LPEmoticonViewDelega
         return true
     }
     
-    func inputView(_ inputView: LPInputView, sendFor textView: LPStretchyTextView) -> Bool {
+    func inputView(_ inputView: LPInputView, sendFor textView: LPAtTextView) -> Bool {
         sendMSG()
         return true
     }

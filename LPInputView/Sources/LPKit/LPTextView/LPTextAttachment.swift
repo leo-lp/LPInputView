@@ -1,8 +1,8 @@
 //
 //  LPTextAttachment.swift
-//  LPInputView <https://github.com/leo-lp/LPInputView>
+//  LPTextView <https://github.com/leo-lp/LPTextView>
 //
-//  Created by pengli on 2018/4/17.
+//  Created by pengli on 2018/5/25.
 //  Copyright © 2018年 pengli. All rights reserved.
 //
 //  This source code is licensed under the MIT-style license found in the
@@ -17,10 +17,10 @@ public extension LPTextAttachment {
     /// - top: 顶部对齐
     /// - center: 居中对齐
     /// - bottom: 底部对齐
-    public enum LPAlignment {
-        case top
-        case center
-        case bottom
+    public enum LPAlignment: Int {
+        case top = 0
+        case center = 1
+        case bottom = 2
     }
 }
 
@@ -33,10 +33,10 @@ public class LPTextAttachment: NSTextAttachment {
     private var baseLineHeight: CGFloat = 0.0
     
     public convenience init(image: UIImage,
-                     scale: CGFloat = 1.0,
-                     alignment: LPAlignment = .center,
-                     tag: String? = nil,
-                     font: UIFont? = nil) {
+                            scale: CGFloat = 1.0,
+                            alignment: LPAlignment = .center,
+                            tag: String? = nil,
+                            font: UIFont? = nil) {
         self.init()
         self.image = image
         self.imageScale = scale
@@ -82,7 +82,7 @@ public class LPTextAttachment: NSTextAttachment {
         return CGRect(x: 0, y: y, width: width, height: height)
     }
     
-    //    deinit {
-    //        print("LPTextAttachment: -> release memory.")
-    //    }
+//    deinit {
+//        print("LPTextAttachment: -> release memory.")
+//    }
 }

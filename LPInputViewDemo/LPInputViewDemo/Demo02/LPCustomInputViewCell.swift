@@ -10,7 +10,7 @@ import UIKit
 import LPInputView
 
 class LPCustomInputViewCell: UITableViewCell {
-    @IBOutlet weak var textView: LPStretchyTextView!
+    @IBOutlet weak var textView: LPAtTextView!
         
     deinit {
         print("LPCustomInputViewCell: -> release memory.")

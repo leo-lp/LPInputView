@@ -7,37 +7,49 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		180F0274208DC4C400DF3C12 /* LPStretchyTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180F0273208DC4C400DF3C12 /* LPStretchyTextView.swift */; };
-		180F0276208DC5D700DF3C12 /* LPStretchyTextView+At.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180F0275208DC5D700DF3C12 /* LPStretchyTextView+At.swift */; };
-		180F0278208DC61500DF3C12 /* LPStretchyTextView+Emotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180F0277208DC61500DF3C12 /* LPStretchyTextView+Emotion.swift */; };
 		180F027A208DC65700DF3C12 /* LPInputModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180F0279208DC65700DF3C12 /* LPInputModel.swift */; };
 		180F027C208DC73500DF3C12 /* LPInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180F027B208DC73500DF3C12 /* LPInputView.swift */; };
 		180F027E208DC74100DF3C12 /* LPInputToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180F027D208DC74100DF3C12 /* LPInputToolBar.swift */; };
 		180F0280208DC95C00DF3C12 /* LPInputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180F027F208DC95C00DF3C12 /* LPInputProtocol.swift */; };
-		18B90E5420945F990040C1FA /* NSAttributedString+LPInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B90E5320945F990040C1FA /* NSAttributedString+LPInputView.swift */; };
 		18BBBC2E209972B5008D4464 /* LPRecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BBBC2D209972B5008D4464 /* LPRecordButton.swift */; };
 		18D57CB620B6874600E2F238 /* UIApplication+LPKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D57CB520B6874600E2F238 /* UIApplication+LPKit.swift */; };
 		18D57CBB20B6877800E2F238 /* LPKeyboardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D57CB920B6877800E2F238 /* LPKeyboardModel.swift */; };
 		18D57CBF20B6928100E2F238 /* LPKeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D57CBE20B6928100E2F238 /* LPKeyboardManager.swift */; };
-		E87EC5C72090E961008155A2 /* LPTextAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87EC5C62090E961008155A2 /* LPTextAttachment.swift */; };
+		18FA9CE220BBB1250056BAF4 /* LPTextAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FA9CD520BBB1250056BAF4 /* LPTextAttachment.swift */; };
+		18FA9CE320BBB1250056BAF4 /* LPAtTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FA9CD620BBB1250056BAF4 /* LPAtTextView.swift */; };
+		18FA9CE420BBB1250056BAF4 /* NSAttributedStringKey+LPTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FA9CD820BBB1250056BAF4 /* NSAttributedStringKey+LPTextView.swift */; };
+		18FA9CE520BBB1250056BAF4 /* UIPasteboard+LPTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FA9CD920BBB1250056BAF4 /* UIPasteboard+LPTextView.swift */; };
+		18FA9CE620BBB1250056BAF4 /* LPTextView+Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FA9CDA20BBB1250056BAF4 /* LPTextView+Pasteboard.swift */; };
+		18FA9CE720BBB1250056BAF4 /* NSAttributedString+LPTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FA9CDB20BBB1250056BAF4 /* NSAttributedString+LPTextView.swift */; };
+		18FA9CE820BBB1250056BAF4 /* LPModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FA9CDC20BBB1250056BAF4 /* LPModels.swift */; };
+		18FA9CE920BBB1250056BAF4 /* LPTextViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FA9CDD20BBB1250056BAF4 /* LPTextViewDelegate.swift */; };
+		18FA9CEA20BBB1250056BAF4 /* LPEmotionTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FA9CDE20BBB1250056BAF4 /* LPEmotionTextView.swift */; };
+		18FA9CEB20BBB1250056BAF4 /* LPPlaceholderTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FA9CDF20BBB1250056BAF4 /* LPPlaceholderTextView.swift */; };
+		18FA9CEC20BBB1250056BAF4 /* LPStretchyTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FA9CE020BBB1250056BAF4 /* LPStretchyTextView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		180F0253208DB1F300DF3C12 /* LPInputView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LPInputView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		180F0257208DB1F300DF3C12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		180F0273208DC4C400DF3C12 /* LPStretchyTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPStretchyTextView.swift; sourceTree = "<group>"; };
-		180F0275208DC5D700DF3C12 /* LPStretchyTextView+At.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LPStretchyTextView+At.swift"; sourceTree = "<group>"; };
-		180F0277208DC61500DF3C12 /* LPStretchyTextView+Emotion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LPStretchyTextView+Emotion.swift"; sourceTree = "<group>"; };
 		180F0279208DC65700DF3C12 /* LPInputModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPInputModel.swift; sourceTree = "<group>"; };
 		180F027B208DC73500DF3C12 /* LPInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPInputView.swift; sourceTree = "<group>"; };
 		180F027D208DC74100DF3C12 /* LPInputToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPInputToolBar.swift; sourceTree = "<group>"; };
 		180F027F208DC95C00DF3C12 /* LPInputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPInputProtocol.swift; sourceTree = "<group>"; };
-		18B90E5320945F990040C1FA /* NSAttributedString+LPInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+LPInputView.swift"; sourceTree = "<group>"; };
 		18BBBC2D209972B5008D4464 /* LPRecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPRecordButton.swift; sourceTree = "<group>"; };
 		18D57CB520B6874600E2F238 /* UIApplication+LPKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+LPKit.swift"; sourceTree = "<group>"; };
 		18D57CB920B6877800E2F238 /* LPKeyboardModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPKeyboardModel.swift; sourceTree = "<group>"; };
 		18D57CBE20B6928100E2F238 /* LPKeyboardManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPKeyboardManager.swift; sourceTree = "<group>"; };
-		E87EC5C62090E961008155A2 /* LPTextAttachment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPTextAttachment.swift; sourceTree = "<group>"; };
+		18FA9CD520BBB1250056BAF4 /* LPTextAttachment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPTextAttachment.swift; sourceTree = "<group>"; };
+		18FA9CD620BBB1250056BAF4 /* LPAtTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPAtTextView.swift; sourceTree = "<group>"; };
+		18FA9CD820BBB1250056BAF4 /* NSAttributedStringKey+LPTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributedStringKey+LPTextView.swift"; sourceTree = "<group>"; };
+		18FA9CD920BBB1250056BAF4 /* UIPasteboard+LPTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIPasteboard+LPTextView.swift"; sourceTree = "<group>"; };
+		18FA9CDA20BBB1250056BAF4 /* LPTextView+Pasteboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LPTextView+Pasteboard.swift"; sourceTree = "<group>"; };
+		18FA9CDB20BBB1250056BAF4 /* NSAttributedString+LPTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+LPTextView.swift"; sourceTree = "<group>"; };
+		18FA9CDC20BBB1250056BAF4 /* LPModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPModels.swift; sourceTree = "<group>"; };
+		18FA9CDD20BBB1250056BAF4 /* LPTextViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPTextViewDelegate.swift; sourceTree = "<group>"; };
+		18FA9CDE20BBB1250056BAF4 /* LPEmotionTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPEmotionTextView.swift; sourceTree = "<group>"; };
+		18FA9CDF20BBB1250056BAF4 /* LPPlaceholderTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPPlaceholderTextView.swift; sourceTree = "<group>"; };
+		18FA9CE020BBB1250056BAF4 /* LPStretchyTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPStretchyTextView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,33 +83,21 @@
 			isa = PBXGroup;
 			children = (
 				18D57CB420B6871A00E2F238 /* LPKit */,
-				180F0281208DC98C00DF3C12 /* TextView */,
 				180F027B208DC73500DF3C12 /* LPInputView.swift */,
 				180F027D208DC74100DF3C12 /* LPInputToolBar.swift */,
 				180F0279208DC65700DF3C12 /* LPInputModel.swift */,
 				180F027F208DC95C00DF3C12 /* LPInputProtocol.swift */,
 				18BBBC2D209972B5008D4464 /* LPRecordButton.swift */,
-				18B90E5320945F990040C1FA /* NSAttributedString+LPInputView.swift */,
 				180F0257208DB1F300DF3C12 /* Info.plist */,
 			);
 			path = Sources;
-			sourceTree = "<group>";
-		};
-		180F0281208DC98C00DF3C12 /* TextView */ = {
-			isa = PBXGroup;
-			children = (
-				E87EC5C62090E961008155A2 /* LPTextAttachment.swift */,
-				180F0273208DC4C400DF3C12 /* LPStretchyTextView.swift */,
-				180F0277208DC61500DF3C12 /* LPStretchyTextView+Emotion.swift */,
-				180F0275208DC5D700DF3C12 /* LPStretchyTextView+At.swift */,
-			);
-			path = TextView;
 			sourceTree = "<group>";
 		};
 		18D57CB420B6871A00E2F238 /* LPKit */ = {
 			isa = PBXGroup;
 			children = (
 				18D57CB520B6874600E2F238 /* UIApplication+LPKit.swift */,
+				18FA9CD420BBB1250056BAF4 /* LPTextView */,
 				18D57CB720B6876800E2F238 /* LPKeyboardManager */,
 			);
 			path = LPKit;
@@ -110,6 +110,32 @@
 				18D57CB920B6877800E2F238 /* LPKeyboardModel.swift */,
 			);
 			path = LPKeyboardManager;
+			sourceTree = "<group>";
+		};
+		18FA9CD420BBB1250056BAF4 /* LPTextView */ = {
+			isa = PBXGroup;
+			children = (
+				18FA9CDF20BBB1250056BAF4 /* LPPlaceholderTextView.swift */,
+				18FA9CE020BBB1250056BAF4 /* LPStretchyTextView.swift */,
+				18FA9CDE20BBB1250056BAF4 /* LPEmotionTextView.swift */,
+				18FA9CD620BBB1250056BAF4 /* LPAtTextView.swift */,
+				18FA9CDD20BBB1250056BAF4 /* LPTextViewDelegate.swift */,
+				18FA9CD520BBB1250056BAF4 /* LPTextAttachment.swift */,
+				18FA9CDC20BBB1250056BAF4 /* LPModels.swift */,
+				18FA9CD720BBB1250056BAF4 /* Extensions */,
+			);
+			path = LPTextView;
+			sourceTree = "<group>";
+		};
+		18FA9CD720BBB1250056BAF4 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				18FA9CD820BBB1250056BAF4 /* NSAttributedStringKey+LPTextView.swift */,
+				18FA9CD920BBB1250056BAF4 /* UIPasteboard+LPTextView.swift */,
+				18FA9CDA20BBB1250056BAF4 /* LPTextView+Pasteboard.swift */,
+				18FA9CDB20BBB1250056BAF4 /* NSAttributedString+LPTextView.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -192,17 +218,23 @@
 			files = (
 				18D57CBB20B6877800E2F238 /* LPKeyboardModel.swift in Sources */,
 				18D57CB620B6874600E2F238 /* UIApplication+LPKit.swift in Sources */,
-				E87EC5C72090E961008155A2 /* LPTextAttachment.swift in Sources */,
-				180F0278208DC61500DF3C12 /* LPStretchyTextView+Emotion.swift in Sources */,
+				18FA9CE920BBB1250056BAF4 /* LPTextViewDelegate.swift in Sources */,
+				18FA9CE620BBB1250056BAF4 /* LPTextView+Pasteboard.swift in Sources */,
+				18FA9CE320BBB1250056BAF4 /* LPAtTextView.swift in Sources */,
 				180F0280208DC95C00DF3C12 /* LPInputProtocol.swift in Sources */,
+				18FA9CEB20BBB1250056BAF4 /* LPPlaceholderTextView.swift in Sources */,
+				18FA9CE220BBB1250056BAF4 /* LPTextAttachment.swift in Sources */,
+				18FA9CE520BBB1250056BAF4 /* UIPasteboard+LPTextView.swift in Sources */,
 				18BBBC2E209972B5008D4464 /* LPRecordButton.swift in Sources */,
 				180F027C208DC73500DF3C12 /* LPInputView.swift in Sources */,
+				18FA9CE820BBB1250056BAF4 /* LPModels.swift in Sources */,
+				18FA9CEA20BBB1250056BAF4 /* LPEmotionTextView.swift in Sources */,
 				18D57CBF20B6928100E2F238 /* LPKeyboardManager.swift in Sources */,
-				18B90E5420945F990040C1FA /* NSAttributedString+LPInputView.swift in Sources */,
-				180F0276208DC5D700DF3C12 /* LPStretchyTextView+At.swift in Sources */,
+				18FA9CE420BBB1250056BAF4 /* NSAttributedStringKey+LPTextView.swift in Sources */,
 				180F027A208DC65700DF3C12 /* LPInputModel.swift in Sources */,
+				18FA9CEC20BBB1250056BAF4 /* LPStretchyTextView.swift in Sources */,
+				18FA9CE720BBB1250056BAF4 /* NSAttributedString+LPTextView.swift in Sources */,
 				180F027E208DC74100DF3C12 /* LPInputToolBar.swift in Sources */,
-				180F0274208DC4C400DF3C12 /* LPStretchyTextView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

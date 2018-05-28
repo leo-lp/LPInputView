@@ -50,12 +50,17 @@ class LPEmotion {
     func attrString(with attrString: NSAttributedString,
                     scale: CGFloat = 1.2,
                     font: UIFont? = nil) -> NSMutableAttributedString {
-        return attrString.lp_regex(pattern: regulaPattern, replaceBlock: { (checkingResult) -> NSAttributedString in
+        let resultAttrString = attrString.lp_regex(pattern: regulaPattern, replaceBlock: { (checkingResult) -> NSAttributedString in
             let emotionID = checkingResult.string
             guard let emoji = emoji(by: emotionID) else { return checkingResult }
             let attachment = LPTextAttachment(image: emoji, scale: scale, font: font)
             attachment.tagName = emotionID
             return NSAttributedString(attachment: attachment)
         })
+        
+        guard let mutableAttrString = resultAttrString else {
+            return NSMutableAttributedString(attributedString: attrString)
+        }
+        return mutableAttrString
     }
 }

@@ -33,13 +33,13 @@ class LPInputViewConfig: LPInputToolBarConfig {
         }
     }
     
-    func configTextView(_ textView: LPStretchyTextView, type: LPInputToolBarItemType) {
+    func configTextView(_ textView: LPAtTextView, type: LPInputToolBarItemType) {
         let placeholder = "说点什么..."
         let attributes: [NSAttributedStringKey: Any] = [.foregroundColor: UIColor.brown]
         textView.placeholder = NSAttributedString(string: placeholder,
                                                   attributes: attributes)
-        textView.maxNumberOfLines = 4
-        textView.minNumberOfLines = 1
+        textView.textLines(min: 1, max: 4)
+        
         textView.layer.borderColor = #colorLiteral(red: 0.8862745098, green: 0.8862745098, blue: 0.8862745098, alpha: 1).cgColor
         textView.layer.borderWidth = 0.5
         textView.layer.cornerRadius = 4

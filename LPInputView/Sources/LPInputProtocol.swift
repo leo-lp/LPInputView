@@ -20,11 +20,11 @@ public protocol LPInputToolBarConfig: class {
     
     /// optional
     func configItem(_ button: UIButton, type: LPInputToolBarItemType)
-    func configTextView(_ textView: LPStretchyTextView, type: LPInputToolBarItemType)
+    func configTextView(_ textView: LPAtTextView, type: LPInputToolBarItemType)
     func configRecordButton(_ button: LPRecordButton)
     func configCustomBarItem(for type: LPInputToolBarItemType) -> UIView?
     
-    var textViewOfCustomToolBarItem: LPStretchyTextView? { get }
+    var textViewOfCustomToolBarItem: LPAtTextView? { get }
     
     var barContentInset: UIEdgeInsets { get }
     var barInteritemSpacing: CGFloat { get }
@@ -45,12 +45,12 @@ public protocol LPInputViewDelegate: class {
     
     func inputView(_ inputView: LPInputView, statusChanged newStatus: LPInputToolBarItemType, oldStatus: LPInputToolBarItemType)
     
-    func inputView(_ inputView: LPInputView, textView: LPStretchyTextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool
-    func inputView(_ inputView: LPInputView, textView: LPStretchyTextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int)
+    func inputView(_ inputView: LPInputView, textView: LPAtTextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool
+    func inputView(_ inputView: LPInputView, textView: UITextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int)
     func inputView(_ inputView: LPInputView, inputAtCharacter character: String)
     func inputView(_ inputView: LPInputView, shouldHandleForMaximumLengthExceedsLimit maxLength: Int) -> Bool
 
-    func inputView(_ inputView: LPInputView, sendFor textView: LPStretchyTextView) -> Bool
+    func inputView(_ inputView: LPInputView, sendFor textView: LPAtTextView) -> Bool
 }
 
 
@@ -73,10 +73,10 @@ public extension LPInputViewDelegate {
     func inputView(_ inputView: LPInputView, statusChanged newStatus: LPInputToolBarItemType, oldStatus: LPInputToolBarItemType)
     { }
     
-    func inputView(_ inputView: LPInputView, textView: LPStretchyTextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool
+    func inputView(_ inputView: LPInputView, textView: LPAtTextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool
     { return true }
 
-    func inputView(_ inputView: LPInputView, textView: LPStretchyTextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int)
+    func inputView(_ inputView: LPInputView, textView: UITextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int)
     { }
     
     func inputView(_ inputView: LPInputView, inputAtCharacter character: String)
@@ -85,7 +85,7 @@ public extension LPInputViewDelegate {
     func inputView(_ inputView: LPInputView, shouldHandleForMaximumLengthExceedsLimit maxLength: Int) -> Bool
     { return true }
     
-    func inputView(_ inputView: LPInputView, sendFor textView: LPStretchyTextView) -> Bool
+    func inputView(_ inputView: LPInputView, sendFor textView: LPAtTextView) -> Bool
     { return true }
 }
 
@@ -93,7 +93,7 @@ public extension LPInputToolBarConfig {
     func configItem(_ button: UIButton, type: LPInputToolBarItemType)
     { }
     
-    func configTextView(_ textView: LPStretchyTextView, type: LPInputToolBarItemType)
+    func configTextView(_ textView: LPAtTextView, type: LPInputToolBarItemType)
     { }
     
     func configRecordButton(_ button: LPRecordButton)
@@ -102,7 +102,7 @@ public extension LPInputToolBarConfig {
     func configCustomBarItem(for type: LPInputToolBarItemType) -> UIView?
     { return nil }
     
-    var textViewOfCustomToolBarItem: LPStretchyTextView?
+    var textViewOfCustomToolBarItem: LPAtTextView?
     { return nil }
     
     var barContentInset: UIEdgeInsets

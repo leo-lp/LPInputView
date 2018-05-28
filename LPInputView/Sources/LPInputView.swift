@@ -86,7 +86,7 @@ public class LPInputView: UIView {
 
 public extension LPInputView {
     
-    var textView: LPStretchyTextView? {
+    var textView: LPAtTextView? {
         return toolBar.textView
     }
     
@@ -200,13 +200,13 @@ extension LPInputView: LPInputToolBarDelegate, LPRecordButtonDelegate, LPKeyboar
     
     func toolBar(_ toolBar: LPInputToolBar, textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if let delegate = delegate
-            , let textView = textView as? LPStretchyTextView
+            , let textView = textView as? LPAtTextView
             , !delegate.inputView(self, textView: textView, shouldChangeTextIn: range, replacementText: text)
         { return false }
         
         if text == "\n" && textView.returnKeyType == .send {
             if let delegate = delegate
-                , let textView = textView as? LPStretchyTextView
+                , let textView = textView as? LPAtTextView
                 , delegate.inputView(self, sendFor: textView) {
                 textView.clearTextStorage()
             }
@@ -215,7 +215,7 @@ extension LPInputView: LPInputToolBarDelegate, LPRecordButtonDelegate, LPKeyboar
         return true
     }
     
-    func toolBar(_ toolBar: LPInputToolBar, textView: LPStretchyTextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int) {
+    func toolBar(_ toolBar: LPInputToolBar, textView: UITextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int) {
         guard let delegate = delegate else { return }
         delegate.inputView(self, textView: textView, didProcessEditing: editedRange, changeInLength: delta)
 
