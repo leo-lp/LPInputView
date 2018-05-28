@@ -21,6 +21,7 @@ open class LPAtTextView: LPEmotionTextView {
         }
     }
     
+    /// 是否启用“@”功能
     open var isAtEnabled: Bool = false
     
     // MARK: - Override funs
