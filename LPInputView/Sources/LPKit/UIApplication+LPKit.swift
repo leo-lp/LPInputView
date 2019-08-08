@@ -14,8 +14,7 @@ import UIKit.UIApplication
 public extension UIApplication {
     
     var lp_currWindow: UIWindow? {
-        let app = UIApplication.shared
-        return app.keyWindow ?? app.windows.first
+        return keyWindow ?? windows.first
     }
     
     var lp_safeAreaInsets: UIEdgeInsets {
