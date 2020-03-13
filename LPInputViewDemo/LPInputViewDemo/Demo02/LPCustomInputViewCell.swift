@@ -27,7 +27,7 @@ class LPCustomInputViewCell: UITableViewCell {
         textView.layer.borderWidth = 1
         textView.layer.cornerRadius = 4
 
-        let attributes: [NSAttributedStringKey: Any] = [.foregroundColor: UIColor.brown]
+        let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.brown]
         textView.placeholder = NSAttributedString(string: "说点什么...",
                                                   attributes: attributes)
     }

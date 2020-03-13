@@ -11,9 +11,9 @@
 
 import UIKit
 
-extension NSAttributedStringKey {
+extension NSAttributedString.Key {
     
-    static let LPAtUser = NSAttributedStringKey("com.lp.LPTextView.attrString.atUser")
+    static let LPAtUser = NSAttributedString.Key("com.lp.LPTextView.attrString.atUser")
     
-    static let LPEmotionID = NSAttributedStringKey("com.lp.LPTextView.emotionID")
+    static let LPEmotionID = NSAttributedString.Key("com.lp.LPTextView.emotionID")
 }

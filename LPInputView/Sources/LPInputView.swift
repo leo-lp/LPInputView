@@ -131,7 +131,7 @@ public extension LPInputView {
         if container.superview == nil { addSubview(container) }
         
         container.frame.origin.y = frame.height
-        bringSubview(toFront: container)
+        bringSubviewToFront(container)
         container.isHidden = false
         
         renewStatus(to: type, isDelay: false)
@@ -147,8 +147,8 @@ public extension LPInputView {
         }
     }
     
-    public func animate(_ animations: @escaping () -> Void, completion: ((Bool) -> Void)?) {
-        let options = UIViewAnimationOptions(rawValue: 7)
+    func animate(_ animations: @escaping () -> Void, completion: ((Bool) -> Void)?) {
+        let options = UIView.AnimationOptions(rawValue: 7)
         UIView.animate(withDuration: 0.25,
                        delay: 0.0,
                        options: options,

@@ -19,8 +19,8 @@ public struct LPKeyboardTransition {
     public var toFrame: CGRect = .zero
     
     public var animationDuration: TimeInterval = 0
-    public var animationCurve: UIViewAnimationCurve = .easeInOut
-    public var animationOption: UIViewAnimationOptions = .curveEaseInOut
+    public var animationCurve: UIView.AnimationCurve = .easeInOut
+    public var animationOption: UIView.AnimationOptions = .curveEaseInOut
     
     public var safeAreaInsets: UIEdgeInsets = .zero
 }

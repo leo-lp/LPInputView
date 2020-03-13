@@ -84,7 +84,7 @@ open class LPPlaceholderTextView: UITextView {
 extension LPPlaceholderTextView: NSTextStorageDelegate {
     
     public func textStorage(_ textStorage: NSTextStorage,
-                            didProcessEditing editedMask: NSTextStorageEditActions,
+                            didProcessEditing editedMask: NSTextStorage.EditActions,
                             range editedRange: NSRange,
                             changeInLength delta: Int) {
         textIsEmpty = textStorage.length == 0

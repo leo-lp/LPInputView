@@ -97,7 +97,7 @@ public class LPEmotion: NSObject, NSCoding, NSCopying {
         aCoder.encode(alignment.rawValue, forKey: "alignment")
         aCoder.encode(font?.pointSize, forKey: "fontSize")
         
-        if let image = image, let data = UIImagePNGRepresentation(image) {
+        if let image = image, let data = image.pngData() {
             aCoder.encode(data, forKey: "imageData")
         }
     }

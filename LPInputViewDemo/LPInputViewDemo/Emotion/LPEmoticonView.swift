@@ -107,7 +107,7 @@ class LPEmoticonView: UIView {
         if sender.currentPage < pages {
             let indexPath = IndexPath(item: sender.currentPage, section: 0)
             collectionView.scrollToItem(at: indexPath,
-                                        at: UICollectionViewScrollPosition(rawValue: 0),
+                                        at: UICollectionView.ScrollPosition(rawValue: 0),
                                         animated: true)
         }
     }

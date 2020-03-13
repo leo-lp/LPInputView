@@ -18,7 +18,7 @@ public extension NSAttributedString {
         
         /// 解析@用户
         var users: [(placeholder: String, user: LPAtUser)] = []
-        let key = NSAttributedStringKey.LPAtUser
+        let key = NSAttributedString.Key.LPAtUser
         let range = NSRange(location: 0, length: length)
         let options = NSAttributedString.EnumerationOptions.reverse
         mutableAttrString.enumerateAttribute(key, in: range, options: options) { (obj, range, stop) in
@@ -42,14 +42,14 @@ public extension NSAttributedString {
         var emotions: [String: LPEmotion] = [:]
         
         /// 检索LPTextAttachment
-        let key = NSAttributedStringKey.attachment
+        let key = NSAttributedString.Key.attachment
         let allRange = NSRange(location: 0, length: mutableAttrString.length)
         let options = NSAttributedString.EnumerationOptions.reverse
         mutableAttrString.enumerateAttribute(key, in: allRange, options: options) { (obj, range, stop) in
             if let attachment = obj as? LPTextAttachment, let tagName = attachment.tagName {
                 mutableAttrString.removeAttribute(key, range: range)
                 
-                let attributes = [NSAttributedStringKey.LPEmotionID: tagName]
+                let attributes = [NSAttributedString.Key.LPEmotionID: tagName]
                 let attrString = NSAttributedString(string: tagName,
                                                     attributes: attributes)
                 mutableAttrString.replaceCharacters(in: range, with: attrString)

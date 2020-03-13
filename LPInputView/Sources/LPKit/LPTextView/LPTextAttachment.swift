@@ -17,7 +17,7 @@ public extension LPTextAttachment {
     /// - top: 顶部对齐
     /// - center: 居中对齐
     /// - bottom: 底部对齐
-    public enum LPAlignment: Int {
+    enum LPAlignment: Int {
         case top = 0
         case center = 1
         case bottom = 2

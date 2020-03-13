@@ -106,7 +106,7 @@ open class LPEmotionTextView: LPStretchyTextView {
 extension LPEmotionTextView {
     
     public override func textStorage(_ textStorage: NSTextStorage,
-                                     didProcessEditing editedMask: NSTextStorageEditActions,
+                                     didProcessEditing editedMask: NSTextStorage.EditActions,
                                      range editedRange: NSRange,
                                      changeInLength delta: Int) {
         super.textStorage(textStorage,

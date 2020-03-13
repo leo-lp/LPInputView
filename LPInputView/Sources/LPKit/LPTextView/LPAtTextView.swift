@@ -48,7 +48,7 @@ open class LPAtTextView: LPEmotionTextView {
         }
         
         let user = LPAtUser(id: id, name: name)
-        var attributes: [NSAttributedStringKey: Any] = [.foregroundColor: user.nameColor,
+        var attributes: [NSAttributedString.Key: Any] = [.foregroundColor: user.nameColor,
                                                         .LPAtUser: user]
         if let font = originalFont {
             attributes[.font] = font
@@ -67,7 +67,7 @@ open class LPAtTextView: LPEmotionTextView {
         guard deleteRange.location > 0 else { return false }
         
         var isDeleted = false
-        let key = NSAttributedStringKey.LPAtUser
+        let key = NSAttributedString.Key.LPAtUser
         let searchRange = NSRange(location: 0, length: textStorage.length)
         let options = NSAttributedString.EnumerationOptions.reverse
         textStorage.enumerateAttribute(key, in: searchRange, options: options) { (obj, range, stop) in
@@ -113,14 +113,14 @@ open class LPAtTextView: LPEmotionTextView {
             return NSAttributedString(string: string)
         }
         
-        let attributes: [NSAttributedStringKey: Any] = [.foregroundColor: color,
+        let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: color,
                                                         .font: font]
         return NSAttributedString(string: string, attributes: attributes)
     }
     
     /// 检查光标是否在user区域
     private func checkUserAreaAndAutoSelected() {
-        let key = NSAttributedStringKey.LPAtUser
+        let key = NSAttributedString.Key.LPAtUser
         let searchRange = NSRange(location: 0, length: textStorage.length)
         let options = NSAttributedString.EnumerationOptions.reverse
         textStorage.enumerateAttribute(key, in: searchRange, options: options) { (obj, range, stop) in
@@ -139,7 +139,7 @@ open class LPAtTextView: LPEmotionTextView {
     
     var isAtUserOfPreviousCharacter: Bool {
         guard selectedRange.location > 0 else { return false }
-        let key = NSAttributedStringKey.LPAtUser
+        let key = NSAttributedString.Key.LPAtUser
         let loc = selectedRange.location - 1
         return textStorage.attribute(key, at: loc, effectiveRange: nil) is LPAtUser
     }
@@ -148,7 +148,7 @@ open class LPAtTextView: LPEmotionTextView {
         guard selectedRange.length == 0
             , textStorage.length > selectedRange.location else { return false }
         
-        let key = NSAttributedStringKey.LPAtUser
+        let key = NSAttributedString.Key.LPAtUser
         let loc = selectedRange.location
         return textStorage.attribute(key, at: loc, effectiveRange: nil) is LPAtUser
     }

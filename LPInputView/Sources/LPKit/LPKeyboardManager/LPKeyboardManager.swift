@@ -82,7 +82,7 @@ public class LPKeyboardManager {
     init() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(kbFrameWillChangeNotification),
-                                               name: .UIKeyboardWillChangeFrame,
+                                               name: UIResponder.keyboardWillChangeFrameNotification,
                                                object: nil)
     }
     
@@ -159,19 +159,19 @@ extension LPKeyboardManager {
     }
     
     @objc private func kbFrameWillChangeNotification(_ notif: Notification) {
-        guard notif.name == .UIKeyboardWillChangeFrame
+        guard notif.name == UIResponder.keyboardWillChangeFrameNotification
             , observers.count > 0
             , let info = notif.userInfo
-            , let durationNumber = info[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber
-            , let curveNumber = info[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber
-            , let animationCurve = UIViewAnimationCurve(rawValue: curveNumber.intValue)
-            , let fromFrameValue = info[UIKeyboardFrameBeginUserInfoKey] as? NSValue
-            , let toFrameValue = info[UIKeyboardFrameEndUserInfoKey] as? NSValue
+            , let durationNumber = info[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber
+            , let curveNumber = info[UIResponder.keyboardAnimationCurveUserInfoKey] as? NSNumber
+            , let animationCurve = UIView.AnimationCurve(rawValue: curveNumber.intValue)
+            , let fromFrameValue = info[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue
+            , let toFrameValue = info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
             , let window = UIApplication.shared.keyWindow ?? UIApplication.shared.windows.first
             else { return }
         
         let duration = durationNumber.doubleValue
-        let animationOption = UIViewAnimationOptions(rawValue: curveNumber.uintValue << 16)
+        let animationOption = UIView.AnimationOptions(rawValue: curveNumber.uintValue << 16)
         let fromFrame = fromFrameValue.cgRectValue
         let toFrame = toFrameValue.cgRectValue
         

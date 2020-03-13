@@ -258,7 +258,7 @@ extension LPInputToolBar {
                     
                     if item.superview == nil { addSubview(item) }
                     
-                    print("layoutLeft:->item.frame.origin.x=\(item.frame.origin.x, item.center.y, frame.height)")
+                    print("layoutLeft:->item.frame.origin.x=\(item.frame.origin.x), \(item.center.y), \(frame.height)")
                 }
             }
         }
@@ -283,7 +283,7 @@ extension LPInputToolBar {
                     
                     if item.superview == nil { addSubview(item) }
                     
-                    print("layoutRight:->item.frame.origin.x=\(item.frame.origin.x, item.center.y, frame.height)")
+                    print("layoutRight:->item.frame.origin.x=\(item.frame.origin.x), \(item.center.y), \(frame.height)")
                 }
             }
         }
@@ -291,7 +291,7 @@ extension LPInputToolBar {
     }
     
     private func animate(_ animations: @escaping () -> Void, completion: ((Bool) -> Void)?) {
-        let options = UIViewAnimationOptions(rawValue: 7)
+        let options = UIView.AnimationOptions(rawValue: 7)
         UIView.animate(withDuration: 0.25,
                        delay: 0.0,
                        options: options,

@@ -55,7 +55,7 @@ public extension UIPasteboard {
             return mutableAttrString
         }
         
-        let key = NSAttributedStringKey.LPEmotionID
+        let key = NSAttributedString.Key.LPEmotionID
         let range = NSRange(location: 0, length: mutableAttrString.length)
         let options = NSAttributedString.EnumerationOptions.reverse
         mutableAttrString.enumerateAttribute(key, in: range, options: options) { (obj, range, stop) in
