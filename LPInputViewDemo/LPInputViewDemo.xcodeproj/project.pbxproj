@@ -13,6 +13,7 @@
 		180F0267208DB2EB00DF3C12 /* LPAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180F0266208DB2EB00DF3C12 /* LPAppDelegate.swift */; };
 		180F0269208DB35300DF3C12 /* LPInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180F0268208DB35300DF3C12 /* LPInputViewController.swift */; };
 		180F0283208DCBDD00DF3C12 /* LPInputViewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180F0282208DCBDD00DF3C12 /* LPInputViewConfig.swift */; };
+		183C948C241BD452003B6A2A /* LPEmotion.plist in Resources */ = {isa = PBXBuildFile; fileRef = 183C948B241BD452003B6A2A /* LPEmotion.plist */; };
 		18560506209C40A5000E6ECB /* UITableView+LPInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18560505209C40A5000E6ECB /* UITableView+LPInputView.swift */; };
 		1862FDD5208EDF8C002009A4 /* LPMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1862FDD4208EDF8C002009A4 /* LPMainViewController.swift */; };
 		1862FDE2208F247D002009A4 /* LPCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1862FDD9208F247C002009A4 /* LPCustomView.swift */; };
@@ -22,7 +23,6 @@
 		1862FDE6208F247D002009A4 /* LPEmoticonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1862FDDE208F247D002009A4 /* LPEmoticonCell.xib */; };
 		1862FDE7208F247D002009A4 /* LPEmoticonView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1862FDDF208F247D002009A4 /* LPEmoticonView.xib */; };
 		1862FDE8208F247D002009A4 /* LPMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1862FDE1208F247D002009A4 /* LPMoreView.swift */; };
-		1862FDEA208F36A5002009A4 /* LPEmotion.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1862FDE9208F36A5002009A4 /* LPEmotion.bundle */; };
 		189D666420B26706004A4592 /* LPInputView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 189D666320B26706004A4592 /* LPInputView.framework */; };
 		189D666520B26706004A4592 /* LPInputView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 189D666320B26706004A4592 /* LPInputView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		18B90E5220945C720040C1FA /* LPFriendListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B90E5120945C720040C1FA /* LPFriendListController.swift */; };
@@ -57,6 +57,7 @@
 		180F0266208DB2EB00DF3C12 /* LPAppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPAppDelegate.swift; sourceTree = "<group>"; };
 		180F0268208DB35300DF3C12 /* LPInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPInputViewController.swift; sourceTree = "<group>"; };
 		180F0282208DCBDD00DF3C12 /* LPInputViewConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPInputViewConfig.swift; sourceTree = "<group>"; };
+		183C948B241BD452003B6A2A /* LPEmotion.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LPEmotion.plist; sourceTree = "<group>"; };
 		18560505209C40A5000E6ECB /* UITableView+LPInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+LPInputView.swift"; sourceTree = "<group>"; };
 		1862FDD4208EDF8C002009A4 /* LPMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPMainViewController.swift; sourceTree = "<group>"; };
 		1862FDD9208F247C002009A4 /* LPCustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPCustomView.swift; sourceTree = "<group>"; };
@@ -66,7 +67,6 @@
 		1862FDDE208F247D002009A4 /* LPEmoticonCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LPEmoticonCell.xib; sourceTree = "<group>"; };
 		1862FDDF208F247D002009A4 /* LPEmoticonView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LPEmoticonView.xib; sourceTree = "<group>"; };
 		1862FDE1208F247D002009A4 /* LPMoreView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPMoreView.swift; sourceTree = "<group>"; };
-		1862FDE9208F36A5002009A4 /* LPEmotion.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = LPEmotion.bundle; sourceTree = "<group>"; };
 		189D666320B26706004A4592 /* LPInputView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LPInputView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		18B90E5120945C720040C1FA /* LPFriendListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPFriendListController.swift; sourceTree = "<group>"; };
 		18B90E5920946A310040C1FA /* LPCustomInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPCustomInputViewController.swift; sourceTree = "<group>"; };
@@ -121,8 +121,8 @@
 				18B90E5C20946B3A0040C1FA /* Demo02 */,
 				180F023E208DB1DA00DF3C12 /* Assets.xcassets */,
 				180F0240208DB1DA00DF3C12 /* LaunchScreen.storyboard */,
+				183C948B241BD452003B6A2A /* LPEmotion.plist */,
 				180F0243208DB1DA00DF3C12 /* Info.plist */,
-				1862FDE9208F36A5002009A4 /* LPEmotion.bundle */,
 			);
 			path = LPInputViewDemo;
 			sourceTree = "<group>";
@@ -238,8 +238,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				180F0242208DB1DA00DF3C12 /* LaunchScreen.storyboard in Resources */,
+				183C948C241BD452003B6A2A /* LPEmotion.plist in Resources */,
 				18B90E6420946DDA0040C1FA /* LPCustomInputToolBar.xib in Resources */,
-				1862FDEA208F36A5002009A4 /* LPEmotion.bundle in Resources */,
 				1862FDE6208F247D002009A4 /* LPEmoticonCell.xib in Resources */,
 				180F023F208DB1DA00DF3C12 /* Assets.xcassets in Resources */,
 				180F023D208DB1D900DF3C12 /* Main.storyboard in Resources */,

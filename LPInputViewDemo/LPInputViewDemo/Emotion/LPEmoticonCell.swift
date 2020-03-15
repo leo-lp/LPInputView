@@ -65,8 +65,7 @@ class LPEmoticonCell: UICollectionViewCell {
             let index = indexPath.row * emoteNum + i
             if index < emotes.count {
                 let emote = emotes[index]
-                let imgName = LPEmotion.shared.emojiPath + emote.1
-                btn.bind(tag: emote.0, img: imgName)
+                btn.bind(tag: emote.0, img: emote.1)
                 btn.isHidden = false
             } else {
                 btn.isHidden = true

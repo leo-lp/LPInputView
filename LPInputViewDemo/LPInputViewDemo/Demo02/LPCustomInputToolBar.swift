@@ -14,9 +14,7 @@ class LPCustomInputToolBar: UIView {
     @IBOutlet weak var loationButton: UIButton!
     
     class func instance() -> LPCustomInputToolBar? {
-        guard let views = Bundle.main.loadNibNamed("LPCustomInputToolBar",
-                                                   owner: self,
-                                                   options: nil) else { return nil }
+        guard let views = Bundle.main.loadNibNamed("LPCustomInputToolBar", owner: self, options: nil) else { return nil }
         return views.first as? LPCustomInputToolBar
     }
     
@@ -27,5 +25,9 @@ class LPCustomInputToolBar: UIView {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+    }
+    
+    override func sizeThatFits(_ size: CGSize) -> CGSize {
+        return CGSize(width: UIScreen.main.bounds.width, height: size.height)
     }
 }

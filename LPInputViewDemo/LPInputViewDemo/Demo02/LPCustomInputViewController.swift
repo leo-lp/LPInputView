@@ -12,20 +12,14 @@ import LPInputView
 class LPCustomInputViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
-    lazy var inputBar: LPInputView = {
-        let rect = CGRect(x: 0, y: 0, width: view.frame.width, height: 60)
-        return LPInputView(frame: rect, config: self)
-    }()
+    lazy var inputBar = LPInputView(at: view!)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.reloadData()
         
-        tableView.layer.borderColor = UIColor.red.cgColor
-        tableView.layer.borderWidth = 1
-        
+        inputBar.dataSource = self
         inputBar.delegate = self
-        view.addSubview(inputBar)
         
         let right = UIBarButtonItem(barButtonSystemItem: .done,
                                     target: self,
@@ -85,7 +79,7 @@ extension LPCustomInputViewController: LPInputViewDelegate, LPEmoticonViewDelega
         
     }
     
-    func inputView(_ inputView: LPInputView, shouldHandleClickedFor item: UIButton, type: LPInputToolBarItemType) -> Bool {
+    func inputView(_ inputView: LPInputView, shouldHandleClickedFor item: UIButton, type: LPInputBarItemType) -> Bool {
         if type == .at {
             pushFriendsVC(nil)
             return false
@@ -93,7 +87,7 @@ extension LPCustomInputViewController: LPInputViewDelegate, LPEmoticonViewDelega
         return true
     }
     
-    func inputView(_ inputView: LPInputView, containerViewFor type: LPInputToolBarItemType) -> UIView? {
+    func inputView(_ inputView: LPInputView, containerViewFor type: LPInputBarItemType) -> UIView? {
         switch type {
         case .emotion:
             return LPEmoticonView.instance(delegate: self)
@@ -156,13 +150,13 @@ extension LPCustomInputViewController: LPInputViewDelegate, LPEmoticonViewDelega
     
     private func sendMSG() {
         guard let textView = inputBar.textView else { return }
-        
+
         let atUserPlaceholderByBlock: (Int, LPAtUser) -> String = { (index, _) -> String in
             return "@{\(index)}"
         }
         let result = textView.textStorage.lp_parse(atUserPlaceholderByBlock)
         print(result.description)
-        
+
         textView.clearTextStorage()
     }
     

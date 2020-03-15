@@ -9,29 +9,27 @@
 import UIKit
 import LPInputView
 
-extension LPInputToolBarItemType {
-    static let customItem = LPInputToolBarItemType(rawValue: 1 << 10)
-}
-
-extension LPCustomInputViewController: LPInputToolBarConfig {
+extension LPCustomInputViewController: LPInputBarDataSource {
     
-    var textViewOfCustomToolBarItem: LPAtTextView? {
-        return textCell?.textView
+    var inputBarItemTypes: [LPInputBarItemType] {
+        [.custom(tag: 1)]
     }
     
-    var isAtEnabled: Bool {
-        return true
+    func customTextView(in inputBar: LPInputBar) -> LPAtTextView? {
+        textCell?.textView
     }
     
-    var toolBarItems: [LPInputToolBarItemType] {
-        return [.customItem]
+    func isAtEnabled(in inputBar: LPInputBar, textView: LPAtTextView) -> Bool {
+        true
     }
     
-    var barContentInset: UIEdgeInsets {
-        return .zero
+    func edgeInsets(in inputBar: LPInputBar) -> UIEdgeInsets? {
+        .zero
     }
     
-    func configCustomBarItem(for type: LPInputToolBarItemType) -> UIView? {
+    func inputBar(_ inputBar: LPInputBar, customItemFor type: LPInputBarItemType) -> UIView? {
+        guard case .custom(let tag) = type, tag == 1 else { assert(false); return nil }
+        
         let customToolBar = LPCustomInputToolBar.instance()!
         customToolBar.emotionButton.addTarget(self,
                                               action: #selector(emotionButtonClicked),
@@ -45,8 +43,8 @@ extension LPCustomInputViewController: LPInputToolBarConfig {
         return customToolBar
     }
     
-    var separatorOfToolBar: [(loc: LPInputSeparatorLocation, color: UIColor?)]? {
-        return [(loc: .top, color: nil), (loc: .bottom, color: nil)]
+    func inputBar(_ inputBar: LPInputBar, separatorColorFor type: LPInputSeparatorLocation) -> UIColor? {
+        nil
     }
     
     // MARK: - Button Action

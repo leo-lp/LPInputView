@@ -11,13 +11,11 @@
 
 import UIKit
 
-open class LPAtTextView: LPEmotionTextView {
-    
+open class LPAtTextView: LPStretchyTextView {
     open override var delegate: UITextViewDelegate? {
         didSet {
-            guard let delegate = delegate
-                , !(delegate is LPAtTextView) else { return }
-            fatalError("delegate不可用，请使用LPAtTextView.tvDelegate")
+            guard let delegate = delegate, !(delegate is LPAtTextView) else { return }
+            assert(false, "delegate不可用，请使用LPAtTextView.lpDelegate")
         }
     }
     
@@ -48,8 +46,7 @@ open class LPAtTextView: LPEmotionTextView {
         }
         
         let user = LPAtUser(id: id, name: name)
-        var attributes: [NSAttributedString.Key: Any] = [.foregroundColor: user.nameColor,
-                                                        .LPAtUser: user]
+        var attributes: [NSAttributedString.Key: Any] = [.foregroundColor: user.nameColor, .LPAtUser: user]
         if let font = originalFont {
             attributes[.font] = font
         }
@@ -67,10 +64,9 @@ open class LPAtTextView: LPEmotionTextView {
         guard deleteRange.location > 0 else { return false }
         
         var isDeleted = false
-        let key = NSAttributedString.Key.LPAtUser
-        let searchRange = NSRange(location: 0, length: textStorage.length)
-        let options = NSAttributedString.EnumerationOptions.reverse
-        textStorage.enumerateAttribute(key, in: searchRange, options: options) { (obj, range, stop) in
+        textStorage.enumerateAttribute(NSAttributedString.Key.LPAtUser,
+                                       in: NSRange(location: 0, length: textStorage.length),
+                                       options: .reverse) { (obj, range, stop) in
             guard obj is LPAtUser else { return }
             
             if deleteRange.location >= range.location && deleteRange.location <= range.upperBound - 1 {
@@ -92,8 +88,7 @@ open class LPAtTextView: LPEmotionTextView {
                     deleteEmotion()
                 }
             } else if selectedRange.location > 0 {
-                let range = NSRange(location: selectedRange.location - 1, length: 1)
-                if !deleteUser(in: range) {
+                if !deleteUser(in: NSRange(location: selectedRange.location - 1, length: 1)) {
                     deleteEmotion()
                 }
             }
@@ -112,18 +107,14 @@ open class LPAtTextView: LPEmotionTextView {
         guard let color = originalTextColor, let font = originalFont else {
             return NSAttributedString(string: string)
         }
-        
-        let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: color,
-                                                        .font: font]
-        return NSAttributedString(string: string, attributes: attributes)
+        return NSAttributedString(string: string, attributes: [.foregroundColor: color, .font: font])
     }
     
     /// 检查光标是否在user区域
     private func checkUserAreaAndAutoSelected() {
-        let key = NSAttributedString.Key.LPAtUser
-        let searchRange = NSRange(location: 0, length: textStorage.length)
-        let options = NSAttributedString.EnumerationOptions.reverse
-        textStorage.enumerateAttribute(key, in: searchRange, options: options) { (obj, range, stop) in
+        textStorage.enumerateAttribute(NSAttributedString.Key.LPAtUser,
+                                       in: NSRange(location: 0, length: textStorage.length),
+                                       options: .reverse) { (obj, range, stop) in
             guard obj is LPAtUser else { return }
             
             let selRange = self.selectedRange
@@ -139,37 +130,25 @@ open class LPAtTextView: LPEmotionTextView {
     
     var isAtUserOfPreviousCharacter: Bool {
         guard selectedRange.location > 0 else { return false }
-        let key = NSAttributedString.Key.LPAtUser
-        let loc = selectedRange.location - 1
-        return textStorage.attribute(key, at: loc, effectiveRange: nil) is LPAtUser
+        return textStorage.attribute(NSAttributedString.Key.LPAtUser, at: selectedRange.location - 1, effectiveRange: nil) is LPAtUser
     }
     
     var isAtUserOfLatterCharacter: Bool {
-        guard selectedRange.length == 0
-            , textStorage.length > selectedRange.location else { return false }
-        
-        let key = NSAttributedString.Key.LPAtUser
-        let loc = selectedRange.location
-        return textStorage.attribute(key, at: loc, effectiveRange: nil) is LPAtUser
+        guard selectedRange.length == 0, textStorage.length > selectedRange.location else { return false }
+        return textStorage.attribute(NSAttributedString.Key.LPAtUser, at: selectedRange.location, effectiveRange: nil) is LPAtUser
     }
     
     var isSpaceOfLatterCharacter: Bool {
-        guard selectedRange.length == 0
-            , textStorage.length > selectedRange.location else { return false }
-        
-        let range = NSRange(location: selectedRange.location, length: 1)
-        return textStorage.attributedSubstring(from: range).string == " "
+        guard selectedRange.length == 0, textStorage.length > selectedRange.location else { return false }
+        return textStorage.attributedSubstring(from: NSRange(location: selectedRange.location, length: 1)).string == " "
     }
     
     private func deleteAtCharacter(_ character: String) {
         let count = character.count
-        guard count > 0
-            , selectedRange.location >= count
-            , textStorage.length > selectedRange.location - count else { return }
+        guard count > 0, selectedRange.location >= count, textStorage.length > selectedRange.location - count else { return }
         
         let range = NSRange(location: selectedRange.location - count, length: count)
-        let subChar = textStorage.attributedSubstring(from: range)
-        if subChar.string == character {
+        if textStorage.attributedSubstring(from: range).string == character {
             textStorage.deleteCharacters(in: range)
             selectedRange = NSRange(location: range.location, length: 0)
         }
@@ -182,8 +161,7 @@ open class LPAtTextView: LPEmotionTextView {
 extension LPAtTextView: UITextViewDelegate {
     
     public func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-        if let flag = tvDelegate?.textViewShouldBeginEditing?(textView)
-            , !flag { return flag }
+        if let flag = lpDelegate?.textViewShouldBeginEditing?(textView), !flag { return flag }
         if isAtEnabled {
             checkUserAreaAndAutoSelected()
         }
@@ -191,22 +169,19 @@ extension LPAtTextView: UITextViewDelegate {
     }
     
     public func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
-        return tvDelegate?.textViewShouldEndEditing?(textView) ?? true
+        return lpDelegate?.textViewShouldEndEditing?(textView) ?? true
     }
     
     public func textViewDidBeginEditing(_ textView: UITextView) {
-        tvDelegate?.textViewDidBeginEditing?(textView)
+        lpDelegate?.textViewDidBeginEditing?(textView)
     }
     
     public func textViewDidEndEditing(_ textView: UITextView) {
-        tvDelegate?.textViewDidEndEditing?(textView)
+        lpDelegate?.textViewDidEndEditing?(textView)
     }
     
     public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if let flag = tvDelegate?.textView?(textView,
-                                                  shouldChangeTextIn: range,
-                                                  replacementText: text)
-            , !flag { return flag }
+        if let flag = lpDelegate?.textView?(textView, shouldChangeTextIn: range, replacementText: text), !flag { return flag }
         
         guard isAtEnabled else { return true }
         
@@ -223,8 +198,8 @@ extension LPAtTextView: UITextViewDelegate {
             }
             return true
         case LPAtUser.AtCharacter: // 输入@符
-            if let tvDelegate = tvDelegate {
-                tvDelegate.textView?(self, inputAtCharacter: text)
+            if let lpDelegate = lpDelegate {
+                lpDelegate.textView?(self, inputAtCharacter: text)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
                     self.insertAttrString(self.textAttrString(text, checkAtUser: true))
                 }
@@ -252,35 +227,23 @@ extension LPAtTextView: UITextViewDelegate {
     }
     
     public func textViewDidChange(_ textView: UITextView) {
-        tvDelegate?.textViewDidChange?(textView)
+        lpDelegate?.textViewDidChange?(textView)
     }
     
     public func textViewDidChangeSelection(_ textView: UITextView) {
-        tvDelegate?.textViewDidChangeSelection?(textView)
+        lpDelegate?.textViewDidChangeSelection?(textView)
         if isAtEnabled {
             checkUserAreaAndAutoSelected()
         }
     }
     
     @available(iOS 10.0, *)
-    public func textView(_ textView: UITextView,
-                         shouldInteractWith URL: URL,
-                         in characterRange: NSRange,
-                         interaction: UITextItemInteraction) -> Bool {
-        return tvDelegate?.textView?(textView,
-                                     shouldInteractWith: URL,
-                                     in: characterRange,
-                                     interaction: interaction) ?? true
+    public func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        return lpDelegate?.textView?(textView, shouldInteractWith: URL, in: characterRange, interaction: interaction) ?? true
     }
     
     @available(iOS 10.0, *)
-    public func textView(_ textView: UITextView,
-                         shouldInteractWith textAttachment: NSTextAttachment,
-                         in characterRange: NSRange,
-                         interaction: UITextItemInteraction) -> Bool {
-        return tvDelegate?.textView?(textView,
-                                     shouldInteractWith: textAttachment,
-                                     in: characterRange,
-                                     interaction: interaction) ?? true
+    public func textView(_ textView: UITextView, shouldInteractWith textAttachment: NSTextAttachment, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        return lpDelegate?.textView?(textView, shouldInteractWith: textAttachment, in: characterRange, interaction: interaction) ?? true
     }
 }

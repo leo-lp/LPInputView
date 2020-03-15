@@ -11,7 +11,7 @@
 
 import UIKit
 
-extension LPEmotionTextView {
+extension LPStretchyTextView {
     
     open override func paste(_ sender: Any?) {
         guard let attrString = UIPasteboard.general.lp_attributedString

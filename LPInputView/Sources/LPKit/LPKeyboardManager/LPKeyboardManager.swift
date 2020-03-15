@@ -11,10 +11,12 @@
 
 import UIKit
 
+// MARK: - LPKeyboardObserver
 public protocol LPKeyboardObserver: class {
-    func keyboard(_ keyboard: LPKeyboardManager, willTransition trans: LPKeyboardTransition) -> Void
+    func keyboardManager(_ keyboard: LPKeyboardManager, willTransition trans: LPKeyboardTransition) -> Void
 }
 
+// MARK: - LPKeyboardManager
 public class LPKeyboardManager {
     public static let shared: LPKeyboardManager = { return LPKeyboardManager() }()
     
@@ -72,8 +74,7 @@ public class LPKeyboardManager {
         return window.safeAreaInsets
     }
     
-    private var observers = NSHashTable<NSObject>(options: [.weakMemory, .objectPointerPersonality],
-                                                  capacity: 0)
+    private var observers = NSHashTable<NSObject>(options: [.weakMemory, .objectPointerPersonality], capacity: 0)
     
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -86,24 +87,21 @@ public class LPKeyboardManager {
                                                object: nil)
     }
     
-    public func addObserver(_ observer: (NSObject & LPKeyboardObserver)?) {
-        guard let observer = observer else { return }
+    public func addObserver(_ observer: (NSObject & LPKeyboardObserver)) {
         observers.add(observer)
     }
     
-    public func removeObserver(_ observer: (NSObject & LPKeyboardObserver)?) {
-        guard let observer = observer else { return }
+    public func removeObserver(_ observer: (NSObject & LPKeyboardObserver)) {
         observers.remove(observer)
     }
     
     public func convert(_ rect: CGRect, to view: UIView?) -> CGRect {
         guard !rect.isNull, !rect.isInfinite else { return rect }
-        guard let mainWindow = (UIApplication.shared.keyWindow
-            ?? UIApplication.shared.windows.first) else {
-                if let view = view {
-                    return view.convert(rect, from: nil)
-                }
-                return rect
+        guard let mainWindow = (UIApplication.shared.keyWindow ?? UIApplication.shared.windows.first) else {
+            if let view = view {
+                return view.convert(rect, from: nil)
+            }
+            return rect
         }
         
         var rect = mainWindow.convert(rect, from: nil)
@@ -131,11 +129,8 @@ public class LPKeyboardManager {
         rect = view.convert(rect, from: toWindow)
         return rect
     }
-}
-
-// MARK: - Private Funcs
-
-extension LPKeyboardManager {
+    
+    // MARK: - Private Funcs
     
     private func keyboardView(from window: UIWindow) -> UIView? {
         /// UIRemoteKeyboardWindow
@@ -167,9 +162,7 @@ extension LPKeyboardManager {
             , let animationCurve = UIView.AnimationCurve(rawValue: curveNumber.intValue)
             , let fromFrameValue = info[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue
             , let toFrameValue = info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
-            , let window = UIApplication.shared.keyWindow ?? UIApplication.shared.windows.first
-            else { return }
-        
+            , let window = UIApplication.shared.keyWindow ?? UIApplication.shared.windows.first else { return }
         let duration = durationNumber.doubleValue
         let animationOption = UIView.AnimationOptions(rawValue: curveNumber.uintValue << 16)
         let fromFrame = fromFrameValue.cgRectValue
@@ -200,25 +193,39 @@ extension LPKeyboardManager {
                                          animationCurve: animationCurve,
                                          animationOption: animationOption,
                                          safeAreaInsets: safeAreaInsets)
-        
         let enumerator = observers.objectEnumerator()
         while let value = enumerator.nextObject() {
             guard let observer = value as? LPKeyboardObserver else { continue }
-            observer.keyboard(self, willTransition: trans)
+            observer.keyboardManager(self, willTransition: trans)
         }
     }
 }
 
-extension LPKeyboardManager: CustomStringConvertible {
+// MARK: - LPKeyboardTransition
+public struct LPKeyboardTransition: CustomStringConvertible {
+    public let fromVisible: Bool
+    public let toVisible: Bool
+    
+    public let fromFrame: CGRect
+    public let toFrame: CGRect
+    
+    public let animationDuration: TimeInterval
+    public let animationCurve: UIView.AnimationCurve // = .easeInOut
+    public let animationOption: UIView.AnimationOptions // = .curveEaseInOut
+    
+    public let safeAreaInsets: UIEdgeInsets
     
     public var description: String {
         let str: String =
         """
-        keyboardWindow=\(String(describing: keyboardWindow))
-        keyboardView=\(String(describing: keyboardView))
-        keyboardVisible=\(keyboardVisible)
-        keyboardFrame=\(keyboardFrame)
-        keyboardSafeAreaInsets=\(keyboardSafeAreaInsets)
+        fromVisible=\(fromVisible)
+        toVisible=\(toVisible)
+        fromFrame=\(fromFrame)
+        toFrame=\(toFrame)
+        animationDuration=\(animationDuration)
+        animationCurve=\(animationCurve.rawValue)
+        animationOption=\(animationOption.rawValue)
+        safeAreaInsets=\(safeAreaInsets)
         """
         return str
     }

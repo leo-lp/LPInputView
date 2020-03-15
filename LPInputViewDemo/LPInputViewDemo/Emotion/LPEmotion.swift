@@ -18,25 +18,17 @@ class LPEmotion {
     static var shared : LPEmotion = { return LPEmotion() }()
     
     lazy var emojis: [String: String] = {
-        let resource = emojiPath + "LPEmotion"
-        guard let path = Bundle.main.path(forResource: resource, ofType: "plist")
+        guard let path = Bundle.main.path(forResource: "LPEmotion", ofType: "plist")
             , let emojis = NSDictionary(contentsOfFile: path) as? [String: String]
             else { return [:] }
         return emojis
     }()
-    
-    private(set) var emojiPath: String = "LPEmotion.bundle/Emoji/"
-    
+        
     private let regulaPattern = "\\[[a-zA-Z0-9\\u4e00-\\u9fa5]+\\]"
     
     func emoji(by id: LPEmotionID) -> UIImage? {
-        guard let named = emojiPath(by: id) else { return nil }
+        guard let named = emojis[id] else { return nil }
         return UIImage(named: named)
-    }
-    
-    func emojiPath(by id: LPEmotionID) -> String? {
-        guard let imgName = emojis[id] else { return nil }
-        return emojiPath + imgName
     }
     
     func attrString(with text: String,

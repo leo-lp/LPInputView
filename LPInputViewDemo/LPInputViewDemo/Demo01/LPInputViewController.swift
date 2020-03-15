@@ -13,18 +13,16 @@ class LPInputViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var tableViewBottomConstraint: NSLayoutConstraint!
     
-    lazy var inputBar: LPInputView = {
-        let rect = CGRect(x: 0, y: 0, width: view.frame.width, height: 60)
-        return LPInputView(frame: rect, config: LPInputViewConfig())
-    }()
+    private lazy var inputBar = LPInputView(at: view!)
+    private lazy var config = LPInputViewConfig()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.layer.borderColor = UIColor.red.cgColor
         tableView.layer.borderWidth = 1
         
+        inputBar.dataSource = config
         inputBar.delegate = self
-        view.addSubview(inputBar)
         
         let right = UIBarButtonItem(barButtonSystemItem: .done,
                                     target: self,
@@ -34,14 +32,13 @@ class LPInputViewController: UIViewController {
     }
     
     @objc func rightButtonClicked(_ sender: UIBarButtonItem) {
-        inputBar.endEditing()
+        inputBar.endTyping()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
-        inputBar.endEditing()
+        inputBar.endTyping()
     }
-    
 }
 
 extension LPInputViewController: UITableViewDelegate, UITableViewDataSource {
@@ -73,7 +70,7 @@ extension LPInputViewController: UITableViewDelegate, UITableViewDataSource {
                 inputBar.isShowKeyboard = false
             }
         case 2:
-            inputBar.endEditing()
+            inputBar.endTyping()
         default:
             break
         }
@@ -85,7 +82,7 @@ extension LPInputViewController: LPInputViewDelegate, LPEmoticonViewDelegate {
     // MARK: -  LPInputViewDelegate
     
     func inputViewDidChangeFrame(_ inputView: LPInputView) {
-        let isEditing = inputView.isEditing
+        let isEditing = inputView.isTyping
         tableView.isUserInteractionEnabled = !isEditing
         tableViewBottomConstraint.constant = view.frame.height - inputView.frame.origin.y
         tableView.lp_scrollToBottom(true)
@@ -94,25 +91,25 @@ extension LPInputViewController: LPInputViewDelegate, LPEmoticonViewDelegate {
         }, completion: nil)
     }
     
-    func inputView(_ inputView: LPInputView, statusChanged newStatus: LPInputToolBarItemType, oldStatus: LPInputToolBarItemType) {
-        if newStatus == .voice {
-            if let atBtn = inputView.toolBar.item(with: .at) {
-                if atBtn.isHidden != true {
-                    atBtn.isHidden = true
-                    inputView.toolBar.sizeToFit()
-                }
-            }
-        } else if oldStatus == .voice {
-            if let atBtn = inputView.toolBar.item(with: .at) {
-                if atBtn.isHidden == true {
-                    atBtn.isHidden = false
-                    inputView.toolBar.sizeToFit()
-                }
-            }
-        }
+    func inputView(_ inputView: LPInputView, statusChanged newStatus: LPInputBarItemType, oldStatus: LPInputBarItemType) {
+//        if newStatus == .voice {
+//            if let atBtn = inputView.toolBar.item(with: .at) {
+//                if atBtn.isHidden != true {
+//                    atBtn.isHidden = true
+//                    inputView.toolBar.sizeToFit()
+//                }
+//            }
+//        } else if oldStatus == .voice {
+//            if let atBtn = inputView.toolBar.item(with: .at) {
+//                if atBtn.isHidden == true {
+//                    atBtn.isHidden = false
+//                    inputView.toolBar.sizeToFit()
+//                }
+//            }
+//        }
     }
     
-    func inputView(_ inputView: LPInputView, shouldHandleClickedFor item: UIButton, type: LPInputToolBarItemType) -> Bool {
+    func inputView(_ inputView: LPInputView, shouldHandleClickedFor item: UIButton, type: LPInputBarItemType) -> Bool {
         if type == .at {
             pushFriendsVC(nil)
             return false
@@ -120,14 +117,14 @@ extension LPInputViewController: LPInputViewDelegate, LPEmoticonViewDelegate {
         return true
     }
     
-    func inputView(_ inputView: LPInputView, containerViewFor type: LPInputToolBarItemType) -> UIView? {
+    func inputView(_ inputView: LPInputView, containerViewFor type: LPInputBarItemType) -> UIView? {
         switch type {
         case .emotion:
             return LPEmoticonView.instance(delegate: self)
         case .more:
             return LPMoreView(target: self, action: #selector(moreItemClicked))
-        case .voice:
-            return LPInputAudioRecordIndicatorView()
+//        case .voice:
+//            return LPInputAudioRecordIndicatorView()
         default:
             return nil
         }

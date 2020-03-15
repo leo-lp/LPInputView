@@ -20,10 +20,11 @@ class LPMoreView: UIView {
     init(target: Any?, action: Selector) {
         super.init(frame: .zero)
         setup(target: target, action: action)
+        backgroundColor = UIColor.orange
     }
     
     override func sizeThatFits(_ size: CGSize) -> CGSize {
-        return CGSize(width: size.width, height: 216.0)
+        return CGSize(width: UIScreen.main.bounds.width, height: 300.0)
     }
 }
 
@@ -34,7 +35,6 @@ extension LPMoreView {
     }
     
     private func setup(target: Any?, action: Selector) {
-        backgroundColor = UIColor.white
         let itemWidth: CGFloat = UIScreen.main.bounds.width / 3
         let btnWidth: CGFloat = 75
         let models: [LPModel] = [LPModel(img: #imageLiteral(resourceName: "bk_media_picture_normal"), title: "相册"),
@@ -53,7 +53,7 @@ extension LPMoreView {
             btn.titleEdgeInsets = UIEdgeInsets(top: 76, left: -btnWidth, bottom: 0, right: 0)
             btn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
             btn.addTarget(target, action: action, for: .touchUpInside)
-            
+            btn.backgroundColor = UIColor.orange
             addSubview(btn)
         }
     }

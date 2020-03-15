@@ -45,6 +45,8 @@ class LPEmoticonView: UIView {
         return emoteView
     }
     
+    override var intrinsicContentSize: CGSize { super.intrinsicContentSize }
+
     override func sizeThatFits(_ size: CGSize) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.width, height: LPEmoteBarOptions.emoteBarHeight)
     }
