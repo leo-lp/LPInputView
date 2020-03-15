@@ -16,7 +16,7 @@ class LPInputViewConfig: LPInputBarDataSource {
     }
     
     var inputBarItemTypes: [LPInputBarItemType] {
-        [/*.custom(tag: 0), */ .text, .more, .emotion, .at]
+        [/*.custom(tag: 0),*/ .emotion, .text, .more, .at]
     }
     
     func inputBar(_ inputBar: LPInputBar, configure textView: LPAtTextView, for type: LPInputBarItemType) {
