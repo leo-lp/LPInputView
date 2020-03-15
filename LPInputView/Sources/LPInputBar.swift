@@ -15,10 +15,10 @@ public class LPInputBar: UIView, LPTextViewDelegate {
     private weak var dataSource: LPInputBarDataSource?
     private weak var delegate: LPInputBarDelegate?
     
-    public lazy var contentInset: UIEdgeInsets = {
+    private lazy var contentInset: UIEdgeInsets = {
         return dataSource?.edgeInsets(in: self) ?? UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
     }()
-    public lazy var interitemSpacing: CGFloat = {
+    private lazy var interitemSpacing: CGFloat = {
         return dataSource?.interitemSpacing(in: self) ?? 10
     }()
     private lazy var topSeparator: UIView? = createSeparator(for: .top)
@@ -53,8 +53,8 @@ public class LPInputBar: UIView, LPTextViewDelegate {
         if let textView = textView, textView.superview is LPInputBar {
             textView.frame.size.width = size.width
             viewHeight = textView.frame.height
-        } else if let item = items.first {
-            viewHeight = item.value.frame.height
+        } else if let type = itemTypes.first, let item = item(with: type) {
+            viewHeight = item.frame.height
         }
         viewHeight = viewHeight + contentInset.top + contentInset.bottom
         return CGSize(width: size.width, height: viewHeight)
@@ -62,8 +62,8 @@ public class LPInputBar: UIView, LPTextViewDelegate {
     
     public override func layoutSubviews() {
         super.layoutSubviews()
+        var left = layoutLeftItems()
         if let textView = textView, !textView.isHidden {
-            var left = layoutLeftItems()
             var right = layoutRightItems()
             left = left > 0.0 ? left + interitemSpacing : left + contentInset.left
             right = right > 0.0 ? right - interitemSpacing : right - contentInset.right
