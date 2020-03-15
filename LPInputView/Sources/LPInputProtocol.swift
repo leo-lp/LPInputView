@@ -57,24 +57,6 @@ public protocol LPInputViewDelegate: class {
 // MARK: -
 // MARK: - Protocol Extensions
 
-public extension LPInputViewDelegate {
-    func inputView(_ inputView: LPInputView, didChange frame: CGRect) { }
-    
-    func inputView(_ inputView: LPInputView, shouldHandleClickedAt item: UIButton, for type: LPInputBarItemType) -> Bool { return true }
-    
-    func inputView(_ inputView: LPInputView, containerViewFor type: LPInputBarItemType) -> UIView? {  return nil }
-        
-    func inputView(_ inputView: LPInputView, statusChanged new: LPInputBarItemType, old: LPInputBarItemType) { }
-    
-    func inputView(_ inputView: LPInputView, textView: LPAtTextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool { return true }
-
-    func inputView(_ inputView: LPInputView, textView: UITextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int) { }
-    
-    func inputView(_ inputView: LPInputView, inputAtCharacter character: String) { }
-        
-    func inputView(_ inputView: LPInputView, sendFor textView: LPAtTextView) -> Bool { return true }
-}
-
 public extension LPInputBarDataSource {
     func inputBar(_ inputBar: LPInputBar, configure textView: LPAtTextView, for type: LPInputBarItemType) { }
     
@@ -91,4 +73,22 @@ public extension LPInputBarDataSource {
     func isAtEnabled(in inputBar: LPInputBar, textView: LPAtTextView) -> Bool { return false }
     
     func inputBar(_ inputBar: LPInputBar, separatorColorFor type: LPInputSeparatorLocation) -> UIColor? { return #colorLiteral(red: 0.8980392157, green: 0.8980392157, blue: 0.8980392157, alpha: 1) }
+}
+
+public extension LPInputViewDelegate {
+    func inputView(_ inputView: LPInputView, didChange frame: CGRect) { }
+    
+    func inputView(_ inputView: LPInputView, shouldHandleClickedAt item: UIButton, for type: LPInputBarItemType) -> Bool { return true }
+    
+    func inputView(_ inputView: LPInputView, containerViewFor type: LPInputBarItemType) -> UIView? {  return nil }
+        
+    func inputView(_ inputView: LPInputView, statusChanged new: LPInputBarItemType, old: LPInputBarItemType) { }
+    
+    func inputView(_ inputView: LPInputView, textView: LPAtTextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool { return true }
+
+    func inputView(_ inputView: LPInputView, textView: UITextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int) { }
+    
+    func inputView(_ inputView: LPInputView, inputAtCharacter character: String) { }
+        
+    func inputView(_ inputView: LPInputView, sendFor textView: LPAtTextView) -> Bool { return true }
 }
