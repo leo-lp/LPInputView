@@ -30,7 +30,7 @@ public protocol LPInputBarDataSource: class {
     func inputBar(_ inputBar: LPInputBar, separatorColorFor type: LPInputSeparatorLocation) -> UIColor?
 }
 
-protocol LPInputBarDelegate: class {
+internal protocol LPInputBarDelegate: class {
     func inputBar(_ inputBar: LPInputBar, didChange height: CGFloat)
     func inputBar(_ inputBar: LPInputBar, clickedAt item: UIButton, for type: LPInputBarItemType)
     func inputBar(_ inputBar: LPInputBar, textViewShouldBeginEditing textView: UITextView) -> Bool
@@ -41,41 +41,37 @@ protocol LPInputBarDelegate: class {
 
 public protocol LPInputViewDelegate: class {
     /// optional
-    func inputViewDidChangeFrame(_ inputView: LPInputView)
-    func inputView(_ inputView: LPInputView, shouldHandleClickedFor item: UIButton, type: LPInputBarItemType) -> Bool
+    func inputView(_ inputView: LPInputView, didChange frame: CGRect)
+    func inputView(_ inputView: LPInputView, shouldHandleClickedAt item: UIButton, for type: LPInputBarItemType) -> Bool
     func inputView(_ inputView: LPInputView, containerViewFor type: LPInputBarItemType) -> UIView?
     
-    func inputView(_ inputView: LPInputView, statusChanged newStatus: LPInputBarItemType, oldStatus: LPInputBarItemType)
+    func inputView(_ inputView: LPInputView, statusChanged new: LPInputBarItemType, old: LPInputBarItemType)
     
     func inputView(_ inputView: LPInputView, textView: LPAtTextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool
     func inputView(_ inputView: LPInputView, textView: UITextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int)
     func inputView(_ inputView: LPInputView, inputAtCharacter character: String)
-    func inputView(_ inputView: LPInputView, shouldHandleForMaximumLengthExceedsLimit maxLength: Int) -> Bool
-
+    
     func inputView(_ inputView: LPInputView, sendFor textView: LPAtTextView) -> Bool
 }
-
 
 // MARK: -
 // MARK: - Protocol Extensions
 
 public extension LPInputViewDelegate {
-    func inputViewDidChangeFrame(_ inputView: LPInputView) { }
+    func inputView(_ inputView: LPInputView, didChange frame: CGRect) { }
     
-    func inputView(_ inputView: LPInputView, shouldHandleClickedFor item: UIButton, type: LPInputBarItemType) -> Bool { return true }
+    func inputView(_ inputView: LPInputView, shouldHandleClickedAt item: UIButton, for type: LPInputBarItemType) -> Bool { return true }
     
     func inputView(_ inputView: LPInputView, containerViewFor type: LPInputBarItemType) -> UIView? {  return nil }
         
-    func inputView(_ inputView: LPInputView, statusChanged newStatus: LPInputBarItemType, oldStatus: LPInputBarItemType) { }
+    func inputView(_ inputView: LPInputView, statusChanged new: LPInputBarItemType, old: LPInputBarItemType) { }
     
     func inputView(_ inputView: LPInputView, textView: LPAtTextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool { return true }
 
     func inputView(_ inputView: LPInputView, textView: UITextView, didProcessEditing editedRange: NSRange, changeInLength delta: Int) { }
     
     func inputView(_ inputView: LPInputView, inputAtCharacter character: String) { }
-    
-    func inputView(_ inputView: LPInputView, shouldHandleForMaximumLengthExceedsLimit maxLength: Int) -> Bool { return true }
-    
+        
     func inputView(_ inputView: LPInputView, sendFor textView: LPAtTextView) -> Bool { return true }
 }
 

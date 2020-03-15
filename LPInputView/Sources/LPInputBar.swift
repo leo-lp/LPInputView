@@ -12,8 +12,8 @@
 import UIKit
 
 public class LPInputBar: UIView, LPTextViewDelegate {
-    private(set) weak var dataSource: LPInputBarDataSource?
-    weak var delegate: LPInputBarDelegate?
+    private weak var dataSource: LPInputBarDataSource?
+    private weak var delegate: LPInputBarDelegate?
     
     public lazy var contentInset: UIEdgeInsets = {
         return dataSource?.edgeInsets(in: self) ?? UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
@@ -32,16 +32,17 @@ public class LPInputBar: UIView, LPTextViewDelegate {
         #endif
     }
     
-    public required init?(coder aDecoder: NSCoder) {
+    internal required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public init?(frame: CGRect, dataSource: LPInputBarDataSource?) {
+    internal init?(frame: CGRect, dataSource: LPInputBarDataSource?, delegate: LPInputBarDelegate?) {
         guard let dataSource = dataSource else {
             assert(false, "dataSource不能为空")
             return nil
         }
         self.dataSource = dataSource
+        self.delegate = delegate
         self.itemTypes = dataSource.inputBarItemTypes
         super.init(frame: frame)
         self.backgroundColor = UIColor.white

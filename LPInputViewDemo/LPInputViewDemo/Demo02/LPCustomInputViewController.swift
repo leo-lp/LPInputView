@@ -75,11 +75,11 @@ extension LPCustomInputViewController: LPInputViewDelegate, LPEmoticonViewDelega
     
     // MARK: -  LPInputViewDelegate
     
-    func inputViewDidChangeFrame(_ inputView: LPInputView) {
+    func inputView(_ inputView: LPInputView, didChange frame: CGRect) {
         
     }
     
-    func inputView(_ inputView: LPInputView, shouldHandleClickedFor item: UIButton, type: LPInputBarItemType) -> Bool {
+    func inputView(_ inputView: LPInputView, shouldHandleClickedAt item: UIButton, for type: LPInputBarItemType) -> Bool {
         if type == .at {
             pushFriendsVC(nil)
             return false
@@ -107,11 +107,6 @@ extension LPCustomInputViewController: LPInputViewDelegate, LPEmoticonViewDelega
 
     func inputView(_ inputView: LPInputView, inputAtCharacter character: String) {
         pushFriendsVC(character)
-    }
-    
-    func inputView(_ inputView: LPInputView, shouldHandleForMaximumLengthExceedsLimit maxLength: Int) -> Bool {
-        print("字符超出限制：\(maxLength)")
-        return true
     }
     
     func inputView(_ inputView: LPInputView, sendFor textView: LPAtTextView) -> Bool {

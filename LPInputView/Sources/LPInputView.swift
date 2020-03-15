@@ -19,8 +19,8 @@ public class LPInputView: UIView, LPInputBarDelegate, LPKeyboardObserver {
     public var isHideWhenResign: Bool = false
     /// 是否将`inputView`填充到安全区域
     public var isFillSafeArea: Bool = true
-    /// 最大输入的字符长度
-    public var maxTextLength: Int = 1000
+    /// 最大输入的字符长度（如果`<=0`则不限制）
+    public var maxTextLength: Int = 10
     
     public var bar: LPInputBar?
     private var status: LPInputBarItemType = .text
@@ -53,10 +53,8 @@ public class LPInputView: UIView, LPInputBarDelegate, LPKeyboardObserver {
     
     public override func didMoveToWindow() {
         guard window != nil else { return }
-        guard bar == nil
-            , let bar = LPInputBar(frame: bounds, dataSource: dataSource) else { return }
+        guard bar == nil, let bar = LPInputBar(frame: bounds, dataSource: dataSource, delegate: self) else { return }
         self.bar = bar
-        bar.delegate = self
         bar.sizeToFit()
         resetLayout(animated: false)
         addSubview(bar)
@@ -136,7 +134,7 @@ public class LPInputView: UIView, LPInputBarDelegate, LPKeyboardObserver {
     }
     
     func inputBar(_ inputBar: LPInputBar, clickedAt item: UIButton, for type: LPInputBarItemType) {
-        if let delegate = delegate, !delegate.inputView(self, shouldHandleClickedFor: item, type: type), type == .text {
+        if let delegate = delegate, !delegate.inputView(self, shouldHandleClickedAt: item, for: type), type == .text {
             return
         }
         showOrHideContainer(for: type)
@@ -167,14 +165,13 @@ public class LPInputView: UIView, LPInputBarDelegate, LPKeyboardObserver {
         guard let delegate = delegate else { return }
         delegate.inputView(self, textView: textView, didProcessEditing: editedRange, changeInLength: delta)
 
-        guard textView.textStorage.length > maxTextLength
-            , delegate.inputView(self, shouldHandleForMaximumLengthExceedsLimit: maxTextLength) else { return }
-
+        guard maxTextLength > 0, textView.textStorage.length > maxTextLength else { return }
+        
         DispatchQueue.main.async {
             let length = textView.textStorage.length - self.maxTextLength
             guard length > 0 else { return }
 
-            let range = NSRange(location: self.maxTextLength - 1, length: length)
+            let range = NSRange(location: self.maxTextLength, length: length)
             textView.textStorage.deleteCharacters(in: range)
             textView.selectedRange = NSRange(location: range.location, length: 0)
         }
@@ -224,7 +221,7 @@ extension LPInputView {
         }
         
         self.status = status
-        delegate?.inputView(self, statusChanged: status, oldStatus: oldStatus)
+        delegate?.inputView(self, statusChanged: status, old: oldStatus)
     }
     
     private func resetLayout(animated: Bool) {
@@ -251,7 +248,7 @@ extension LPInputView {
             if self.status != .text, let container = self.containers[self.status] {
                 container.frame.origin.y = bar.frame.maxY
             }
-            self.delegate?.inputViewDidChangeFrame(self)
+            self.delegate?.inputView(self, didChange: rect)
         }
         
         if animated {

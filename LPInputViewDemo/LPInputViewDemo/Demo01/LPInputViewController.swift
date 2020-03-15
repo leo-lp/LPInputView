@@ -81,7 +81,7 @@ extension LPInputViewController: LPInputViewDelegate, LPEmoticonViewDelegate {
     
     // MARK: -  LPInputViewDelegate
     
-    func inputViewDidChangeFrame(_ inputView: LPInputView) {
+    func inputView(_ inputView: LPInputView, didChange frame: CGRect) {
         let isEditing = inputView.isTyping
         tableView.isUserInteractionEnabled = !isEditing
         tableViewBottomConstraint.constant = view.frame.height - inputView.frame.origin.y
@@ -91,7 +91,7 @@ extension LPInputViewController: LPInputViewDelegate, LPEmoticonViewDelegate {
         }, completion: nil)
     }
     
-    func inputView(_ inputView: LPInputView, statusChanged newStatus: LPInputBarItemType, oldStatus: LPInputBarItemType) {
+    func inputView(_ inputView: LPInputView, statusChanged new: LPInputBarItemType, old: LPInputBarItemType) {
 //        if newStatus == .voice {
 //            if let atBtn = inputView.toolBar.item(with: .at) {
 //                if atBtn.isHidden != true {
@@ -109,7 +109,7 @@ extension LPInputViewController: LPInputViewDelegate, LPEmoticonViewDelegate {
 //        }
     }
     
-    func inputView(_ inputView: LPInputView, shouldHandleClickedFor item: UIButton, type: LPInputBarItemType) -> Bool {
+    func inputView(_ inputView: LPInputView, shouldHandleClickedAt item: UIButton, for type: LPInputBarItemType) -> Bool {
         if type == .at {
             pushFriendsVC(nil)
             return false
@@ -144,11 +144,6 @@ extension LPInputViewController: LPInputViewDelegate, LPEmoticonViewDelegate {
 
     func inputView(_ inputView: LPInputView, inputAtCharacter character: String) {
         pushFriendsVC(character)
-    }
-
-    func inputView(_ inputView: LPInputView, shouldHandleForMaximumLengthExceedsLimit maxLength: Int) -> Bool {
-        print("字符超出限制：\(maxLength)")
-        return true
     }
 
     func inputView(_ inputView: LPInputView, sendFor textView: LPAtTextView) -> Bool {
